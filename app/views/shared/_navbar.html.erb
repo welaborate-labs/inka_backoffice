@@ -1,0 +1,8 @@
+<nav>
+  <% if current_user %>
+    <%= link_to "Logout", logout_path %><br />
+  <% else %>
+    <%= link_to "Create an account", new_identities_path %><br />
+    <%= link_to "login", login_path %><br />
+  <% end %>
+</nav>
