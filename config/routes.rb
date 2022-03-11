@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :professionals
   resources :customers
   root 'users#index'
   resources :users, except: %i[new create]
