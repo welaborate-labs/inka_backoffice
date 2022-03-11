@@ -4,7 +4,9 @@ RSpec.describe UsersController, type: :controller do
   let(:identity) { create(:identity) }
   let(:user) { build(:user, uid: identity.id) }
   let(:new_attributes) { { name: 'Jane Doe' } }
-  let(:valid_attributes) { { uid: identity.id, email: 'john.doe@example.com', name: 'John Doe', phone: '1199998888' } }
+  let(:valid_attributes) do
+    { uid: identity.id, email: 'john.doe@example.com', name: 'John Doe', phone: '1199998888' }
+  end
   let(:invalid_attributes) { { uid: nil, email: nil, name: nil, phone: nil } }
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
@@ -108,6 +110,12 @@ RSpec.describe UsersController, type: :controller do
     describe 'when authenticated' do
       it 'destroys the requested user' do
         expect { delete :destroy, params: { id: user } }.to change(User, :count).by(-1)
+      end
+
+      it 'destroy the dependencies' do
+        professional = build(:professional, :with_avatar, user: user)
+        professional.save!
+        expect { delete :destroy, params: { id: user } }.to change(Professional, :count).by(-1)
       end
 
       it 'returns the successfull message' do
