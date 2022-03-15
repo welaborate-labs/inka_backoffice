@@ -9,13 +9,12 @@ RSpec.describe ProfessionalsController, type: :controller do
 
   let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
 
-  let(:new_attributes) { { name: 'Jane Doe' } }
+  let(:new_attributes) { { address: 'Same New Address For Testing' } }
   let(:valid_attributes) do
     {
-      user_id: user.id,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '1199998888',
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
       address: 'Some Random Address',
       document: '12345678908',
       avatar: avatar
@@ -140,9 +139,9 @@ RSpec.describe ProfessionalsController, type: :controller do
           expect(flash[:notice]).to eq 'Professional was successfully created.'
         end
 
-        it 'redirects to the professionals list' do
+        it 'redirects to the #show professional' do
           post :create, params: { professional: valid_attributes }
-          expect(response).to redirect_to(professionals_url)
+          expect(response).to redirect_to(professional_url(Professional.last))
         end
       end
 
@@ -191,13 +190,13 @@ RSpec.describe ProfessionalsController, type: :controller do
         end
 
         it 'updates the requested professional' do
-          expect { professional.reload }.to change { professional.name }
-            .from('John Doe')
-            .to('Jane Doe')
+          expect { professional.reload }.to change { professional.address }
+            .from('Some Address')
+            .to('Same New Address For Testing')
         end
 
         it 'redirects to the professional' do
-          expect(professional.reload).to redirect_to(root_url)
+          expect(professional.reload).to redirect_to(professional_url(professional))
         end
 
         it 'returns a flash message' do

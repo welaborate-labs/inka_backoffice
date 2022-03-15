@@ -23,9 +23,7 @@ class ProfessionalsController < ApplicationController
 
     respond_to do |format|
       if @professional.save
-        format.html do
-          redirect_to professionals_url, notice: 'Professional was successfully created.'
-        end
+        format.html { redirect_to @professional, notice: 'Professional was successfully created.' }
         format.json { render :show, status: :created, location: @professional }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +36,7 @@ class ProfessionalsController < ApplicationController
   def update
     respond_to do |format|
       if @professional.update(professional_params)
-        format.html { redirect_to root_url, notice: 'Professional was successfully updated.' }
+        format.html { redirect_to @professional, notice: 'Professional was successfully updated.' }
         format.json { render :show, status: :ok, location: @professional }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -70,6 +68,7 @@ class ProfessionalsController < ApplicationController
   def professional_params
     params
       .require(:professional)
-      .permit(:name, :email, :phone, :address, :document, :avatar, :user_id)
+      .permit(:name, :email, :phone, :address, :document, :avatar)
+      .merge(user: current_user)
   end
 end

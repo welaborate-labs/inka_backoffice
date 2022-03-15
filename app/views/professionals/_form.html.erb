@@ -1,29 +1,19 @@
 <%= form_with(model: professional) do |form| %>
-  <% if professional.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(professional.errors.count, "error") %> prohibited this professional from being saved:</h2>
-
-      <ul>
-        <% professional.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'shared/error_messages', resource: professional %>
 
   <div>
     <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, value: current_user.name %>
   </div>
 
   <div>
     <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
+    <%= form.text_field :email, value: current_user.email %>
   </div>
 
   <div>
     <%= form.label :phone, style: "display: block" %>
-    <%= form.text_field :phone %>
+    <%= form.text_field :phone, value: current_user.phone %>
   </div>
 
   <div>
@@ -39,11 +29,6 @@
   <div>
     <%= form.label :avatar, style: "display: block" %>
     <%= form.file_field :avatar %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
   </div>
 
   <div>
