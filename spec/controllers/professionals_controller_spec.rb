@@ -12,9 +12,9 @@ RSpec.describe ProfessionalsController, type: :controller do
   let(:new_attributes) { { address: 'Same New Address For Testing' } }
   let(:valid_attributes) do
     {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
+      name: 'John Doe',
+      email: 'john.doe@example.com',
+      phone: '1199997777',
       address: 'Some Random Address',
       document: '12345678908',
       avatar: avatar
