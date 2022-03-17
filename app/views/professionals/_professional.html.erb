@@ -1,0 +1,37 @@
+<div id="<%= dom_id professional %>">
+  <p>
+    <strong>Name:</strong>
+    <%= professional.name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= professional.email %>
+  </p>
+
+  <p>
+    <strong>Phone:</strong>
+    <%= professional.phone %>
+  </p>
+
+  <p>
+    <strong>Address:</strong>
+    <%= professional.address %>
+  </p>
+
+  <p>
+    <strong>Document:</strong>
+    <%= professional.document %>
+  </p>
+
+  <p>
+    <strong>Avatar:</strong>
+    <%= link_to professional.avatar.filename, professional.avatar if professional.avatar.attached? %>
+  </p>
+
+  <p>
+    <strong>User:</strong>
+    <%= professional.user_id %>
+  </p>
+
+</div>
