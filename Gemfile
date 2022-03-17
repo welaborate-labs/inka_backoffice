@@ -19,7 +19,7 @@ gem "puma", "~> 5.0"
 gem "importmap-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+# gem "turbo-rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
@@ -34,7 +34,9 @@ gem "redis", "~> 4.0"
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem "bcrypt", "~> 3.1.7"
+
+gem 'omniauth-identity'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
@@ -53,10 +55,12 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 
   # BDD for Ruby
-  gem 'rspec', '~> 3.11'
+  gem 'rspec-rails'
+
+  gem 'rails-controller-testing'
 
   # provides integration between factory_bot and rails 5.0 or newer
-  gem 'factory_bot_rails', '~> 6.2'
+  gem "factory_bot_rails"
 
   # is used to easily generate fake data: names, addresses, phone numbers, etc.
   gem 'faker', '~> 2.20'
