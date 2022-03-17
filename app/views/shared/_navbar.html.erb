@@ -1,5 +1,7 @@
 <nav>
   <% if current_user %>
+    <%= link_to "Users", users_path %><br />
+    <%= link_to "Customers", customers_path %><br />
     <%= link_to "Logout", logout_path %><br />
   <% else %>
     <%= link_to "Create an account", new_identities_path %><br />
