@@ -1,12 +1,21 @@
-<h1>Users</h1>
-
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New user", new_identities_path %>
+<h1>USER</h1>
+<%= link_to "Add new user", new_identities_path %>
+<table class="table-fixed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="users">
+      <% @users.each do |user| %>
+        <tr>
+          <%= render user %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>
