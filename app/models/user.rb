@@ -4,16 +4,9 @@ class User < ApplicationRecord
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
   # Validations
-  # presence
   validates :provider, :uid, :email, :name, :phone, presence: true
-
-  # format
   validates :email, format: { with: REGEX_FORMAT }, if: lambda { self.email.present? }
-
-  # uniqueness
   validates :email, uniqueness: true, if: lambda { self.email.present? }
-
-  #length within min..max
   validates :phone, length: { within: 8..15 }, if: lambda { self.phone.present? }
   validates :name, length: { within: 3..100 }, if: lambda { self.name.present? }
 

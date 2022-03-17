@@ -16,3 +16,4 @@ log
 public
 tmp
 vendor
+*html.erb

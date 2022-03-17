@@ -4,9 +4,13 @@ RSpec.describe UsersController, type: :controller do
   let(:identity) { create(:identity) }
   let(:user) { build(:user, uid: identity.id) }
   let(:new_attributes) { { name: 'Jane Doe' } }
+<<<<<<< HEAD
   let(:valid_attributes) do
     { uid: identity.id, email: 'john.doe@example.com', name: 'John Doe', phone: '1199998888' }
   end
+=======
+  let(:valid_attributes) { { uid: identity.id, email: 'john.doe@example.com', name: 'John Doe', phone: '1199998888' } }
+>>>>>>> master
   let(:invalid_attributes) { { uid: nil, email: nil, name: nil, phone: nil } }
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
