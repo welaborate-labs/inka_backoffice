@@ -18,6 +18,7 @@ module Inka
                        controller_specs: true,
                        view_specs: false
     end
+    config.generators.test_framework = :rspec
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
