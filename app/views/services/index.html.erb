@@ -1,0 +1,23 @@
+<h1 class="font-bold text-4xl">Services</h1>
+<%= link_to "Add new Service", new_service_path %>
+<table class="table-fixed">
+  <thead>
+    <tr>
+      <th>title</th>
+      <th>duration (min)</th>
+      <th>price</th>
+      <th>is comissioned</th>
+      <th>Optional service for</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="services">
+      <% @services.each do |service| %>
+        <tr>
+          <%= render service %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>

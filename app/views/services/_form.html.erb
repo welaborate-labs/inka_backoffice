@@ -1,0 +1,32 @@
+<%= form_with(model: service) do |form| %>
+  <%= render 'shared/error_messages', resource: service %>
+
+  <div class="my-5">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :duration %>
+    <%= form.number_field :duration %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :price %>
+    <%= form.number_field :price %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :is_comissioned %>
+    <%= form.check_box :is_comissioned %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label 'Is it optional service for?' %>
+    <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'nothing...', include_hidden: false } %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit %>
+  </div>
+<% end %>
