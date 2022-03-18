@@ -1,9 +1,10 @@
 class Professional < ApplicationRecord
-  belongs_to :user
-  has_one_attached :avatar
   include ActionView::Helpers::NumberHelper
+  REGEX_FORMAT = /\A[\w+-.]+@[a-z\d-]+(.[a-z]+)*.[a-z]+\z/i
 
-  REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+  has_one_attached :avatar, dependent: :destroy
+  has_many :services
+  belongs_to :user
 
   # Validations
   # presence

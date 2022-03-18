@@ -1,0 +1,26 @@
+<div id="<%= dom_id service %>">
+  <td>
+    <%= service.title %>
+  </td>
+
+  <td>
+    <%= service.duration %>
+  </td>
+
+  <td>
+    <%= service.price %>
+  </td>
+
+  <td>
+    <%= service.is_comissioned %>
+  </td>
+
+  <td>
+    <%= service.service_id ? service.service.title : '' %>
+  </td>
+
+  <td>
+    <%= link_to "Edit", edit_service_path(service), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+    <%= link_to "Destroy", service, method: :delete, class: 'bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded' %>
+  </td>
+</div>
