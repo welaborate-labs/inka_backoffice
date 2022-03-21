@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_17_190113) do
   create_table "services", force: :cascade do |t|
     t.string "title"
     t.integer "duration"
-    t.integer "price"
+    t.decimal "price"
     t.boolean "is_comissioned", default: false
     t.bigint "professional_id", null: false
     t.bigint "service_id"

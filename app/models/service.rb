@@ -1,9 +1,6 @@
 class Service < ApplicationRecord
   belongs_to :professional
 
-  # has_many :subordinates, class_name: 'Service', foreign_key: 'manager_id'
-  # belongs_to :manager, class_name: 'Service', optional: true
-
   has_many :optional_services,
            class_name: 'Service',
            foreign_key: 'service_id',
@@ -13,5 +10,9 @@ class Service < ApplicationRecord
   # Validations
   ## Presence
   validates_presence_of :title, :duration, :price
-  validates_inclusion_of :is_comissioned, in: [true, false], message: "can't be blank"
+  validates_inclusion_of :is_comissioned, in: [true, false, 0, 1], message: "can't be blank"
+
+  # length within min..max
+  validates :title, length: { within: 3..50 }, if: lambda { self.title.present? }
+  validates :duration, length: { maximum: 15 }, if: lambda { self.duration.present? }
 end
