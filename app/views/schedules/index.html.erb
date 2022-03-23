@@ -1,0 +1,24 @@
+<h1 class="font-bold text-4xl">Schedules</h1>
+<%= link_to 'New schedule', new_schedule_path %>
+<table class="table-fixed">
+  <thead>
+    <tr>
+      <th>weekday</th>
+      <th>starts_at</th>
+      <th>ends_at</th>
+      <th>interval_starts_at</th>
+      <th>interval_ends_at</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render 'empty' %>
+    <div id="schedules">
+      <% @schedules.each do |schedule| %>
+        <tr>
+          <%= render schedule %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>

@@ -68,7 +68,23 @@ class ProfessionalsController < ApplicationController
   def professional_params
     params
       .require(:professional)
-      .permit(:name, :email, :phone, :address, :document, :avatar)
+      .permit(
+        :name,
+        :email,
+        :phone,
+        :address,
+        :document,
+        :avatar,
+        schedules_attributes: %i[
+          weekday
+          starts_at
+          ends_at
+          interval_starts_at
+          interval_ends_at
+          id
+          _destroy
+        ]
+      )
       .merge(user: current_user)
   end
 end

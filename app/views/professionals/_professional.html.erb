@@ -1,37 +1,24 @@
 <div id="<%= dom_id professional %>">
-  <p>
-    <strong>Name:</strong>
+  <td>
     <%= professional.name %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
+  </td>
+  <td>
     <%= professional.email %>
-  </p>
-
-  <p>
-    <strong>Phone:</strong>
+  </td>
+  <td>
     <%= professional.phone %>
-  </p>
-
-  <p>
-    <strong>Address:</strong>
+  </td>
+  <td>
     <%= professional.address %>
-  </p>
-
-  <p>
-    <strong>Document:</strong>
+  </td>
+  <td>
     <%= professional.document %>
-  </p>
-
-  <p>
-    <strong>Avatar:</strong>
+  </td>
+  <td>
     <%= link_to professional.avatar.filename, professional.avatar if professional.avatar.attached? %>
-  </p>
-
-  <p>
-    <strong>User:</strong>
-    <%= professional.user_id %>
-  </p>
-
+  </td>
+  <td>
+    <%= link_to "Edit", edit_professional_path(professional), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+    <%= link_to "Destroy", professional, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded' %>
+  </td>
 </div>
