@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= f.number_field :weekday %>
+    <%= f.select :weekday, Schedule.weekdays.keys.to_a %>
   </td>
   <td>
     <%= f.text_field :starts_at %>
