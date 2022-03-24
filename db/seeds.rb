@@ -136,72 +136,24 @@ end
 puts "#{Service.count} services created successfully!"
 
 puts 'creating Schedules...'
-Schedule.create!(
-  [
-    {
-      weekday: 1,
-      starts_at: '7am',
-      ends_at: '13pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13pm',
-      professional_id: Professional.second.id
-    },
-    {
-      weekday: 2,
-      starts_at: '8am',
-      ends_at: '14pm',
-      interval_starts_at: '13pm',
-      interval_ends_at: '14pm',
-      professional_id: Professional.second.id
-    },
-    {
-      weekday: 3,
-      starts_at: '9am',
-      ends_at: '12pm',
-      interval_starts_at: '',
-      interval_ends_at: '',
-      professional_id: Professional.second.id
-    },
-    {
-      weekday: 1,
-      starts_at: '6:30am',
-      ends_at: '16pm',
-      interval_starts_at: '11am',
-      interval_ends_at: '13pm',
-      professional_id: Professional.first.id
-    },
-    {
-      weekday: 2,
-      starts_at: '7am',
-      ends_at: '18pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13pm',
-      professional_id: Professional.first.id
-    },
-    {
-      weekday: 3,
-      starts_at: '7am',
-      ends_at: '18pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13pm',
-      professional_id: Professional.first.id
-    },
-    {
-      weekday: 4,
-      starts_at: '7am',
-      ends_at: '18pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13pm',
-      professional_id: Professional.first.id
-    },
-    {
-      weekday: 5,
-      starts_at: '7am',
-      ends_at: '18pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13pm',
-      professional_id: Professional.first.id
-    }
-  ]
-)
+7.times do |i|
+  s = Schedule.new
+  s.weekday = i
+  s.starts_at = '7:00'
+  s.ends_at = '18:00'
+  s.interval_starts_at = '12:00'
+  s.interval_ends_at = '13:00'
+  s.professional_id = Professional.first.id
+  s.save!
+end
+7.times do |i|
+  s = Schedule.new
+  s.weekday = i
+  s.starts_at = "#{6 + i}:00"
+  s.ends_at = "#{23 - i}:00"
+  s.interval_starts_at = '12:00'
+  s.interval_ends_at = '13:00'
+  s.professional_id = Professional.second.id
+  s.save!
+end
 puts "#{Schedule.count} schedules created successfully!"
