@@ -42,37 +42,26 @@ RSpec.describe Schedule, type: :model do
       expect(schedule.errors.messages[:interval_ends_at]).to eq ["can't be blank"]
     end
 
-    describe "should verify the 'length'" do
-      it "should verify the 'maximum'" do
-        schedule =
-          build(
-            :schedule,
-            weekday: 1,
-            starts_at: 'abcde abcde abcde',
-            ends_at: 'abcde abcde abcde',
-            interval_starts_at: 'abcde abcde abcde',
-            interval_ends_at: 'abcde abcde abcde',
-            professional: professional
-          )
-        schedule.save
-        expect(schedule.errors.messages.count).to be 4
-        expect(schedule.errors.attribute_names).to eq %i[
-             starts_at
-             ends_at
-             interval_starts_at
-             interval_ends_at
-           ]
-        expect(schedule.errors.messages[:starts_at]).to eq [
-             'is too long (maximum is 15 characters)'
-           ]
-        expect(schedule.errors.messages[:ends_at]).to eq ['is too long (maximum is 15 characters)']
-        expect(schedule.errors.messages[:interval_starts_at]).to eq [
-             'is too long (maximum is 15 characters)'
-           ]
-        expect(schedule.errors.messages[:interval_ends_at]).to eq [
-             'is too long (maximum is 15 characters)'
-           ]
-      end
+    it "should verify the 'format' (00:00 to 23:00)" do
+      schedule.starts_at = '99'
+      schedule.ends_at = '99'
+      schedule.interval_starts_at = '99'
+      schedule.interval_ends_at = '99'
+      schedule.save
+      expect(schedule.errors.attribute_names).to eq %i[
+           starts_at
+           ends_at
+           interval_starts_at
+           interval_ends_at
+         ]
+      expect(schedule.errors.messages[:starts_at]).to eq ['is invalid. (e.g. 00:00 .. 23:00)']
+      expect(schedule.errors.messages[:ends_at]).to eq ['is invalid. (e.g. 00:00 .. 23:00)']
+      expect(schedule.errors.messages[:interval_starts_at]).to eq [
+           'is invalid. (e.g. 00:00 .. 23:00)'
+         ]
+      expect(schedule.errors.messages[:interval_ends_at]).to eq [
+           'is invalid. (e.g. 00:00 .. 23:00)'
+         ]
     end
   end
 end

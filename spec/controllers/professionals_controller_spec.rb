@@ -139,10 +139,10 @@ RSpec.describe ProfessionalsController, type: :controller do
               schedules_attributes: [
                 {
                   weekday: 2,
-                  starts_at: 'starts',
-                  ends_at: 'ends',
-                  interval_starts_at: 'interval starts',
-                  interval_ends_at: 'interval ends'
+                  starts_at: '07:00',
+                  ends_at: '19:00',
+                  interval_starts_at: '12:00',
+                  interval_ends_at: '13:00'
                 }
               ]
             }

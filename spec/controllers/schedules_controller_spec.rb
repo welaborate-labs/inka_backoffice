@@ -9,10 +9,10 @@ RSpec.describe SchedulesController, type: :controller do
   let(:valid_attributes) do
     {
       weekday: 'monday',
-      starts_at: '7am',
-      ends_at: '18pm',
-      interval_starts_at: '12pm',
-      interval_ends_at: '13:30pm',
+      starts_at: '07:00',
+      ends_at: '18:00',
+      interval_starts_at: '12:00',
+      interval_ends_at: '13:00',
       professional_id: professional.id
     }
   end
