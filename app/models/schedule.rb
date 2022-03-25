@@ -1,5 +1,6 @@
 class Schedule < ApplicationRecord
   belongs_to :professional
+  has_many :timeslots, dependent: :destroy
   enum weekday: %i[monday tuesday wednesday thursday friday saturday sunday]
 
   # Validations
