@@ -157,3 +157,20 @@ end
   s.save!
 end
 puts "#{Schedule.count} schedules created successfully!"
+
+puts 'creating Timeslots...'
+28.times do |i|
+  s = Timeslot.new
+  s.starts_at = "2022-03-#{i + 1} 08:00"
+  s.ends_at = "2022-04-#{i + 1} 17:00"
+  s.schedule = Schedule.first
+  s.save!
+end
+15.times do |i|
+  s = Timeslot.new
+  s.starts_at = "2022-06-#{i + 1} 08:00"
+  s.ends_at = "2022-08-#{i + 1} 17:00"
+  s.schedule = Schedule.last
+  s.save!
+end
+puts "#{Timeslot.count} timeslots created successfully!"

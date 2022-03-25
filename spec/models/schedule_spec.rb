@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Schedule, type: :model do
-  let(:identity) { build(:identity) }
-  let(:user) { build(:user, uid: identity.id) }
-  let(:professional) { build(:professional, :with_avatar, user: user) }
+  let(:identity) { create(:identity) }
+  let(:user) { create(:user, uid: identity.id) }
+  let(:professional) { create(:professional, :with_avatar, user: user) }
   let(:schedule) { build(:schedule, professional: professional) }
+  let(:schedule_2) { create(:schedule, professional: professional) }
+  let(:timeslots) { create_list(:timeslot, 15, schedule: schedule_2) }
   let(:invalid) { Schedule.new }
 
   describe 'instances an empty schedule' do
@@ -62,6 +64,12 @@ RSpec.describe Schedule, type: :model do
       expect(schedule.errors.messages[:interval_ends_at]).to eq [
            'is invalid. (e.g. 00:00 .. 23:00)'
          ]
+    end
+  end
+
+  describe 'should verify the relationship with timeslots' do
+    it 'should return all timeslots' do
+      expect(schedule_2.timeslots).to eq timeslots
     end
   end
 end
