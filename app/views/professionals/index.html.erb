@@ -1,12 +1,24 @@
-<h1>Professionals</h1>
-
-<div id="professionals">
-  <% @professionals.each do |professional| %>
-    <%= render professional %>
-    <p>
-      <%= link_to "Show this professional", professional %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New professional", new_professional_path %>
+<h1 class="font-bold text-4xl">Professionals</h1>
+<%= link_to "Add new Professional", new_professional_path %>
+<table class="table-fixed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Document</th>
+      <th>Avatar</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="professionals">
+      <% @professionals.each do |professional| %>
+        <tr>
+          <%= render professional %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>

@@ -134,3 +134,26 @@ end
   m.save!
 end
 puts "#{Service.count} services created successfully!"
+
+puts 'creating Schedules...'
+7.times do |i|
+  s = Schedule.new
+  s.weekday = i
+  s.starts_at = '7:00'
+  s.ends_at = '18:00'
+  s.interval_starts_at = '12:00'
+  s.interval_ends_at = '13:00'
+  s.professional_id = Professional.first.id
+  s.save!
+end
+7.times do |i|
+  s = Schedule.new
+  s.weekday = i
+  s.starts_at = "#{6 + i}:00"
+  s.ends_at = "#{23 - i}:00"
+  s.interval_starts_at = '12:00'
+  s.interval_ends_at = '13:00'
+  s.professional_id = Professional.second.id
+  s.save!
+end
+puts "#{Schedule.count} schedules created successfully!"

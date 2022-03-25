@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_17_190113) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_21_174015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,10 +71,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_17_190113) do
     t.index ["user_id"], name: "index_professionals_on_user_id"
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.integer "weekday"
+    t.string "starts_at"
+    t.string "ends_at"
+    t.string "interval_starts_at"
+    t.string "interval_ends_at"
+    t.bigint "professional_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["professional_id"], name: "index_schedules_on_professional_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "title"
     t.integer "duration"
-    t.decimal "price"
+    t.decimal "price", precision: 8, scale: 2
     t.boolean "is_comissioned", default: false
     t.bigint "professional_id", null: false
     t.bigint "service_id"
@@ -97,6 +109,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_17_190113) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "professionals", "users"
+  add_foreign_key "schedules", "professionals"
   add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
 end

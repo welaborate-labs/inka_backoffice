@@ -1,43 +1,42 @@
 require 'rails_helper'
 
-RSpec.describe ProfessionalsController, type: :controller do
+RSpec.describe SchedulesController, type: :controller do
   let(:identity) { create(:identity) }
   let(:user) { create(:user, uid: identity.id) }
-  let(:customer) { build(:customer, :with_avatar) }
   let(:professional) { build(:professional, :with_avatar, user: user) }
-  let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
-  let(:new_attributes) { { address: 'Same New Address For Testing' } }
-  let(:invalid_attributes) { { name: nil } }
+  let(:schedule) { build(:schedule, professional: professional) }
+  let(:new_attributes) { { weekday: 'tuesday' } }
   let(:valid_attributes) do
     {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '1199997777',
-      address: 'Some Random Address',
-      document: '12345678908',
-      avatar: avatar
+      weekday: 'monday',
+      starts_at: '07:00',
+      ends_at: '18:00',
+      interval_starts_at: '12:00',
+      interval_ends_at: '13:00',
+      professional_id: professional.id
     }
   end
+  let(:invalid_attributes) { { weekday: nil } }
 
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
   describe 'GET /index' do
     context 'when authenticated' do
       before do
-        professional.save!
+        schedule.save!
         get :index
       end
 
       it { expect(response).to render_template(:index) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:professionals)).to include professional }
+      it { expect(assigns(:schedules)).to include schedule }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        professional.save!
+        schedule.save!
         get :index
       end
 
@@ -54,7 +53,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
       it { expect(response).to render_template(:new) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:professional)).to be_a_new Professional }
+      it { expect(assigns(:schedule)).to be_a_new Schedule }
     end
 
     context 'when does not authenticated' do
@@ -72,21 +71,21 @@ RSpec.describe ProfessionalsController, type: :controller do
   describe 'GET /show' do
     context 'when authenticated' do
       before do
-        professional.save!
-        get :show, params: { id: professional }
+        schedule.save!
+        get :show, params: { id: schedule }
       end
 
       it { expect(response).to render_template(:show) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:professional)).to eq professional }
+      it { expect(assigns(:schedule)).to eq schedule }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        professional.save!
-        get :show, params: { id: professional }
+        schedule.save!
+        get :show, params: { id: schedule }
       end
 
       it { expect(response).not_to render_template(:show) }
@@ -99,21 +98,21 @@ RSpec.describe ProfessionalsController, type: :controller do
   describe 'GET /edit' do
     context 'when authenticated' do
       before do
-        professional.save!
-        get :edit, params: { id: professional }
+        schedule.save!
+        get :edit, params: { id: schedule }
       end
 
       it { expect(response).to render_template(:edit) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:professional)).to eq professional }
+      it { expect(assigns(:schedule)).to eq schedule }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        professional.save!
-        get :edit, params: { id: professional }
+        schedule.save!
+        get :edit, params: { id: schedule }
       end
 
       it { expect(response).not_to render_template(:edit) }
@@ -126,47 +125,29 @@ RSpec.describe ProfessionalsController, type: :controller do
   describe 'POST /create' do
     context 'when authenticated' do
       context 'with valid parameters' do
-        it 'creates a new professional' do
-          expect { post :create, params: { professional: valid_attributes } }.to change(
-            Professional,
+        it 'creates a new schedule' do
+          expect { post :create, params: { schedule: valid_attributes } }.to change(
+            Schedule,
             :count
           ).by(01)
         end
 
-        it 'should accept nested fields for schedules' do
-          params = {
-            professional: {
-              schedules_attributes: [
-                {
-                  weekday: 2,
-                  starts_at: '07:00',
-                  ends_at: '19:00',
-                  interval_starts_at: '12:00',
-                  interval_ends_at: '13:00'
-                }
-              ]
-            }
-          }
-
-          expect { professional.update! params[:professional] }.to change(Schedule, :count).by(01)
-        end
-
         it 'returns the successfull message' do
-          post :create, params: { professional: valid_attributes }
-          expect(flash[:notice]).to eq 'Professional was successfully created.'
+          post :create, params: { schedule: valid_attributes }
+          expect(flash[:notice]).to eq 'Schedule was successfully created.'
         end
 
-        it 'redirects to the #show professional' do
-          post :create, params: { professional: valid_attributes }
-          expect(response).to redirect_to(professional_url(Professional.last))
+        it 'redirects to the #show schedule' do
+          post :create, params: { schedule: valid_attributes }
+          expect(response).to redirect_to(schedule_url(Schedule.last))
         end
       end
 
       context 'with invalid parameters' do
-        before { post :create, params: { professional: invalid_attributes } }
-        it 'does not create a new professional' do
-          expect { post :create, params: { professional: invalid_attributes } }.to change(
-            Professional,
+        before { post :create, params: { schedule: invalid_attributes } }
+        it 'does not create a new schedule' do
+          expect { post :create, params: { schedule: invalid_attributes } }.to change(
+            Schedule,
             :count
           ).by(0)
         end
@@ -185,7 +166,7 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before { post :create, params: { professional: valid_attributes } }
+      before { post :create, params: { schedule: valid_attributes } }
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
@@ -198,38 +179,36 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when authenticate' do
       context 'with valid parameters' do
         before do
-          professional.save!
-          patch :update, params: { id: professional, professional: new_attributes }
+          schedule.save!
+          patch :update, params: { id: schedule, schedule: new_attributes }
         end
 
-        it 'should assigns the professional' do
-          expect(assigns(:professional)).to eq professional
+        it 'should assigns the schedule' do
+          expect(assigns(:schedule)).to eq schedule
         end
 
-        it 'updates the requested professional' do
-          expect { professional.reload }.to change { professional.address }
-            .from('Some Address')
-            .to('Same New Address For Testing')
+        it 'updates the requested schedule' do
+          expect { schedule.reload }.to change { schedule.weekday }.from('monday').to('tuesday')
         end
 
-        it 'redirects to the professional' do
-          expect(professional.reload).to redirect_to(professional_url(professional))
+        it 'redirects to the schedule' do
+          expect(schedule.reload).to redirect_to(schedule_url(schedule))
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Professional was successfully updated.'
+          expect(flash[:notice]).to eq 'Schedule was successfully updated.'
         end
       end
 
       describe 'invalid attributes' do
         before do
-          professional.save
-          patch :update, params: { id: professional, professional: { name: nil } }
-          professional.reload
+          schedule.save
+          patch :update, params: { id: schedule, schedule: { weekday: nil } }
+          schedule.reload
         end
 
-        it { expect(professional.name).to eq('John Doe') }
-        it { expect(professional.name).not_to eq(nil) }
+        it { expect(schedule.weekday).to eq('monday') }
+        it { expect(schedule.weekday).not_to eq(nil) }
       end
     end
 
@@ -237,8 +216,8 @@ RSpec.describe ProfessionalsController, type: :controller do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        professional.save
-        patch :update, params: { id: professional, professional: new_attributes }
+        schedule.save
+        patch :update, params: { id: schedule, schedule: new_attributes }
       end
 
       it { expect(response).not_to render_template(:edit) }
@@ -250,16 +229,15 @@ RSpec.describe ProfessionalsController, type: :controller do
 
   describe 'DELETE /destroy' do
     context 'when authenticated' do
-      before { professional.save }
+      before { schedule.save }
 
       it do
-        expect { delete :destroy, params: { id: professional } }.to change(Professional, :count)
-          .by(-1)
+        expect { delete :destroy, params: { id: schedule } }.to change(Schedule, :count).by(-1)
       end
 
       it 'returns the flash message' do
-        delete :destroy, params: { id: professional }
-        expect(flash[:notice]).to eq 'Professional was successfully destroyed.'
+        delete :destroy, params: { id: schedule }
+        expect(flash[:notice]).to eq 'Schedule was successfully destroyed.'
       end
     end
 
@@ -267,8 +245,8 @@ RSpec.describe ProfessionalsController, type: :controller do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        professional.save
-        delete :destroy, params: { id: professional }
+        schedule.save
+        delete :destroy, params: { id: schedule }
       end
 
       it { expect(response).not_to render_template(:edit) }
