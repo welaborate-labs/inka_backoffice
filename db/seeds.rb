@@ -139,38 +139,25 @@ puts 'creating Schedules...'
 7.times do |i|
   s = Schedule.new
   s.weekday = i
-  s.starts_at = '7:00'
-  s.ends_at = '18:00'
-  s.interval_starts_at = '12:00'
-  s.interval_ends_at = '13:00'
+  s.starts_at = 7
+  s.ends_at = 18
+  s.interval_starts_at = 12
+  s.interval_ends_at = 13
   s.professional_id = Professional.first.id
   s.save!
 end
 7.times do |i|
   s = Schedule.new
   s.weekday = i
-  s.starts_at = "#{6 + i}:00"
-  s.ends_at = "#{23 - i}:00"
-  s.interval_starts_at = '12:00'
-  s.interval_ends_at = '13:00'
+  s.starts_at = 6 + i
+  s.ends_at = 23 - i
+  s.interval_starts_at = 12
+  s.interval_ends_at = 13
   s.professional_id = Professional.second.id
   s.save!
 end
 puts "#{Schedule.count} schedules created successfully!"
 
-puts 'creating Timeslots...'
-28.times do |i|
-  s = Timeslot.new
-  s.starts_at = "2022-03-#{i + 1} 08:00"
-  s.ends_at = "2022-04-#{i + 1} 17:00"
-  s.schedule = Schedule.first
-  s.save!
-end
-15.times do |i|
-  s = Timeslot.new
-  s.starts_at = "2022-06-#{i + 1} 08:00"
-  s.ends_at = "2022-08-#{i + 1} 17:00"
-  s.schedule = Schedule.last
-  s.save!
-end
+puts 'creating Timeslots for the next 60 days...'
+GenerateTimeslotsCommands.new(starts_at: DateTime.now, ends_at: DateTime.now + 60).run
 puts "#{Timeslot.count} timeslots created successfully!"

@@ -28,12 +28,14 @@ RSpec.describe Schedule, type: :model do
     it "should verify the 'presence'" do
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[professional weekday starts_at ends_at]
-      expect(invalid.errors.messages.count).to eq 4
+      expect(invalid.errors.attribute_names).to eq %i[professional weekday starts_at ends_at interval_starts_at interval_ends_at]
+      expect(invalid.errors.messages.count).to eq 6
       expect(invalid.errors.messages[:professional]).to eq ['must exist']
       expect(invalid.errors.messages[:weekday]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:starts_at]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:ends_at]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:starts_at]).to eq ["can't be blank", "is not included in the list"]
+      expect(invalid.errors.messages[:ends_at]).to eq ["can't be blank", "is not included in the list"]
+      expect(invalid.errors.messages[:interval_starts_at]).to eq ["can't be blank", "is not included in the list"]
+      expect(invalid.errors.messages[:interval_ends_at]).to eq ["can't be blank", "is not included in the list"]
     end
 
     it "should verify the interval 'presence'" do
@@ -41,7 +43,7 @@ RSpec.describe Schedule, type: :model do
       schedule.save
       expect(schedule.errors.attribute_names).to eq %i[interval_ends_at]
       expect(schedule.errors.messages.count).to eq 1
-      expect(schedule.errors.messages[:interval_ends_at]).to eq ["can't be blank"]
+      expect(schedule.errors.messages[:interval_ends_at]).to eq ["can't be blank", "is not included in the list"]
     end
 
     it "should verify the 'format' (00:00 to 23:00)" do
@@ -56,14 +58,10 @@ RSpec.describe Schedule, type: :model do
            interval_starts_at
            interval_ends_at
          ]
-      expect(schedule.errors.messages[:starts_at]).to eq ['is invalid. (e.g. 00:00 .. 23:00)']
-      expect(schedule.errors.messages[:ends_at]).to eq ['is invalid. (e.g. 00:00 .. 23:00)']
-      expect(schedule.errors.messages[:interval_starts_at]).to eq [
-           'is invalid. (e.g. 00:00 .. 23:00)'
-         ]
-      expect(schedule.errors.messages[:interval_ends_at]).to eq [
-           'is invalid. (e.g. 00:00 .. 23:00)'
-         ]
+      expect(schedule.errors.messages[:starts_at]).to eq ["is not included in the list"]
+      expect(schedule.errors.messages[:ends_at]).to eq ["is not included in the list"]
+      expect(schedule.errors.messages[:interval_starts_at]).to eq ["is not included in the list"]
+      expect(schedule.errors.messages[:interval_ends_at]).to eq ["is not included in the list"]
     end
   end
 

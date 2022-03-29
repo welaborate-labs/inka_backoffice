@@ -6,7 +6,7 @@ RSpec.describe ProfessionalsController, type: :controller do
   let(:customer) { build(:customer, :with_avatar) }
   let(:professional) { build(:professional, :with_avatar, user: user) }
   let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
-  let(:new_attributes) { { address: 'Same New Address For Testing' } }
+  let(:new_attributes) { { address: 'Some New Address For Testing' } }
   let(:invalid_attributes) { { name: nil } }
   let(:valid_attributes) do
     {
@@ -207,9 +207,7 @@ RSpec.describe ProfessionalsController, type: :controller do
         end
 
         it 'updates the requested professional' do
-          expect { professional.reload }.to change { professional.address }
-            .from('Some Address')
-            .to('Same New Address For Testing')
+          expect(professional.address).to eq new_attributes[:address]
         end
 
         it 'redirects to the professional' do
