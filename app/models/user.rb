@@ -3,29 +3,33 @@ class User < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  # Validations
   validates :provider, :uid, :email, :name, :phone, presence: true
-  validates :email, format: { with: REGEX_FORMAT }, if: lambda { self.email.present? }
-  validates :email, uniqueness: true, if: lambda { self.email.present? }
-  validates :phone, length: { within: 8..15 }, if: lambda { self.phone.present? }
-  validates :name, length: { within: 3..100 }, if: lambda { self.name.present? }
+  validates :email, format: { with: REGEX_FORMAT }
+  validates :email, uniqueness: true
+  validates :phone, length: { within: 8..15 }
+  validates :name, length: { within: 3..100 }
 
-  def self.from_omniauth(auth)
-    find_by_provider_and_uid(auth['provider'], auth['uid']) || create_with_omniauth(auth)
+  def self.find_or_create_from_hash(auth_hash)
+    user = find_by(provider: auth_hash['provider'], uid: auth_hash['uid'])
+
+    return user if user
+
+    user = User.find_by(email: auth_hash['info']['email'])
+    user ||= User.create_from_hash(auth_hash) if !user
   end
 
-  def self.create_with_omniauth(auth)
+  def self.create_from_hash(auth_hash)
     user =
       create! do |user|
-        user.uid = auth['uid']
-        user.provider = auth['provider']
-        user.name = auth['info']['name']
-        user.email = auth['info']['email']
-        user.phone = auth['info']['phone']
+        user.uid = auth_hash['uid']
+        user.provider = auth_hash['provider']
+        user.name = auth_hash['info']['name']
+        user.email = auth_hash['info']['email']
+        user.phone = auth_hash['info']['phone']
       end
+    user
   end
 
-  # Hooks
   before_create do
     self.name = name.downcase.titleize
     self.phone =

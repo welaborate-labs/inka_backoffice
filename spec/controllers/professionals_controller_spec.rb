@@ -4,14 +4,15 @@ RSpec.describe ProfessionalsController, type: :controller do
   let(:identity) { create(:identity) }
   let(:user) { create(:user, uid: identity.id) }
   let(:customer) { build(:customer, :with_avatar) }
-  let(:professional) { build(:professional, :with_avatar, user: user) }
+
+  let(:professional) { create(:professional, :with_avatar, user: user) }
   let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
   let(:new_attributes) { { address: 'Some New Address For Testing' } }
   let(:invalid_attributes) { { name: nil } }
   let(:valid_attributes) do
     {
       name: 'John Doe',
-      email: 'john.doe@example.com',
+      email: 'john.doe2@example.com',
       phone: '1199997777',
       address: 'Some Random Address',
       document: '12345678908',
@@ -23,10 +24,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
   describe 'GET /index' do
     context 'when authenticated' do
-      before do
-        professional.save!
-        get :index
-      end
+      before { get :index }
 
       it { expect(response).to render_template(:index) }
       it { expect(response).to be_successful }
@@ -36,10 +34,7 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before do
-        professional.save!
-        get :index
-      end
+      before { get :index }
 
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
@@ -71,10 +66,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
   describe 'GET /show' do
     context 'when authenticated' do
-      before do
-        professional.save!
-        get :show, params: { id: professional }
-      end
+      before { get :show, params: { id: professional } }
 
       it { expect(response).to render_template(:show) }
       it { expect(response).to be_successful }
@@ -84,10 +76,7 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before do
-        professional.save!
-        get :show, params: { id: professional }
-      end
+      before { get :show, params: { id: professional } }
 
       it { expect(response).not_to render_template(:show) }
       it { expect(response).not_to be_successful }
@@ -98,10 +87,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
   describe 'GET /edit' do
     context 'when authenticated' do
-      before do
-        professional.save!
-        get :edit, params: { id: professional }
-      end
+      before { get :edit, params: { id: professional } }
 
       it { expect(response).to render_template(:edit) }
       it { expect(response).to be_successful }
@@ -111,10 +97,7 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before do
-        professional.save!
-        get :edit, params: { id: professional }
-      end
+      before { get :edit, params: { id: professional } }
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
@@ -197,17 +180,14 @@ RSpec.describe ProfessionalsController, type: :controller do
   describe 'PUT /update' do
     context 'when authenticate' do
       context 'with valid parameters' do
-        before do
-          professional.save!
-          patch :update, params: { id: professional, professional: new_attributes }
-        end
+        before { patch :update, params: { id: professional, professional: new_attributes } }
 
         it 'should assigns the professional' do
           expect(assigns(:professional)).to eq professional
         end
 
         it 'updates the requested professional' do
-          expect(professional.address).to eq new_attributes[:address]
+          expect(professional.address).to eq 'Same New Address For Testing'
         end
 
         it 'redirects to the professional' do
@@ -221,7 +201,6 @@ RSpec.describe ProfessionalsController, type: :controller do
 
       describe 'invalid attributes' do
         before do
-          professional.save
           patch :update, params: { id: professional, professional: { name: nil } }
           professional.reload
         end
@@ -264,10 +243,7 @@ RSpec.describe ProfessionalsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before do
-        professional.save
-        delete :destroy, params: { id: professional }
-      end
+      before { delete :destroy, params: { id: professional } }
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }

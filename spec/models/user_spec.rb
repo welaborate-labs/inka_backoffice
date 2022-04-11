@@ -34,9 +34,15 @@ RSpec.describe User, type: :model do
       expect(invalid.errors.messages.count).to eq 5
       expect(invalid.errors.messages[:provider]).to eq ["can't be blank"]
       expect(invalid.errors.messages[:uid]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:name]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:phone]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:email]).to eq ["can't be blank", 'is invalid']
+      expect(invalid.errors.messages[:name]).to eq [
+           "can't be blank",
+           'is too short (minimum is 3 characters)'
+         ]
+      expect(invalid.errors.messages[:phone]).to eq [
+           "can't be blank",
+           'is too short (minimum is 8 characters)'
+         ]
     end
 
     it "should verify the 'email format'" do

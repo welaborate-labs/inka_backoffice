@@ -4,9 +4,24 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
-    user = User.from_omniauth(request.env['omniauth.auth'])
-    session[:user_id] = user.id
-    redirect_to root_url, notice: 'Signed in!'
+    @user = User.find_or_create_from_hash(auth_hash)
+
+    if signed_in?
+      if @user
+        flash[:notice] = 'You are already logged in.'
+      else
+        redirect_to root_path, alert: 'Something is wrong, please try again.' and return
+      end
+    else
+      if @user
+        current_user = @user
+        flash[:notice] = 'Signed in!'
+      else
+        redirect_to root_path, alert: 'User already registered.' and return
+      end
+    end
+
+    redirect_to root_path
   end
 
   def destroy
@@ -16,5 +31,11 @@ class SessionsController < ApplicationController
 
   def failure
     redirect_to root_url, alert: 'Authentication failed, please try again.'
+  end
+
+  protected
+
+  def auth_hash
+    request.env['omniauth.auth']
   end
 end
