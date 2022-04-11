@@ -73,6 +73,8 @@ GEM
     bootsnap (1.10.3)
       msgpack (~> 1.2)
     builder (3.2.4)
+    bulma-rails (0.9.3)
+      sassc (~> 2.0)
     capybara (3.36.0)
       addressable
       matrix
@@ -98,6 +100,7 @@ GEM
       railties (>= 5.0.0)
     faker (2.20.0)
       i18n (>= 1.8.11, < 2)
+    ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
@@ -217,6 +220,8 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -231,8 +236,6 @@ GEM
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     strscan (3.0.1)
-    tailwindcss-rails (2.0.8-x86_64-linux)
-      railties (>= 6.0.0)
     thor (1.2.1)
     timeout (0.2.0)
     turbo-rails (1.0.1)
@@ -262,6 +265,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
+  bulma-rails (~> 0.9.3)
   capybara
   debug
   factory_bot_rails
@@ -279,7 +283,6 @@ DEPENDENCIES
   selenium-webdriver
   sprockets-rails
   stimulus-rails
-  tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
   web-console
