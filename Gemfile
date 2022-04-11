@@ -84,5 +84,5 @@ group :test do
   gem "webdrivers"
 end
 
-gem "tailwindcss-rails", "~> 2.0"
 gem 'jquery-rails', '~> 4.4'
+gem 'bulma-rails', '~> 0.9.3'
