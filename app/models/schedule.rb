@@ -1,40 +1,17 @@
 class Schedule < ApplicationRecord
+  HOURS = (0..23).to_a
+
   belongs_to :professional
   has_many :timeslots, dependent: :destroy
-  enum weekday: %i[monday tuesday wednesday thursday friday saturday sunday]
+  enum weekday: %i[sunday monday tuesday wednesday thursday friday saturday]
 
-  # Validations
-  # presence
   validates :weekday, :starts_at, :ends_at, presence: true
   validates :interval_starts_at,
             :interval_ends_at,
-            presence: true,
-            if: lambda { self.interval_starts_at.present? || self.interval_ends_at.present? }
+            presence: true
 
-  # format
-  REGEX_FORMAT = /\A([0-1]?[0-9]|2[0-3]):[0-5][0-9]\z/
-  validates :starts_at,
-            format: {
-              with: REGEX_FORMAT,
-              message: 'is invalid. (e.g. 00:00 .. 23:00)'
-            },
-            if: lambda { self.starts_at.present? }
-  validates :ends_at,
-            format: {
-              with: REGEX_FORMAT,
-              message: 'is invalid. (e.g. 00:00 .. 23:00)'
-            },
-            if: lambda { self.ends_at.present? }
-  validates :interval_starts_at,
-            format: {
-              with: REGEX_FORMAT,
-              message: 'is invalid. (e.g. 00:00 .. 23:00)'
-            },
-            if: lambda { self.interval_starts_at.present? }
-  validates :interval_ends_at,
-            format: {
-              with: REGEX_FORMAT,
-              message: 'is invalid. (e.g. 00:00 .. 23:00)'
-            },
-            if: lambda { self.interval_ends_at.present? }
+  validates :starts_at, inclusion: { in: HOURS }
+  validates :ends_at, inclusion: { in: HOURS }
+  validates :interval_starts_at, inclusion: { in: HOURS }
+  validates :interval_ends_at, inclusion: { in: HOURS }
 end

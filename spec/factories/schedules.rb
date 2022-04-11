@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :schedule do
-    weekday { 0 }
+    weekday { 1 }
     starts_at { '07:00' }
     ends_at { '18:00' }
     interval_starts_at { '12:00' }
