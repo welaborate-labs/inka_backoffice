@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:13.3
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:4.0.14
+    command: redis-server --appendonly yes --maxmemory 536870912 --maxmemory-policy allkeys-lru
+    ports:
+      - 6379:6379
+
+  app:
+    build:
+      context: .
+    image: inka
+    tty: true
+    stdin_open: true
+    tmpfs:
+      - /tmp
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    command: bundle exec rails s -b '0.0.0.0'
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+

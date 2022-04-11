@@ -1,0 +1,39 @@
+# Don't put these in the images
+Dockerfile
+docker-compose*.yml
+
+# Also don't put the env files in the images
+.env*
+*.env.default
+
+# No need for git working copy data in the image
+.git
+
+# Ignore gemset specification
+.ruby-gemset
+
+# Ignore bundler config.
+.bundle
+
+# Ignore development database
+db/pg
+
+# Ignore if Redis dumps its DB here
+dump.rdb
+
+# Ignore all logfiles and tempfiles.
+log/*
+tmp/*
+
+# Ignore Byebug command history file.
+.byebug_history
+.rspec
+
+# Ignore API documentation
+doc
+
+# Do not include load modules
+/node_modules
+
+# Storage
+/storage
