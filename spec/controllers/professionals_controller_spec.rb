@@ -187,7 +187,7 @@ RSpec.describe ProfessionalsController, type: :controller do
         end
 
         it 'updates the requested professional' do
-          expect(professional.address).to eq 'Same New Address For Testing'
+          expect(professional.address).to eq 'Some New Address For Testing'
         end
 
         it 'redirects to the professional' do

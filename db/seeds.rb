@@ -14,6 +14,10 @@ Identity.create!(
 )
 puts "#{Identity.count} identities created successfully!"
 
+puts 'creating Identification Keys and QrCodes...'
+QrcodeGenerator.new(15).create_keys
+puts "#{IdentificationKey.count} keys created successfully!"
+
 puts 'creating users...'
 User.create!(
   [
@@ -52,28 +56,14 @@ end
 puts "#{Customer.count} customers created successfully!"
 
 puts 'creating Professionals...'
-5.times do |i|
+2.times do |i|
   m = Professional.new
   m.name = "#{%w[John Jane].sample}#{i}"
   m.email = "email#{i}@example.com"
   m.phone = "119999111#{i}"
   m.address = 'Some random Address'
   m.document = "1112223334#{i}"
-  m.user_id = User.first.id
-  m.avatar.attach(
-    io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
-    filename: 'model.png'
-  )
-  m.save!
-end
-5.times do |i|
-  m = Professional.new
-  m.name = "#{%w[John Jane].sample}#{i}"
-  m.email = "email#{i}#{i}@example.com"
-  m.phone = "119999111#{i}"
-  m.address = 'Some random Address'
-  m.document = "1112223334#{i}#{i}"
-  m.user_id = User.second.id
+  m.user_id = i + 1
   m.avatar.attach(
     io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
     filename: 'model.png'

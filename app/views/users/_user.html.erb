@@ -12,7 +12,17 @@
   </td>
 
   <td>
-    <%= link_to "Edit", edit_user_path(user), class: 'button is-small is-primary' %>
-    <%= link_to "Destroy", user, method: :delete, class: 'button is-small is-danger' %>
+    <% identification = IdentificationKey.find_by(user_id: user.id) %>
+
+    <% begin %>
+      <%= image_tag("qrcodes/#{identification.id}qrcode.png") if identification %>
+    <% rescue AssetNotFound => error %>
+      <%= '' %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= link_to "Edit", edit_user_path(user), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+    <%= link_to "Destroy", user, method: :delete, class: 'bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded' %>
   </td>
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_01_184230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "identification_keys", force: :cascade do |t|
+    t.string "private_key"
+    t.string "salt"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identification_keys_on_user_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -117,6 +126,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "identification_keys", "users"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
   add_foreign_key "services", "professionals"
