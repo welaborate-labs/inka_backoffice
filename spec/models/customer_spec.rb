@@ -27,11 +27,23 @@ RSpec.describe Customer, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[name email phone address document avatar]
       expect(invalid.errors.messages.count).to eq 6
-      expect(invalid.errors.messages[:name]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:phone]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:address]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:document]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:name]).to eq [
+           "can't be blank",
+           'is too short (minimum is 3 characters)'
+         ]
+      expect(invalid.errors.messages[:email]).to eq ["can't be blank", 'is invalid']
+      expect(invalid.errors.messages[:phone]).to eq [
+           "can't be blank",
+           'is too short (minimum is 8 characters)'
+         ]
+      expect(invalid.errors.messages[:address]).to eq [
+           "can't be blank",
+           'is too short (minimum is 10 characters)'
+         ]
+      expect(invalid.errors.messages[:document]).to eq [
+           "can't be blank",
+           'is too short (minimum is 10 characters)'
+         ]
       expect(invalid.errors.messages[:avatar]).to eq ["can't be blank"]
     end
 
