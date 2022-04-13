@@ -1,6 +1,6 @@
 <% if resource && resource.errors.any? %>
   <div class="notification is-danger is-light">
-    <h2><% pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <h2><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h2>
 
     <ul>
       <% resource.errors.each do |error| %>
