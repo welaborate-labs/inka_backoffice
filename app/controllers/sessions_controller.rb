@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       if @user
         current_user = @user
         session[:user_id] = @user.id
-        redirect_to root_path, flash[:notice] = 'Signed in!'
+        flash[:notice] = 'Signed in!'
       else
         redirect_to root_path, alert: 'User already registered.' and return
       end
