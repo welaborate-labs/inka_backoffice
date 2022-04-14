@@ -1,12 +1,11 @@
 class GenerateTimeslotsCommand
-  attr_reader :starts_at, :ends_at, :status
+  attr_reader :starts_at, :ends_at
   attr_accessor :timeslots
 
-  def initialize(starts_at:, ends_at:, status:)
+  def initialize(starts_at:, ends_at:)
     @starts_at = starts_at
     @ends_at = ends_at
     @timeslots = []
-    @status = status
   end
 
   def run
@@ -26,8 +25,7 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1),
-                status: @status
+                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1)
               )
             )
           end
@@ -38,8 +36,7 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1),
-                status: @status
+                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1)
               )
             )
           end

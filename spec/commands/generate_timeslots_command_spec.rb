@@ -6,16 +6,14 @@ RSpec.describe GenerateTimeslotsCommand, type: :model do
   let(:professional) { create(:professional, :with_avatar, user: user) }
   let(:starts_at) { DateTime.new(2022, 5, 2, 00) }
   let(:ends_at) { DateTime.new(2022, 5, 7, 00) }
-  let(:generateTimeslots) do
-    GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at, status: 0)
-  end
+  let(:generateTimeslots) { GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at) }
 
   before { 5.times { |n| create(:schedule, professional: professional, weekday: n + 1) } }
 
   describe '#initialize' do
     subject { generateTimeslots }
 
-    it { is_expected.to have_attributes(starts_at: starts_at, ends_at: ends_at, status: 0) }
+    it { is_expected.to have_attributes(starts_at: starts_at, ends_at: ends_at) }
   end
 
   describe '#run' do
@@ -38,8 +36,7 @@ RSpec.describe GenerateTimeslotsCommand, type: :model do
         expect {
           GenerateTimeslotsCommand.new(
             starts_at: DateTime.new(2022, 5, 9, 00),
-            ends_at: DateTime.new(2022, 5, 10, 00),
-            status: 0
+            ends_at: DateTime.new(2022, 5, 10, 00)
           ).run
         }.to change(Timeslot, :count).by(20)
       end
@@ -52,8 +49,7 @@ RSpec.describe GenerateTimeslotsCommand, type: :model do
         expect {
           GenerateTimeslotsCommand.new(
             starts_at: starts_at,
-            ends_at: DateTime.new(2022, 5, 10, 00),
-            status: 0
+            ends_at: DateTime.new(2022, 5, 10, 00)
           ).run
         }.to change(Timeslot, :count).by(20)
       end

@@ -6,7 +6,7 @@ RSpec.describe Timeslot, type: :model do
   let(:professional) { build(:professional, :with_avatar, user: user) }
   let(:schedule) { build(:schedule, professional: professional) }
   let(:timeslot) { build(:timeslot, schedule: schedule) }
-  let(:invalid) { Timeslot.new }
+  let(:invalid) { Timeslot.new status: nil }
 
   describe 'instances an empty schedule' do
     subject { Timeslot.new }
