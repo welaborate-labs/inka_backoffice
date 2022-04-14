@@ -1,11 +1,12 @@
 class GenerateTimeslotsCommand
-  attr_reader :starts_at, :ends_at
+  attr_reader :starts_at, :ends_at, :status
   attr_accessor :timeslots
 
-  def initialize(starts_at:, ends_at:)
+  def initialize(starts_at:, ends_at:, status:)
     @starts_at = starts_at
     @ends_at = ends_at
     @timeslots = []
+    @status = status
   end
 
   def run
@@ -13,14 +14,20 @@ class GenerateTimeslotsCommand
       schedules = Schedule.where(weekday: date.wday).order('starts_at ASC')
 
       schedules.each do |schedule|
-        next if schedule.timeslots.where('starts_at >= ? and ends_at <= ?', date, date.end_of_day).exists?
+        if schedule
+             .timeslots
+             .where('starts_at >= ? and ends_at <= ?', date, date.end_of_day)
+             .exists?
+          next
+        end
 
         (schedule.starts_at..schedule.interval_starts_at).each do |hour|
           if hour != schedule.interval_starts_at
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1)
+                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1),
+                status: @status
               )
             )
           end
@@ -31,7 +38,8 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1)
+                ends_at: DateTime.new(date.year, date.month, date.day, hour + 1),
+                status: @status
               )
             )
           end

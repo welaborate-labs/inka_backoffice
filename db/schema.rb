@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_13_171457) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,6 +83,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
     t.index ["professional_id"], name: "index_schedules_on_professional_id"
   end
 
+  create_table "service_bookings", force: :cascade do |t|
+    t.text "notes"
+    t.integer "status"
+    t.datetime "canceledAt"
+    t.bigint "customer_id", null: false
+    t.bigint "timeslot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_service_bookings_on_customer_id"
+    t.index ["timeslot_id"], name: "index_service_bookings_on_timeslot_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "title"
     t.integer "duration"
@@ -102,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
     t.bigint "schedule_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status"
     t.index ["schedule_id"], name: "index_timeslots_on_schedule_id"
   end
 
@@ -119,6 +132,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_25_203723) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
+  add_foreign_key "service_bookings", "customers"
+  add_foreign_key "service_bookings", "timeslots"
   add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
   add_foreign_key "timeslots", "schedules"

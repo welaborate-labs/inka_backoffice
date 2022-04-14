@@ -1,7 +1,7 @@
 class Timeslot < ApplicationRecord
   belongs_to :schedule
 
-  # Validations
-  # presence
-  validates :starts_at, :ends_at, presence: { message: "can't be blank or is invalid" }
+  enum status: %i[free booked absent]
+
+  validates :starts_at, :ends_at, :status, presence: :true
 end
