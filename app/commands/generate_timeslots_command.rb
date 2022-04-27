@@ -36,7 +36,7 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, date.hour, hour + 0.5)
+                ends_at: DateTime.new(date.year, date.month, date.day, hour + 0.5)
               )
             )
           end
