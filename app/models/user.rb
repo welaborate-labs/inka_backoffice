@@ -2,7 +2,7 @@ class User < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  before_commit :verify_available_identification, only: %i[create update]
+  before_create :verify_available_identification
 
   has_one :professional, dependent: :destroy
   has_many :identification_keys, dependent: :destroy
