@@ -1,4 +1,9 @@
 class ServiceBooking < ApplicationRecord
+  belongs_to :customer
+  belongs_to :timeslot
+
+  validates :status, presence: :true
+
   enum status: %i[
          requested
          accepted
@@ -8,9 +13,4 @@ class ServiceBooking < ApplicationRecord
          absent
          completed
        ]
-
-  belongs_to :customer
-  belongs_to :timeslot
-
-  validates :status, presence: :true
 end
