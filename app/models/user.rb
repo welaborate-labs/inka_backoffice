@@ -47,11 +47,8 @@ class User < ApplicationRecord
   end
 
   def verify_available_identification
-    IdentificationKey.all.each do |i|
-      if !i.user_id && self.identification_keys.empty?
-        self.identification_keys << i
-        break
-      end
+    if self.identification_keys.empty?
+      self.identification_keys << IdentificationKey.where(user_id: nil).first
     end
   end
 end
