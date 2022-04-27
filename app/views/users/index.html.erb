@@ -1,11 +1,11 @@
-<h1>USER</h1>
-<%= link_to "Add new user", new_identities_path %>
+<div class="columns is-centered mt-6">
 <table class="table">
   <thead>
     <tr>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
+      <th class="has-text-right"> <%= link_to "+", new_identities_path, class: "tag is-large is-primary" %> </th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -19,3 +19,4 @@
     </div>
   </tbody>
 </table>
+</div>
