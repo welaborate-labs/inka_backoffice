@@ -6,7 +6,7 @@ RSpec.describe Timeslot, type: :model do
   let(:professional) { build(:professional, :with_avatar, user: user) }
   let(:schedule) { build(:schedule, professional: professional) }
   let(:timeslot) { build(:timeslot, schedule: schedule) }
-  let(:invalid) { Timeslot.new }
+  let(:invalid) { Timeslot.new status: nil }
 
   describe 'instances an empty schedule' do
     subject { Timeslot.new }
@@ -25,14 +25,14 @@ RSpec.describe Timeslot, type: :model do
 
   describe 'valitations' do
     it "should verify the 'presence'" do
-      # invalid value to DATETIME sets automatically to nil
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[schedule starts_at ends_at]
-      expect(invalid.errors.messages.count).to eq 3
+      expect(invalid.errors.attribute_names).to eq %i[schedule starts_at ends_at status]
+      expect(invalid.errors.messages.count).to eq 4
       expect(invalid.errors.messages[:schedule]).to eq ['must exist']
-      expect(invalid.errors.messages[:starts_at]).to eq ["can't be blank or is invalid"]
-      expect(invalid.errors.messages[:ends_at]).to eq ["can't be blank or is invalid"]
+      expect(invalid.errors.messages[:starts_at]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:ends_at]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:status]).to eq ["can't be blank"]
     end
   end
 end

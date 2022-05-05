@@ -10,6 +10,12 @@ RSpec.describe GenerateTimeslotsCommand, type: :model do
 
   before { 5.times { |n| create(:schedule, professional: professional, weekday: n + 1) } }
 
+  describe '#initialize' do
+    subject { generateTimeslots }
+
+    it { is_expected.to have_attributes(starts_at: starts_at, ends_at: ends_at) }
+  end
+
   describe '#run' do
     subject { generateTimeslots.run }
 
