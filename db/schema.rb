@@ -92,6 +92,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_01_184230) do
     t.index ["professional_id"], name: "index_schedules_on_professional_id"
   end
 
+  create_table "service_bookings", force: :cascade do |t|
+    t.text "notes"
+    t.integer "status"
+    t.datetime "canceledAt"
+    t.bigint "customer_id", null: false
+    t.bigint "timeslot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_service_bookings_on_customer_id"
+    t.index ["timeslot_id"], name: "index_service_bookings_on_timeslot_id"
+  end
+
   create_table "services", force: :cascade do |t|
     t.string "title"
     t.integer "duration"
@@ -129,6 +141,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_01_184230) do
   add_foreign_key "identification_keys", "users"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
+  add_foreign_key "service_bookings", "customers"
+  add_foreign_key "service_bookings", "timeslots"
   add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
   add_foreign_key "timeslots", "schedules"

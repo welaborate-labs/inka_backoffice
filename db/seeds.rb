@@ -149,5 +149,64 @@ end
 puts "#{Schedule.count} schedules created successfully!"
 
 puts 'creating Timeslots for the next 60 days...'
-GenerateTimeslotsCommands.new(starts_at: DateTime.now, ends_at: DateTime.now + 60).run
+GenerateTimeslotsCommand.new(starts_at: DateTime.now, ends_at: DateTime.now + 60).run
 puts "#{Timeslot.count} timeslots created successfully!"
+
+puts 'creating Service Bookings...'
+15.times do |i|
+  b = ServiceBooking.new
+  b.status = 0
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.first.id
+  b.timeslot_id = Timeslot.find(i + 1).id
+  b.save!
+end
+10.times do |i|
+  b = ServiceBooking.new
+  b.status = 1
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.first.id
+  b.timeslot_id = Timeslot.find(30 - i).id
+  b.save!
+end
+35.times do |i|
+  b = ServiceBooking.new
+  b.status = 2
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.first.id
+  b.timeslot_id = Timeslot.find(70 - i).id
+  b.save!
+end
+5.times do |i|
+  b = ServiceBooking.new
+  b.status = 3
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.first.id
+  b.timeslot_id = Timeslot.find(85 - i).id
+  b.save!
+end
+5.times do |i|
+  b = ServiceBooking.new
+  b.status = 4
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.first.id
+  b.timeslot_id = Timeslot.find(91 - i).id
+  b.save!
+end
+5.times do |i|
+  b = ServiceBooking.new
+  b.status = 5
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.second.id
+  b.timeslot_id = Timeslot.find(100 - i).id
+  b.save!
+end
+30.times do |i|
+  b = ServiceBooking.new
+  b.status = 6
+  b.notes = "some note #{i}"
+  b.customer_id = Customer.second.id
+  b.timeslot_id = Timeslot.find(145 - i).id
+  b.save!
+end
+puts "#{ServiceBooking.count} service bookings created successfully!"

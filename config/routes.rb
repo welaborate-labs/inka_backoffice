@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :calendar, only: %i[index]
   resources :schedules
   resources :services
   resources :professionals
