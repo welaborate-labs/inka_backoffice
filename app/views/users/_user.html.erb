@@ -12,8 +12,17 @@
   </td>
 
   <td>
+    <% identification = IdentificationKey.find_by(user_id: user.id) %>
+
+    <% begin %>
+      <%= image_tag("qrcodes/#{identification.id}qrcode.png", size: 175) if identification %>
+    <% rescue AssetNotFound => error %>
+      <%= '' %>
+    <% end %>
+  </td>
+
+  <td>
     <%= link_to "Edit", edit_user_path(user), class: "button is-link is-small is-hovered" %>
-    
     <%= link_to "Delete", user, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
   </td>
 </div>

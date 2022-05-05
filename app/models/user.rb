@@ -1,7 +1,11 @@
 class User < ApplicationRecord
-  has_one :professional, dependent: :destroy
   include ActionView::Helpers::NumberHelper
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
+
+  before_create :verify_available_identification
+
+  has_one :professional, dependent: :destroy
+  has_many :identification_keys, dependent: :destroy
 
   validates :provider, :uid, :email, :name, :phone, presence: true
   validates :email, format: { with: REGEX_FORMAT }
@@ -40,5 +44,11 @@ class User < ApplicationRecord
     self.name = name.downcase.titleize
     self.phone =
       number_to_phone(self.phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
+  end
+
+  def verify_available_identification
+    if self.identification_keys.empty?
+      self.identification_keys << IdentificationKey.where(user_id: nil).first
+    end
   end
 end
