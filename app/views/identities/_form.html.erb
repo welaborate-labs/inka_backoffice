@@ -1,0 +1,45 @@
+<div class="columns mt-6 is-centered">
+  <div class="column is-4">
+    <%= form_tag "/auth/identity/register", class: "box" do %>
+      <div class="field">
+        <%= label_tag :name, nil, class: "label" %>
+        <div class="control">
+          <%= text_field_tag :name, @identity.try(:name), class: "input" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label_tag :email, nil, class: "label" %>
+        <div class="control">
+          <%= text_field_tag :email, @identity.try(:email), class: "input" %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= label_tag :phone, nil, class: "label" %>
+          <div class="control">
+            <%= text_field_tag :phone, @identity.try(:phone), class: "input" %>
+          </div>
+      </div>
+
+      <div class="field">
+        <%= label_tag :password, nil, class: "label" %>
+          <div class="control">
+            <%= password_field_tag :password, nil, class: "input" %>
+          </div>
+      </div>
+
+      <div class="field">
+      <%= label_tag :password_confirmation, nil, class: "label" %>
+        <div class="control">
+          <%= password_field_tag :password_confirmation, nil, class: "input" %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= submit_tag "Register", class: "button is-primary" %>
+      </div>
+    <% end %>
+
+  </div>
+</div>
