@@ -2,7 +2,7 @@ class ServiceBookingsController < ApplicationController
   before_action :set_service_booking, only: %i[show edit update destroy]
 
   def index
-    @service_bookings = ServiceBooking.all
+    @service_bookings = ServiceBooking.all.order('updated_at DESC')
   end
 
   def show; end
@@ -18,10 +18,7 @@ class ServiceBookingsController < ApplicationController
 
     respond_to do |format|
       if @service_booking.save
-        format.html do
-          redirect_to service_booking_url(@service_booking),
-                      notice: 'Service booking was successfully created.'
-        end
+        format.html { redirect_to root_url, notice: 'Service booking was successfully created.' }
         format.json { render :show, status: :created, location: @service_booking }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -33,10 +30,7 @@ class ServiceBookingsController < ApplicationController
   def update
     respond_to do |format|
       if @service_booking.update(service_booking_params)
-        format.html do
-          redirect_to service_booking_url(@service_booking),
-                      notice: 'Service booking was successfully updated.'
-        end
+        format.html { redirect_to root_path, notice: 'Service booking was successfully updated.' }
         format.json { render :show, status: :ok, location: @service_booking }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,9 +43,7 @@ class ServiceBookingsController < ApplicationController
     @service_booking.destroy
 
     respond_to do |format|
-      format.html do
-        redirect_to service_bookings_url, notice: 'Service booking was successfully destroyed.'
-      end
+      format.html { redirect_to root_url, notice: 'Service booking was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -65,6 +57,6 @@ class ServiceBookingsController < ApplicationController
   def service_booking_params
     params
       .require(:service_booking)
-      .permit(:status, :presence, :notes, :canceledAt, :customer_id, :timeslot_id)
+      .permit(:status, :notes, :canceledAt, :customer_id, :timeslot_id)
   end
 end
