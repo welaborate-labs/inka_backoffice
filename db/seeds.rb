@@ -191,6 +191,7 @@ end
   b = ServiceBooking.new
   b.status = 3
   b.notes = "some note #{i}"
+  b.canceledAt = DateTime.now
   b.customer_id = Customer.first.id
   b.timeslot_id = Timeslot.find(85 - i).id
   b.save!
@@ -199,6 +200,7 @@ end
   b = ServiceBooking.new
   b.status = 4
   b.notes = "some note #{i}"
+  b.canceledAt = DateTime.now
   b.customer_id = Customer.first.id
   b.timeslot_id = Timeslot.find(91 - i).id
   b.save!

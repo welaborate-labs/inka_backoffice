@@ -1,0 +1,26 @@
+<div id="<%= dom_id service_booking %>">
+  <td>
+    <%= service_booking.notes %>
+  </td>
+
+  <td>
+    <%= service_booking.status %>
+  </td>
+
+  <td>
+    <%= service_booking.canceledAt&.to_date %>
+  </td>
+
+  <td>
+    <%= service_booking.customer_id %>
+  </td>
+
+  <td>
+    <%= service_booking.timeslot_id %>
+  </td>
+
+  <td>
+    <%= link_to "Edit", edit_service_booking_path(service_booking), class: 'button is-small is-primary' %>
+    <%= link_to "Delete", service_booking, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
+  </td>
+</div>

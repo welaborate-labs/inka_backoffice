@@ -1,4 +1,6 @@
 class ServiceBooking < ApplicationRecord
+  before_save :update_canceledAt if status = 3 || status = 4
+
   belongs_to :customer
   belongs_to :timeslot
 
@@ -13,4 +15,8 @@ class ServiceBooking < ApplicationRecord
          absent
          completed
        ]
+
+  def update_canceledAt
+    self.canceledAt = DateTime.now
+  end
 end
