@@ -13,4 +13,8 @@
  *= require_tree .
  *= require_self
  */
- @import "bulma";
+
+$gap: 32px;
+$fullhd: 1800px + (2 * $gap);
+
+@import "bulma";
