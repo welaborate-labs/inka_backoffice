@@ -1,0 +1,23 @@
+<h1>SERVICE BOOKINGS</h1>
+<%= link_to "Add new service booking", new_service_booking_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Notes</th>
+      <th>Status</th>
+      <th>Canceled At</th>
+      <th>Customer</th>
+      <th>Timeslot</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="service_bookings">
+      <% @service_bookings.each do |service_booking| %>
+        <tr>
+          <%= render service_booking %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>

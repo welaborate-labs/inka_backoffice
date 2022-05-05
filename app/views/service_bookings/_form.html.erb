@@ -1,0 +1,27 @@
+<%= form_with(model: service_booking) do |form| %>
+  <%= render 'shared/error_messages', resource: service_booking %>
+
+  <div>
+    <%= form.label :notes, style: "display: block" %>
+    <%= form.text_area :notes %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.select :status, ServiceBooking.statuses.keys.to_a %>
+  </div>
+
+  <div>
+    <%= form.label :customer_id, style: "display: block" %>
+    <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'customer...', include_hidden: false } %>
+  </div>
+
+  <div>
+    <%= form.label :timeslot_id, style: "display: block" %>
+    <%= form.collection_select :timeslot_id, Timeslot.all, :id, :id, { include_blank: 'timeslot...', include_hidden: false } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
