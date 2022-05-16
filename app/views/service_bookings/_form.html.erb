@@ -1,27 +1,48 @@
-<%= form_with(model: service_booking) do |form| %>
-  <%= render 'shared/error_messages', resource: service_booking %>
-
-  <div>
-    <%= form.label :notes, style: "display: block" %>
-    <%= form.text_area :notes %>
+<div class="columns is-centered mt-6">
+  <div class="column is-3">
+    <%= form_with(model: service_booking, class: "box") do |form| %>
+    <%= render 'shared/error_messages', resource: service_booking %>
+  
+    <div class="field">
+      <%= form.label :notas, style: "display: block", class: "label" %>
+      <%= form.text_area :notas, class: "textarea is-small" %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :status, style: "display: block", class: "label" %>
+      <div class="control">
+        <div class="select is-fullwidth is-medium">
+          <%= form.select :status, ServiceBooking.statuses.keys.to_a %>
+        </div>
+      </div>
+    </div>
+  
+    <div class="field">
+      <%= form.label :cliente_id, style: "display: block", class: "label" %>
+      <div class="control">
+        <div class="select is-fullwidth is-medium">
+          <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'customer...', include_hidden: false } %>
+        </div>
+      </div>  
+    </div>
+  
+    <div class="field">
+      <%= form.label :horário_id, style: "display: block", class: "label" %>
+      <div class="control">
+        <div class="select is-fullwidth is-medium">
+          <%= form.collection_select :timeslot_id, Timeslot.all, :id, :id, { include_blank: 'timeslot...', include_hidden: false } %>
+        </div>
+      </div>
+    </div>
+  
+    <div class="buttons is-centered">
+      <% if !@service_booking.id.nil? %>
+        <% description = "Editar Reserva" %>
+      <% else %>
+        <% description = "Criar Reserva" %>
+      <% end %>
+      <%= form.submit "Criar Reserva", class: "button is-primary" %>
+    </div>
   </div>
-
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.select :status, ServiceBooking.statuses.keys.to_a %>
-  </div>
-
-  <div>
-    <%= form.label :customer_id, style: "display: block" %>
-    <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'customer...', include_hidden: false } %>
-  </div>
-
-  <div>
-    <%= form.label :timeslot_id, style: "display: block" %>
-    <%= form.collection_select :timeslot_id, Timeslot.all, :id, :id, { include_blank: 'timeslot...', include_hidden: false } %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+  <% end %>
+</div>
