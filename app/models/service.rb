@@ -1,18 +1,14 @@
 class Service < ApplicationRecord
   belongs_to :professional
+  belongs_to :service, class_name: 'Service', optional: true
 
+  has_many :service_bookings
   has_many :optional_services,
            class_name: 'Service',
            foreign_key: 'service_id',
            dependent: :destroy
-  belongs_to :service, class_name: 'Service', optional: true
 
-  # Validations
-  ## Presence
-  validates_presence_of :title, :duration, :price
-  validates_inclusion_of :is_comissioned, in: [true, false, 0, 1], message: "can't be blank"
-
-  # length within min..max
-  validates :title, length: { within: 3..50 }, if: lambda { self.title.present? }
-  validates :duration, length: { maximum: 15 }, if: lambda { self.duration.present? }
+  validates :title, :duration, :price, presence: true
+  validates :title, length: { within: 3..50 }
+  validates :is_comissioned, inclusion: { in: [true, false] }
 end

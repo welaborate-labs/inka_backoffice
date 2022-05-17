@@ -1,6 +1,6 @@
 class Timeslot < ApplicationRecord
   belongs_to :schedule
-  has_many :service_bookings, dependent: :destroy
+  belongs_to :service_booking, optional: true
 
   enum status: %i[free booked absent]
 

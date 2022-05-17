@@ -1,21 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe ServiceBookingsController, type: :controller do
-  let(:identity) { create(:identity) }
-  let(:user) { create(:user, uid: identity.id) }
-  let(:professional) { create(:professional, :with_avatar, user_id: user.id) }
-  let(:schedule) { create(:schedule, professional_id: professional.id) }
-  let(:timeslot) { create(:timeslot, schedule_id: schedule.id) }
-  let(:customer) { create(:customer, :with_avatar) }
+  let!(:user) { create(:user) }
+  let!(:customer) { create(:customer, :with_avatar) }
+  let(:professional) { create(:professional, :with_avatar, user: user) }
+  let(:schedule_1) { create(:schedule, professional: professional) }
+  let!(:timeslot_1) do
+    create(
+      :timeslot,
+      schedule: schedule_1,
+      starts_at: '2022-05-10 09:00',
+      ends_at: '2022-05-10 09:30'
+    )
+  end
+  let!(:service) { create(:service, professional: professional) }
   let(:service_booking) do
-    build(:service_booking, customer_id: customer.id, timeslot_id: timeslot.id)
+    build(
+      :service_booking,
+      customer: customer,
+      service: service,
+      booking_datetime: '2022-05-10 09:00'
+    )
   end
 
-  let(:new_attributes) { { status: 'requested' } }
+  let(:new_attributes) { { notes: 'new notes' } }
   let(:valid_attributes) do
-    { notes: 'note', status: 'accepted', customer_id: customer.id, timeslot_id: timeslot.id }
+    {
+      status: 'requested',
+      customer_id: customer.id,
+      service_id: service.id,
+      booking_datetime: '2022-05-10 09:00'
+    }
   end
-  let(:invalid_attributes) { { status: nil, customer_id: nil, timeslot_id: nil } }
+  let(:invalid_attributes) { { service_id: nil, customer_id: nil, booking_datetime: nil } }
 
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
@@ -128,11 +145,11 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       context 'with invalid parameters' do
         before { post :create, params: { service_booking: invalid_attributes } }
-        it 'does not create a new schedule' do
-          expect { post :create, params: { service_booking: invalid_attributes } }.to change(
+        it 'does not create a new service booking' do
+          expect { post :create, params: { service_booking: invalid_attributes } }.not_to change(
             ServiceBooking,
             :count
-          ).by(0)
+          )
         end
 
         it 'should return :unprocessable_entity 422' do
@@ -171,9 +188,9 @@ RSpec.describe ServiceBookingsController, type: :controller do
         end
 
         it 'updates the requested service_booking' do
-          expect { service_booking.reload }.to change { service_booking.status }
-            .from('accepted')
-            .to('requested')
+          expect { service_booking.reload }.to change { service_booking.notes }
+            .from('some note')
+            .to('new note')
         end
 
         it 'redirects to the service_booking' do
@@ -206,8 +223,8 @@ RSpec.describe ServiceBookingsController, type: :controller do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        user.save!
-        patch :update, params: { id: user, user: new_attributes }
+        service_booking.save!
+        patch :update, params: { id: service_booking, service_booking: new_attributes }
       end
 
       it { expect(response).not_to be_successful }

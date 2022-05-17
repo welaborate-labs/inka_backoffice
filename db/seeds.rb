@@ -86,7 +86,7 @@ puts 'creating Services...'
 5.times do |i|
   m = Service.new
   m.title = "title#{i}"
-  m.duration = 120 + i
+  m.duration = 30
   m.price = 20 + i
   m.is_comissioned = false
   m.professional_id = Professional.first.id
@@ -95,7 +95,7 @@ end
 5.times do |i|
   m = Service.new
   m.title = "title#{i}#{i}"
-  m.duration = 200 + i
+  m.duration = 30
   m.price = 50 + i
   m.is_comissioned = true
   m.professional_id = Professional.second.id
@@ -105,7 +105,7 @@ end
 5.times do |i|
   m = Service.new
   m.title = "title#{i}#{i}#{i}"
-  m.duration = 600 + i
+  m.duration = 45
   m.price = 60 + i
   m.is_comissioned = false
   m.service_id = Service.first.id
@@ -115,7 +115,7 @@ end
 5.times do |i|
   m = Service.new
   m.title = "title#{i}#{i}#{i}#{i}"
-  m.duration = 800 + i
+  m.duration = 60
   m.price = 80 + i
   m.is_comissioned = true
   m.service_id = Service.second.id
@@ -126,7 +126,7 @@ end
 5.times do |i|
   m = Service.new
   m.title = "title#{i}#{i}#{i}#{i}#{i}"
-  m.duration = 900 + i
+  m.duration = 45
   m.price = 90 + i
   m.is_comissioned = false
   m.service_id = Service.second.id
@@ -159,7 +159,9 @@ end
 puts "#{Schedule.count} schedules created successfully!"
 
 puts 'creating Timeslots for the next 60 days...'
-GenerateTimeslotsCommand.new(starts_at: DateTime.now, ends_at: DateTime.now + 60).run
+starts_at = DateTime.now - 60.days
+ends_at = DateTime.now
+GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at).run
 puts "#{Timeslot.count} timeslots created successfully!"
 
 puts 'creating Service Bookings...'
@@ -176,7 +178,7 @@ end
   b.status = 1
   b.notes = "some note #{i}"
   b.customer_id = Customer.first.id
-  b.timeslot_id = Timeslot.find(30 - i).id
+  b.service_id = Timeslot.find(30 - i).id
   b.save!
 end
 35.times do |i|

@@ -1,5 +1,7 @@
 class ServiceBookingsController < ApplicationController
   before_action :set_service_booking, only: %i[show edit update destroy]
+  before_action :set_customers, only: %i[new create edit update]
+  before_action :set_services, only: %i[new create edit update]
 
   def index
     @service_bookings = ServiceBooking.all.order('updated_at DESC')
@@ -9,6 +11,7 @@ class ServiceBookingsController < ApplicationController
 
   def new
     @service_booking = ServiceBooking.new
+    @service_booking.booking_datetime = params[:booking_date]&.to_datetime
   end
 
   def edit; end
@@ -57,6 +60,14 @@ class ServiceBookingsController < ApplicationController
   def service_booking_params
     params
       .require(:service_booking)
-      .permit(:status, :notes, :canceledAt, :customer_id, :timeslot_id)
+      .permit(:status, :notes, :service_id, :customer_id, :canceled_at, :booking_datetime)
+  end
+
+  def set_customers
+    @customers ||= Customer.all.select(:id, :name)
+  end
+
+  def set_services
+    @services ||= Service.all.select(:id, :title)
   end
 end

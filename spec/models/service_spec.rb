@@ -48,7 +48,10 @@ RSpec.describe Service, type: :model do
       expect(invalid.errors.attribute_names).to eq %i[professional title duration price]
       expect(invalid.errors.messages.count).to eq 4
       expect(invalid.errors.messages[:professional]).to eq ['must exist']
-      expect(invalid.errors.messages[:title]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:title]).to eq [
+           "can't be blank",
+           'is too short (minimum is 3 characters)'
+         ]
       expect(invalid.errors.messages[:duration]).to eq ["can't be blank"]
       expect(invalid.errors.messages[:price]).to eq ["can't be blank"]
     end
@@ -59,7 +62,7 @@ RSpec.describe Service, type: :model do
       expect(service.errors.empty?).to be false
       expect(service.errors.attribute_names).to eq %i[is_comissioned]
       expect(service.errors.messages.count).to eq 1
-      expect(service.errors.messages[:is_comissioned]).to eq ["can't be blank"]
+      expect(service.errors.messages[:is_comissioned]).to eq ['is not included in the list']
     end
 
     describe "should verify the 'length'" do
@@ -73,12 +76,10 @@ RSpec.describe Service, type: :model do
 
       it "should verify the 'maximum'" do
         service.title = 'abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde'
-        service.duration = 1_234_567_890_987_656
         service.save
-        expect(service.errors.attribute_names).to eq %i[title duration]
-        expect(service.errors.messages.count).to be 2
+        expect(service.errors.attribute_names).to eq %i[title]
+        expect(service.errors.messages.count).to be 1
         expect(service.errors.messages[:title]).to eq ['is too long (maximum is 50 characters)']
-        expect(service.errors.messages[:duration]).to eq ['is too long (maximum is 15 characters)']
       end
     end
   end

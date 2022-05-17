@@ -1,39 +1,249 @@
 require 'rails_helper'
 
 RSpec.describe ServiceBooking, type: :model do
-  let(:identity) { create(:identity) }
-  let(:user) { create(:user, uid: identity.id) }
-  let(:professional) { create(:professional, :with_avatar, user: user) }
-  let(:schedule) { create(:schedule, professional: professional) }
   let(:customer) { create(:customer, :with_avatar) }
-  let(:timeslot) { create(:timeslot, schedule: schedule) }
-  let(:service_booking) { build(:service_booking, timeslot: timeslot, customer: customer) }
-  let(:invalid) { ServiceBooking.new }
+  let(:professional) { create(:professional) }
+  let(:schedule_1) { create(:schedule, professional: professional) }
+  let(:schedule_2) { create(:schedule, professional: professional) }
+  let(:schedule_3) { create(:schedule, professional: professional) }
 
-  describe 'instances an empty service book' do
-    subject { ServiceBooking.new }
-    it { is_expected.to be_a_new ServiceBooking }
+  let!(:timeslot_1) do
+    create(
+      :timeslot,
+      schedule: schedule_1,
+      starts_at: '2022-05-10 09:00',
+      ends_at: '2022-05-10 09:30'
+    )
+  end
+  let!(:timeslot_2) do
+    create(
+      :timeslot,
+      schedule: schedule_2,
+      starts_at: '2022-05-10 09:30',
+      ends_at: '2022-05-10 10:00'
+    )
+  end
+  let!(:timeslot_3) do
+    create(
+      :timeslot,
+      schedule: schedule_3,
+      starts_at: '2022-05-10 10:00',
+      ends_at: '2022-05-10 10:30'
+    )
   end
 
-  describe 'with valid attributes' do
-    subject { service_booking }
-    it { is_expected.to be_valid }
+  let(:service) { create(:service, professional: professional) }
+  let(:service_booking) do
+    build(
+      :service_booking,
+      customer: customer,
+      service: service,
+      booking_datetime: '2022-05-10 09:00'
+    )
   end
 
-  describe 'with invalid attributes' do
-    subject { invalid }
-    it { is_expected.to be_invalid }
-  end
+  let(:invalid_service_booking) { ServiceBooking.new }
 
   describe 'valitations' do
-    it "should verify the 'presence'" do
-      invalid.save
-      expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[customer timeslot status]
-      expect(invalid.errors.messages.count).to eq 3
-      expect(invalid.errors.messages[:customer]).to eq ['must exist']
-      expect(invalid.errors.messages[:timeslot]).to eq ['must exist']
-      expect(invalid.errors.messages[:status]).to eq ["can't be blank"]
+    subject { service_booking }
+
+    context "should verify the 'presence'" do
+      before { invalid_service_booking.valid? }
+
+      it do
+        expect(invalid_service_booking.errors.attribute_names).to eq %i[
+             customer
+             service
+             status
+             booking_datetime
+           ]
+      end
+      it { expect(invalid_service_booking.errors.messages.count).to eq 4 }
+      it { expect(invalid_service_booking.errors.messages[:customer]).to eq ['must exist'] }
+      it { expect(invalid_service_booking.errors.messages[:service]).to eq ['must exist'] }
+      it { expect(invalid_service_booking.errors.messages[:status]).to eq ["can't be blank"] }
+      it do
+        expect(invalid_service_booking.errors.messages[:booking_datetime]).to eq ["can't be blank"]
+      end
+    end
+
+    context 'service with 30 minutes and available timeslots' do
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 30 minutes and not available timeslots' do
+      subject { service_booking_2 }
+
+      let!(:service_booking) do
+        create(
+          :service_booking,
+          customer: customer,
+          service: service,
+          booking_datetime: '2022-05-10 09:00'
+        )
+      end
+
+      let(:service_booking_2) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service,
+          booking_datetime: '2022-05-10 09:00'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'service with 60 minutes and available timeslots' do
+      let(:service) { create(:service, professional: professional, duration: 60) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 60 minutes and not available timeslots' do
+      subject { service_booking_2 }
+
+      let(:service) { create(:service, professional: professional, duration: 60) }
+      let!(:service_booking) do
+        create(
+          :service_booking,
+          customer: customer,
+          service: service,
+          booking_datetime: '2022-05-10 09:30'
+        )
+      end
+
+      let(:service_booking_2) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service,
+          booking_datetime: '2022-05-10 10:25'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'service with 45 minutes and available timeslots' do
+      let(:service) { create(:service, professional: professional, duration: 45) }
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 45 minutes and not available timeslots' do
+      let(:service) { create(:service, professional: professional, duration: 45) }
+
+      let(:service_booking) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service,
+          booking_datetime: '2022-05-10 11:00'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'service with 30mins and optional service' do
+      subject { service_2 }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 30, optional_services: [service])
+      end
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 30mins and 30mins from optional service but not available timeslots' do
+      subject { service_booking }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 30, optional_services: [service])
+      end
+
+      let(:service_booking) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service_2,
+          booking_datetime: '2022-05-10 11:00'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'service with 45mins and optional service' do
+      subject { service_2 }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 15, optional_services: [service])
+      end
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 30min and 30mins from optional service but not available timeslots' do
+      subject { service_booking }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 30, optional_services: [service])
+      end
+
+      let(:service_booking) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service_2,
+          booking_datetime: '2022-05-10 11:00'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
+    end
+
+    context 'service with 65mins and optional service' do
+      subject { service_2 }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 45, optional_services: [service])
+      end
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 30min and 45mins from optional service and available timeslots' do
+      subject { service_booking }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 45, optional_services: [service])
+      end
+
+      let(:service_booking) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service_2,
+          booking_datetime: '2022-05-10 09:00'
+        )
+      end
+
+      it { is_expected.to be_valid }
+    end
+
+    context 'service with 30min and 45mins from optional service but not available timeslots' do
+      subject { service_booking }
+      let(:service_2) do
+        create(:service, professional: professional, duration: 45, optional_services: [service])
+      end
+
+      let(:service_booking) do
+        build(
+          :service_booking,
+          customer: customer,
+          service: service_2,
+          booking_datetime: '2022-05-10 09:30'
+        )
+      end
+
+      it { is_expected.not_to be_valid }
     end
   end
 end

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :calendar, only: %i[index]
   resources :service_bookings
+  get 'service_bookings/:booking_date/new', to: 'service_bookings#new'
   resources :schedules
   resources :services
   resources :professionals

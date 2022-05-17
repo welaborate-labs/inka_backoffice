@@ -3,7 +3,7 @@ class CreateServiceBookings < ActiveRecord::Migration[7.0]
     create_table :service_bookings do |t|
       t.text :notes
       t.integer :status
-      t.datetime :canceledAt
+      t.datetime :canceled_at
       t.references :customer, null: false, foreign_key: true
       t.references :timeslot, null: false, foreign_key: true
 

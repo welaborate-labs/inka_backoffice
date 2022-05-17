@@ -2,12 +2,12 @@
   <div class="column is-3">
     <%= form_with(model: service_booking, class: "box") do |form| %>
     <%= render 'shared/error_messages', resource: service_booking %>
-  
+
     <div class="field">
       <%= form.label :notas, style: "display: block", class: "label" %>
       <%= form.text_area :notas, class: "textarea is-small" %>
     </div>
-  
+
     <div class="field">
       <%= form.label :status, style: "display: block", class: "label" %>
       <div class="control">
@@ -16,25 +16,34 @@
         </div>
       </div>
     </div>
-  
+
     <div class="field">
       <%= form.label :cliente_id, style: "display: block", class: "label" %>
       <div class="control">
         <div class="select is-fullwidth is-medium">
-          <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'customer...', include_hidden: false } %>
-        </div>
-      </div>  
-    </div>
-  
-    <div class="field">
-      <%= form.label :horário_id, style: "display: block", class: "label" %>
-      <div class="control">
-        <div class="select is-fullwidth is-medium">
-          <%= form.collection_select :timeslot_id, Timeslot.all, :id, :id, { include_blank: 'timeslot...', include_hidden: false } %>
+          <%= form.collection_select :customer_id, @customers, :id, :name, { include_blank: 'cliente...', include_hidden: false } %>
         </div>
       </div>
     </div>
-  
+
+    <div class="field">
+      <%= form.label :serviço_id, style: "display: block", class: "label" %>
+      <div class="control">
+        <div class="select is-fullwidth is-medium">
+          <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'serviço...', include_hidden: false } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :data_do_agendamento, style: "display: block", class: "label" %>
+      <div class="control">
+        <div class="is-fullwidth is-medium">
+          <%= form.datetime_local_field :booking_datetime, value: @service_booking.booking_datetime || Time.new.strftime('%Y-%m-%dT%k:%M') %>
+        </div>
+      </div>
+    </div>
+
     <div class="buttons is-centered">
       <% if !@service_booking.id.nil? %>
         <% description = "Editar Reserva" %>
