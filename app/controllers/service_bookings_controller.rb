@@ -2,6 +2,7 @@ class ServiceBookingsController < ApplicationController
   before_action :set_service_booking, only: %i[show edit update destroy]
   before_action :set_customers, only: %i[new create edit update]
   before_action :set_services, only: %i[new create edit update]
+  before_action :set_booking_datetime, only: %i[show edit]
 
   def index
     @service_bookings = ServiceBooking.all.order('updated_at DESC')
@@ -69,5 +70,9 @@ class ServiceBookingsController < ApplicationController
 
   def set_services
     @services ||= Service.all.select(:id, :title)
+  end
+
+  def set_booking_datetime
+    @service_booking.booking_datetime = @service_booking.timeslots&.first.starts_at
   end
 end

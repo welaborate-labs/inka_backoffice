@@ -190,7 +190,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
         it 'updates the requested service_booking' do
           expect { service_booking.reload }.to change { service_booking.notes }
             .from('some note')
-            .to('new note')
+            .to('new notes')
         end
 
         it 'redirects to the service_booking' do

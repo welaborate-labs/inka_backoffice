@@ -5,6 +5,7 @@ class ServiceBooking < ApplicationRecord
   belongs_to :service
   has_many :timeslots, dependent: :destroy
 
+  before_validation :set_booking_datetime
   before_validation :get_available_timeslot
   before_save :update_canceled_at, if: -> { status_changed? }
 
@@ -35,8 +36,8 @@ class ServiceBooking < ApplicationRecord
 
   def get_available_timeslot
     return if !booking_datetime || !service
-
     return true if timeslots.present? && timeslots.first.starts_at == booking_datetime
+
     final_booking_datetime =
       booking_datetime.to_datetime + (service.duration * get_necessary_timeslots).minutes
 
@@ -53,7 +54,7 @@ class ServiceBooking < ApplicationRecord
   end
 
   def validate_timeslots_duration
-    return if !service
+    return if !service || !booking_datetime
 
     if sum_duration >= TIMESLOT_DURATION
       return if timeslots.last&.ends_at.to_i - timeslots.first&.starts_at.to_i >= sum_duration * 60
@@ -84,5 +85,11 @@ class ServiceBooking < ApplicationRecord
 
   def sum_duration
     service.duration + service.optional_services&.sum(:duration)
+  end
+
+  def set_booking_datetime
+    return if booking_datetime.present?
+
+    self.booking_datetime = timeslots.first&.starts_at
   end
 end

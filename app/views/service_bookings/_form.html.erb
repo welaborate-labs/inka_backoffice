@@ -5,7 +5,7 @@
 
     <div class="field">
       <%= form.label :notas, style: "display: block", class: "label" %>
-      <%= form.text_area :notas, class: "textarea is-small" %>
+      <%= form.text_area :notes, class: "textarea is-small" %>
     </div>
 
     <div class="field">
@@ -39,18 +39,24 @@
       <%= form.label :data_do_agendamento, style: "display: block", class: "label" %>
       <div class="control">
         <div class="is-fullwidth is-medium">
-          <%= form.datetime_local_field :booking_datetime, value: @service_booking.booking_datetime || Time.new.strftime('%Y-%m-%dT%k:%M') %>
+          <% if !service_booking.booking_datetime.nil? %>
+            Data / Horário: <strong><%= service_booking.booking_datetime&.to_time.strftime("%m/%d/%Y, %H:%M:%S")%></strong><br />
+            Selecione a data abaixo para alterar a data e horário de agendamento <br />
+          <% end %>
+          <%= form.datetime_field :booking_datetime,
+                                         value: service_booking.booking_datetime ||
+                                                Time.new.strftime('%Y-%m-%dT%k:%M') %>
         </div>
       </div>
     </div>
 
     <div class="buttons is-centered">
-      <% if !@service_booking.id.nil? %>
+      <% if !service_booking.id.nil? %>
         <% description = "Editar Reserva" %>
       <% else %>
         <% description = "Criar Reserva" %>
       <% end %>
-      <%= form.submit "Criar Reserva", class: "button is-primary" %>
+      <%= form.submit description, class: "button is-primary" %>
     </div>
   </div>
   <% end %>
