@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :products do
+    resources :stocks
+  end
   resources :calendar, only: %i[index]
   resources :service_bookings
   resources :schedules
@@ -16,3 +19,6 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   get '/auth/failure', to: 'sessions#failure'
 end
+
+/products/:product_id/stocks
+/products/:product_id/stocks/:id

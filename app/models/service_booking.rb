@@ -92,4 +92,9 @@ class ServiceBooking < ApplicationRecord
 
     self.booking_datetime = timeslots.first&.starts_at
   end
+
+  def create_stock_decrement
+    # Implement creation of StocksDecrements for each ProductUsages from Service
+    # This must run when ServiceBooking is completed
+  end
 end
