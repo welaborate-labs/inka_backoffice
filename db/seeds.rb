@@ -52,34 +52,34 @@ end
 puts "#{Customer.count} customers created successfully!"
 
 puts 'creating Professionals...'
-5.times do |i|
-  m = Professional.new
-  m.name = "#{%w[John Jane].sample}#{i}"
-  m.email = "email#{i}@example.com"
-  m.phone = "119999111#{i}"
-  m.address = 'Some random Address'
-  m.document = "1112223334#{i}"
-  m.user_id = User.first.id
-  m.avatar.attach(
-    io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
-    filename: 'model.png'
-  )
-  m.save!
-end
-5.times do |i|
-  m = Professional.new
-  m.name = "#{%w[John Jane].sample}#{i}"
-  m.email = "email#{i}#{i}@example.com"
-  m.phone = "119999111#{i}"
-  m.address = 'Some random Address'
-  m.document = "1112223334#{i}#{i}"
-  m.user_id = User.second.id
-  m.avatar.attach(
-    io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
-    filename: 'model.png'
-  )
-  m.save!
-end
+Professional.create!(
+  [
+    {
+      name: 'John',
+      email: 'john.professional@example.com',
+      phone: '1111112222',
+      address: 'Some random Address',
+      document: '11122233344',
+      user_id: User.first.id,
+      avatar: {
+        io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
+        filename: 'model.png'
+      }
+    },
+    {
+      name: 'Jane',
+      email: 'jane.professional@example.com',
+      phone: '1122221111',
+      address: 'Some random Address',
+      document: '44333222111',
+      user_id: User.second.id,
+      avatar: {
+        io: File.open(File.join(Rails.root, 'spec/fixtures/files/model.png')),
+        filename: 'model.png'
+      }
+    }
+  ]
+)
 puts "#{Professional.count} professionals created successfully!"
 
 puts 'creating Services...'
@@ -92,15 +92,6 @@ puts 'creating Services...'
   m.professional_id = Professional.first.id
   m.save!
 end
-5.times do |i|
-  m = Service.new
-  m.title = "title#{i}#{i}"
-  m.duration = 30
-  m.price = 50 + i
-  m.is_comissioned = true
-  m.professional_id = Professional.second.id
-  m.save!
-end
 # with service ID
 5.times do |i|
   m = Service.new
@@ -108,7 +99,7 @@ end
   m.duration = 45
   m.price = 60 + i
   m.is_comissioned = false
-  m.service_id = Service.first.id
+  m.service_id = Service.last.id
   m.professional_id = Professional.first.id
   m.save!
 end
@@ -118,7 +109,7 @@ end
   m.duration = 60
   m.price = 80 + i
   m.is_comissioned = true
-  m.service_id = Service.second.id
+  m.service_id = Service.last.id
   m.professional_id = Professional.second.id
   m.save!
 end
@@ -149,8 +140,8 @@ end
 7.times do |i|
   s = Schedule.new
   s.weekday = i
-  s.starts_at = 6 + i
-  s.ends_at = 23 - i
+  s.starts_at = 7
+  s.ends_at = 18
   s.interval_starts_at = 12
   s.interval_ends_at = 13
   s.professional_id = Professional.second.id
@@ -158,69 +149,50 @@ end
 end
 puts "#{Schedule.count} schedules created successfully!"
 
-puts 'creating Timeslots for the next 60 days...'
-starts_at = DateTime.now - 60.days
-ends_at = DateTime.now
+puts 'creating Timeslots ...'
+starts_at = DateTime.new(2022, 5, 1, 00)
+ends_at = DateTime.new(2022, 5, 21, 00)
 GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at).run
 puts "#{Timeslot.count} timeslots created successfully!"
 
 puts 'creating Service Bookings...'
-15.times do |i|
-  b = ServiceBooking.new
-  b.status = 0
-  b.notes = "some note #{i}"
-  b.customer_id = Customer.first.id
-  b.timeslot_id = Timeslot.find(i + 1).id
-  b.save!
-end
-10.times do |i|
-  b = ServiceBooking.new
-  b.status = 1
-  b.notes = "some note #{i}"
-  b.customer_id = Customer.first.id
-  b.service_id = Timeslot.find(30 - i).id
-  b.save!
-end
-35.times do |i|
-  b = ServiceBooking.new
-  b.status = 2
-  b.notes = "some note #{i}"
-  b.customer_id = Customer.first.id
-  b.timeslot_id = Timeslot.find(70 - i).id
-  b.save!
-end
-5.times do |i|
-  b = ServiceBooking.new
-  b.status = 3
-  b.notes = "some note #{i}"
-  b.canceledAt = DateTime.now
-  b.customer_id = Customer.first.id
-  b.timeslot_id = Timeslot.find(85 - i).id
-  b.save!
-end
-5.times do |i|
-  b = ServiceBooking.new
-  b.status = 4
-  b.notes = "some note #{i}"
-  b.canceledAt = DateTime.now
-  b.customer_id = Customer.first.id
-  b.timeslot_id = Timeslot.find(91 - i).id
-  b.save!
-end
-5.times do |i|
-  b = ServiceBooking.new
-  b.status = 5
-  b.notes = "some note #{i}"
-  b.customer_id = Customer.second.id
-  b.timeslot_id = Timeslot.find(100 - i).id
-  b.save!
-end
-30.times do |i|
-  b = ServiceBooking.new
-  b.status = 6
-  b.notes = "some note #{i}"
-  b.customer_id = Customer.second.id
-  b.timeslot_id = Timeslot.find(145 - i).id
-  b.save!
-end
+ServiceBooking.create!(
+  [
+    {
+      notes: 'some note',
+      status: 0,
+      service_id: Service.first.id,
+      customer_id: Customer.first.id,
+      booking_datetime: '2022-05-01 08:00'
+    },
+    {
+      notes: 'some note_2',
+      status: 1,
+      service_id: Service.first.id,
+      customer_id: Customer.first.id,
+      booking_datetime: '2022-05-01 09:00'
+    },
+    {
+      notes: 'some note_3',
+      status: 2,
+      service_id: Service.first.id,
+      customer_id: Customer.first.id,
+      booking_datetime: '2022-05-03 08:00'
+    },
+    {
+      notes: 'some note_3',
+      status: 5,
+      service_id: Service.first.id,
+      customer_id: Customer.first.id,
+      booking_datetime: '2022-05-05 15:00'
+    },
+    {
+      notes: 'some note_4',
+      status: 6,
+      service_id: Service.last.id,
+      customer_id: Customer.first.id,
+      booking_datetime: '2022-05-18 10:00'
+    }
+  ]
+)
 puts "#{ServiceBooking.count} service bookings created successfully!"

@@ -42,7 +42,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:new) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -90,7 +90,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:show) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -170,7 +170,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -222,7 +222,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end
@@ -251,7 +251,7 @@ RSpec.describe SchedulesController, type: :controller do
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
-      it { expect(response).to redirect_to root_url }
+      it { expect(response).to redirect_to login_url }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
   end

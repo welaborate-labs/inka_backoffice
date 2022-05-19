@@ -1,5 +1,5 @@
 class ServiceBooking < ApplicationRecord
-  TIMESLOT_DURATION = 30
+  TIMESLOT_DURATION = 30.freeze
 
   belongs_to :customer
   belongs_to :service
@@ -27,7 +27,7 @@ class ServiceBooking < ApplicationRecord
   private
 
   def update_canceled_at
-    if status == :customer_canceled || status == :professional_canceled
+    if status == 'customer_canceled' || status == 'professional_canceled'
       self.canceled_at = DateTime.now
     else
       self.canceled_at = nil
