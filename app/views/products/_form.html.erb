@@ -1,24 +1,19 @@
 <%= form_with(model: product) do |form| %>
-  <% if product.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
-      <ul>
-        <% product.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'shared/error_messages', resource: product %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
+    <%= form.label :nome, style: "display: block" %>
     <%= form.text_field :name %>
   </div>
 
   <div>
     <%= form.label :sku, style: "display: block" %>
     <%= form.text_field :sku %>
+  </div>
+
+  <div>
+    <%= form.label :unidade, style: "display: block" %>
+    <%= form.select :unit, Product.units.keys.to_a %>
   </div>
 
   <div>

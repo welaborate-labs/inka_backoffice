@@ -13,5 +13,5 @@ class Service < ApplicationRecord
   validates :title, length: { within: 3..50 }
   validates :is_comissioned, inclusion: { in: [true, false] }
 
-  accepts_nested_attributes_for :product_usages
+  accepts_nested_attributes_for :product_usages, allow_destroy: true, reject_if: :all_blank
 end

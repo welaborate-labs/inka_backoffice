@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_151948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,6 +55,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
   create_table "identities", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "product_usages", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "service_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_usages_on_product_id"
+    t.index ["service_id"], name: "index_product_usages_on_service_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "sku"
+    t.integer "unit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -109,6 +127,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
     t.index ["service_id"], name: "index_services_on_service_id"
   end
 
+  create_table "stocks", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.string "type"
+    t.datetime "purchased_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stocks_on_product_id"
+  end
+
   create_table "timeslots", force: :cascade do |t|
     t.datetime "starts_at"
     t.datetime "ends_at"
@@ -133,12 +161,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "product_usages", "products"
+  add_foreign_key "product_usages", "services"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
   add_foreign_key "service_bookings", "customers"
   add_foreign_key "service_bookings", "services"
   add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
+  add_foreign_key "stocks", "products"
   add_foreign_key "timeslots", "schedules"
   add_foreign_key "timeslots", "service_bookings"
 end

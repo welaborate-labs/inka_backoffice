@@ -1,0 +1,14 @@
+<tr>
+  <td>
+    <td><%= f.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %></td>
+  </td>
+
+  <td>
+    <%= f.text_field :quantity %>
+  </td>
+
+  <td>
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "Deletar", '#', class: "remove_fields bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %>
+  </td>
+</tr>

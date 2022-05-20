@@ -1,6 +1,7 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[show edit update destroy]
   before_action :set_services, only: %i[new create edit update]
+  before_action :set_professional, only: %i[new create edit update]
 
   # GET /services or /services.json
   def index
@@ -71,12 +72,23 @@ class ServicesController < ApplicationController
   def service_params
     params
       .require(:service)
-      .permit(:title, :duration, :price, :is_comissioned, :professional_id, :service_id)
+      .permit(
+        :title,
+        :duration,
+        :price,
+        :is_comissioned,
+        :professional_id,
+        :service_id,
+        product_usages_attributes: %i[service_id quantity _destroy]
+      )
       .merge(professional: @professional)
   end
 
+  def set_professional
+    @professional ||= Professional.find_by(user_id: current_user.id)
+  end
+
   def set_services
-    @professional = Professional.find_by(user_id: current_user.id)
-    @services = Service.all
+    @services ||= Service.all
   end
 end

@@ -1,14 +1,22 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Products</h1>
-
-<div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New product", new_product_path %>
+<div class="columns is-centered mt-6">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Código SKU</th>
+        <th>Unidade</th>
+        <th class="has-text-right"> <%= link_to "+", new_product_path, class: "tag is-large is-primary" %></th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <div id="products">
+        <% @products.each do |product| %>
+          <tr>
+            <%= render product %>
+          </tr>
+        <% end %>
+      </div>
+    </tbody>
+  </table>
+  </div>
