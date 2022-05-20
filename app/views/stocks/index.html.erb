@@ -1,14 +1,21 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Stocks</h1>
-
-<div id="stocks">
-  <% @stocks.each do |stock| %>
-    <%= render stock %>
-    <p>
-      <%= link_to "Show this stock", stock %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New stock", new_stock_path %>
+<h1 class="font-bold text-4xl">Estoque</h1>
+<%= link_to "Adicionar novo estoque", new_product_stock_path(@product) %>
+<table class="table-fixed">
+  <thead>
+    <tr>
+      <th>Quantidade</th>
+      <th>Tipo</th>
+      <th>Data da Compra</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div id="stocks">
+      <% @product.stocks.each do |stock| %>
+        <tr>
+          <%= render stock %>
+        </tr>
+      <% end %>
+    </div>
+  </tbody>
+</table>

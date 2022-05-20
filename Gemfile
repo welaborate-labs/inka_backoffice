@@ -88,3 +88,5 @@ end
 
 gem 'jquery-rails', '~> 4.4'
 gem 'bulma-rails', '~> 0.9.3'
+
+gem "pry-rails", "~> 0.3.9"
