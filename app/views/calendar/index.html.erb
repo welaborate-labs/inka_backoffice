@@ -1,3 +1,31 @@
+<% @timeslots.inspect %>
+
+<div class="columns mt-6 has-text-centered">
+  <div class="column is-1 is-offset-1"><<</div>
+  <% @days.each do |day| %>
+    <div class="column is-1">
+      <p class="heading"><%= I18n.l(day, format: '%^a') %></p>
+      <p class="subtitle"><%= day.day %></p>
+    </div>
+  <% end %>
+  <div class="column is-1">>></div>
+</div>
+<% @hours.each do |hour| %>
+  <div class="columns mt-6 has-text-centered">
+    <div class="column is-1 is-flex is-flex-direction-column is-offset-1 is-justify-content-center">
+      <%= hour %>
+    </div>
+    <% @days.each do |day| %>
+      <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+        <% @timeslots.dig(Schedule.weekdays.key(day.wday), hour)&.select(&:booked?)&.each do |timeslot| %>
+          <h1 class="tag px-4 mb-2"><%= timeslot.service_bookings %></h1>
+        <% end %>
+        <h1 class="tag px-4 mb-2">+</h1>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
 <div class="columns mt-6 has-text-centered">
   <div class="column is-1 is-offset-1"><<</div>
   <div class="column is-1">
