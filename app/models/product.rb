@@ -5,6 +5,6 @@ class Product < ApplicationRecord
   enum unit: %i[Kilograma Litro]
 
   def stock_balance
-    @stock_balance ||= stocks.reduce { |sum, stock| sum + stock.balance_change }
+    @stock_balance ||= stocks.reduce(0) { |sum, stock| sum + stock.balance_change }
   end
 end
