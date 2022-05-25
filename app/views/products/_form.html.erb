@@ -1,22 +1,36 @@
-<%= form_with(model: product) do |form| %>
-  <%= render 'shared/error_messages', resource: product %>
-
-  <div>
-    <%= form.label :nome, style: "display: block" %>
-    <%= form.text_field :name %>
+<div class="columns mt-6 is-centered">
+  <div class="column is-3">
+    <%= form_with(model: product, class: "box") do |form| %>
+      <%= render 'shared/error_messages', resource: product %>
+    
+      <div class="field">
+        <%= form.label :nome, style: "display: block", class: "label" %>
+        <%= form.text_field :name, class: "input" %>
+      </div>
+    
+      <div class="field">
+        <%= form.label :sku, style: "display: block", class: "label" %>
+        <%= form.text_field :sku, class: "input" %>
+      </div>
+    
+      <div class="field">
+        <%= form.label :unidade, style: "display: block", class: "label" %>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <%= form.select :unit, Product.units.keys.to_a %>
+          </div>
+        </div>
+      </div>
+    
+      <div class="buttons is-centered">
+        <%= puts @product.inspect %>
+        <% if !@product.id.nil? %>
+          <% description = "Atualizar" %>
+        <% else %>
+          <% description = "Criar Produto" %>
+        <% end %>
+        <%= form.submit description, class: "button is-primary" %>
+      </div>
+    <% end %>
   </div>
-
-  <div>
-    <%= form.label :sku, style: "display: block" %>
-    <%= form.text_field :sku %>
-  </div>
-
-  <div>
-    <%= form.label :unidade, style: "display: block" %>
-    <%= form.select :unit, Product.units.keys.to_a %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
