@@ -1,61 +1,73 @@
-<%= form_for @service do |form| %>
-  <%= render 'shared/error_messages', resource: @service %>
-  <table>
-    <thead>
-      <tr>
-        <th>Titulo</th>
-        <th>Duração (minutos)</th>
-        <th>Preço</th>
-        <th>Comissão?</th>
-        <th>Opcional de</th>
-        <th></th>
-      </tr>
-    </thead>
-    <body>
-      <tr>
-        <td><%= form.text_field :title %></td>
-        <td><%= form.number_field :duration %></td>
-        <td><%= form.number_field :price, step: 0.01 %></td>
-        <td><%= form.check_box :is_comissioned %></td>
-        <td><%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %></td>
-      </tr>
-    </body>
-  </table>
-  <h1 class="font-bold text-4xl">Produtos Utilizados</h1>
-
-  <table>
-    <thead>
-      <th>Produto</th>
-      <th>Quantidade</th>
-      <th></th>
-    </thead>
-    <body>
-      <%= render 'empty_product_usage' %>
-
-      <%= form.fields_for :product_usages do |product_usages_form| %>
-        <%= render "product_usage_fields", f: product_usages_form %>
-      <% end %>
-
-    </body>
-  </table>
-  <%= link_to_add_fields "Adicionar Novo", form, :product_usages, 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
-  <div class="actions">
-    <%= form.submit 'Salvar', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+<div class="columns mt-6 is-centered">
+  <div class="column is-3">
+    <%= form_for @service, class: "box" do |form| %>
+    <%= render 'shared/error_messages', resource: @service %>
+      <div class="field">
+        <label class="label">Título</label>
+        <%= form.text_field :title, class: "input" %>
+      </div>
+      <div class="field">
+        <label class="label">Duração</label>
+          <%= form.number_field :duration, class: "input" %>
+      </div>
+      <div class="field">
+        <label class="label">Preço</label>
+        <%= form.number_field :price, step: 0.01, class: "input" %>
+      </div>
+      <div class="field is-horizontal">
+        <div class="field-label has-text-justified">
+          <label class="label">Comissionado</label>
+          <%= form.check_box :is_comissioned, class: "checkbox" %>
+        </div>  
+      </div>
+      <div class="field">
+        <label class="label">Opcional</label>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
+          </div>
+        </div>
+        
+      </div>
+      <h1 class="title is-size-5 has-text-centered">Produtos Utilizados</h1>
+  
+      <table>
+        <thead>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <%= render 'empty_product_usage' %>
+          <%= form.fields_for :product_usages do |product_usages_form| %>  
+            
+            <%= render "product_usage_fields", f: product_usages_form %>
+          <% end %>
+  
+        </tbody>
+      </table>
+      <%= link_to_add_fields "Adicionar Novo", form, :product_usages, 'button is-link is-small mt-2' %>
+      <div class="buttons is-centered">
+        <%= form.submit 'Salvar', class: 'button is-primary' %>
+      </div>
+    <% end %>
+  
+    <script>
+      $('form').on('click', '.remove_fields', function(event) {
+        $(this).prev('input[type=hidden]').val('1');
+        $(this).closest('tr').hide();
+        return event.preventDefault();
+      });
+  
+      $('form').on('click', '.add_fields', function(event) {
+        var regexp, time;
+        time = new Date().getTime();
+        regexp = new RegExp($(this).data('id'), 'g');
+        $(this).before($(this).data('fields').replace(regexp, time));
+        return event.preventDefault();
+      });
+    </script>
   </div>
-<% end %>
+  
 
-<script>
-  $('form').on('click', '.remove_fields', function(event) {
-    $(this).prev('input[type=hidden]').val('1');
-    $(this).closest('tr').hide();
-    return event.preventDefault();
-  });
-
-  $('form').on('click', '.add_fields', function(event) {
-    var regexp, time;
-    time = new Date().getTime();
-    regexp = new RegExp($(this).data('id'), 'g');
-    $(this).before($(this).data('fields').replace(regexp, time));
-    return event.preventDefault();
-  });
-</script>
+</div>

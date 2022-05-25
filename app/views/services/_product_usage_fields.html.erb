@@ -1,14 +1,14 @@
-<tr>
+<tr class="is-flex is-justify-content-space-between">  
   <td>
-    <td><%= f.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %></td>
+    <%= f.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false }, class: "select" %>
   </td>
 
   <td>
-    <%= f.text_field :quantity %>
+    <%= f.text_field :quantity, class: "input" %>
   </td>
 
   <td>
     <%= f.hidden_field :_destroy %>
-    <%= link_to "Deletar", '#', class: "remove_fields bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %>
+    <%= link_to "Deletar", '#', class: "remove_fields button is-small is-danger" %>  
   </td>
 </tr>
