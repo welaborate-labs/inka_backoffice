@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :products do
-    resources :stocks
+    resources :stocks, type: 'Stock'
+    resources :stock_increments, controller: :stocks, type: 'StockIncrement'
+    resources :stock_decrements, controller: :stocks, type: 'StockDecrement'
   end
   resources :calendar, only: %i[index]
   resources :service_bookings

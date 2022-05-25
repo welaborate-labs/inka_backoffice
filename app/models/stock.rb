@@ -1,7 +1,10 @@
 class Stock < ApplicationRecord
-  attr_accessor :stock_type
+  scope :stock_increments, -> { where(type: 'StockIncrement') }
+  scope :stock_decrements, -> { where(type: 'StockDecrement') }
 
   belongs_to :product
+
+  validates :type, :quantity, :integralized_at, presence: true
 
   def balance_change
     raise NotImplementedError

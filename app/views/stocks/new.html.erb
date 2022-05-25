@@ -1,36 +1,9 @@
-<h1>New stock</h1>
+<h1>Novo Estoque</h1>
 
-<%= form_with(model: @stock, url: product_stocks_path(@product)) do |form| %>
-  <%= render 'shared/error_messages', resource: @stock %>
-
-  <div>
-    <%= form.label :quantidade, style: "display: block" %>
-    <%= form.number_field :quantity %>
-  </div>
-
-  <div>
-    <%= form.label :data_da_compra, style: "display: block" %>
-    <%= form.date_select :purchased_at %>
-  </div>
-
-  <div>
-    <%= form.label :adicionar_ou_remover, style: "display: block" %>
-    <%= form.select :stock_type, options_for_select('adicionar', 'Remover') %>
-  </div>
-
-  <div>
-    <%= form.label :adicionar_ou_remover, style: "display: block" %>
-
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
-
+<%= render "form", locals: { stock: @stock }  %>
 
 <br>
 
 <div>
-  <%= link_to "Back to stocks", product_stocks_path(@product) %>
+  <%= link_to "Voltar para os stoques", product_stocks_path(@product) %>
 </div>

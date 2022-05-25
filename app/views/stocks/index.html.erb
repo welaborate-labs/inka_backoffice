@@ -13,7 +13,7 @@
     <div id="stocks">
       <% @product.stocks.each do |stock| %>
         <tr>
-          <%= render stock %>
+          <%= render partial: 'stocks/stock', locals: { stock: stock }  %>
         </tr>
       <% end %>
     </div>

@@ -1,5 +1,5 @@
 class StockDecrement < Stock
   def balance_change
-   - quantity
+    -quantity
   end
 end

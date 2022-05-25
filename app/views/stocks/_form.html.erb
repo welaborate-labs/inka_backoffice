@@ -1,17 +1,22 @@
-<%= form_with(model: stock, url: product_stock_path(@product, @stock)) do |form| %>
-  <%= render 'shared/error_messages', resource: stock %>
+<%= form_with model: [@product, @stock] do |f| %>
+  <%= render 'shared/error_messages', resource: @stock %>
 
-  <div>
-    <%= form.label :quantidade, style: "display: block" %>
-    <%= form.number_field :quantity %>
+  <div class="field">
+    <%= f.label :quantity %>
+    <%= f.text_field :quantity %>
+  </div>
+
+  <div class="field">
+    <%= f.label :integralized_at %>
+    <%= f.date_select :integralized_at %>
   </div>
 
   <div>
-    <%= form.label :data_da_compra, style: "display: block" %>
-    <%= form.date_select :purchased_at %>
+    <%= f.label :adicionar_ou_remover, class: "display: block" %>
+    <%= f.select :type, options_for_select([['adicionar', 'StockIncrement'], ['Remover', 'StockDecrement']]) %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="actions">
+    <%= f.submit %>
   </div>
 <% end %>

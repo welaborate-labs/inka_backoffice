@@ -12,10 +12,6 @@
   </td>
 
   <td>
-    <%= product.stock_balance %>
-  </td>
-
-  <td>
     <%= link_to "Editar", edit_product_path(product), class: "button is-link is-small is-hovered" %>
 
     <%= link_to "Deletar", product, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
