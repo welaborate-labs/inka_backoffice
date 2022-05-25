@@ -9,4 +9,9 @@ class Stock < ApplicationRecord
   def balance_change
     raise NotImplementedError
   end
+
+  def get_type_formatted
+    return 'Adicionar' if type == 'StockIncrement'
+    return 'Remover' if type == 'StockDecrement'
+  end
 end

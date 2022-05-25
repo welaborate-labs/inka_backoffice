@@ -4,7 +4,11 @@
   </td>
 
   <td>
-    <%= stock.integralized_at %>
+    <%= stock.get_type_formatted %>
+  </td>
+
+  <td>
+    <%= stock.integralized_at.to_date %>
   </td>
 
   <td>
