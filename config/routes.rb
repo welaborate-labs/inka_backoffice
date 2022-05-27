@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/search', to: 'products#search'
   resources :products do
     resources :stocks, type: 'Stock'
     resources :stock_increments, controller: :stocks, type: 'StockIncrement'
