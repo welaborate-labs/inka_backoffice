@@ -11,7 +11,7 @@ class Stock < ApplicationRecord
   end
 
   def get_type_formatted
-    return 'Adicionar' if type == 'StockIncrement'
-    return 'Remover' if type == 'StockDecrement'
+    return 'Entrada' if type == 'StockIncrement'
+    return 'Saida' if type == 'StockDecrement'
   end
 end

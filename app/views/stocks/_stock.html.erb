@@ -1,10 +1,11 @@
 <div id="<%= dom_id stock %>">
-  <td>
-    <%= stock.quantity %>
-  </td>
 
   <td>
-    <%= stock.get_type_formatted %>
+    <% if stock.get_type_formatted == 'Entrada' %>
+      <%= "+#{stock.quantity}" %>
+    <% else %>
+    <%= "-#{stock.quantity}" %>
+    <% end %>
   </td>
 
   <td>

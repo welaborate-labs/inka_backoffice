@@ -2,9 +2,9 @@
 <%= link_to "Adicionar novo estoque", new_product_stock_path(@product) %>
 <table class="table-fixed">
   <thead>
+    <th>Estoque Atual: <%= @product.stock_balance %></th>
     <tr>
       <th>Quantidade</th>
-      <th>Tipo</th>
       <th>Integralizado em</th>
       <th colspan="3"></th>
     </tr>
