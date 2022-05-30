@@ -6,8 +6,7 @@ Rails.application.routes.draw do
   resources :professionals
   resources :customers
   resources :users, except: %i[new create]
-  resource :identities
-
+  resource :identities, except: %i[new create]
   root 'calendar#index'
 
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
