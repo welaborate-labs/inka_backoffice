@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[show edit update destroy]
   before_action :set_stock_balance, only: %i[show edit update destroy]
+  before_action :set_query, only: %i[search]
 
   def index
     @products ||= Product.all
@@ -53,9 +54,7 @@ class ProductsController < ApplicationController
     end
   end
 
-  def search
-    @products = Product.where('name ILIKE ?', "%#{params[:query]}%").order('name DESC')
-  end
+  def search; end
 
   private
 
@@ -69,5 +68,17 @@ class ProductsController < ApplicationController
 
   def set_stock_balance
     @product.stock_balance
+  end
+
+  def set_query
+    case params[:field_select]
+    when 'both'
+      @products =
+        Product.where('name ILIKE ? OR sku ILIKE ?', "%#{params[:query]}%", "%#{params[:query]}%")
+    when 'name'
+      @products = Product.where('name ILIKE ?', "%#{params[:query]}%")
+    when 'sku'
+      @products = Product.where('sku ILIKE ?', "%#{params[:query]}%")
+    end
   end
 end

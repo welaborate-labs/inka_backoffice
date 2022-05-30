@@ -1,20 +1,8 @@
 <div class="columns is-centered mt-6">
   <table class="table">
     <thead>
-      <tr>
-        <th colspan="2">
-          <%= form_with url: search_path, method: :get do %>
-            <%= label_tag :query, 'Buscar:' %>
-            <%= text_field_tag :query %>
-            <%= submit_tag 'Pesquisar' %>
-          <% end %>
-        </th>
-        <th colspan="5">
-          <% if @products.empty? %>
-            Nenhum registro encontrado.
-          <% end %>
-        </th>
-      </tr>
+      <%= render 'search' %>
+
       <tr>
         <th class="is-size-5">Nome</th>
         <th class="is-size-5">Código SKU</th>
