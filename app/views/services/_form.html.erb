@@ -18,7 +18,7 @@
         <div class="field-label has-text-justified">
           <label class="label">Comissionado</label>
           <%= form.check_box :is_comissioned, class: "checkbox" %>
-        </div>  
+        </div>
       </div>
       <div class="field">
         <label class="label">Opcional</label>
@@ -27,10 +27,10 @@
             <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
           </div>
         </div>
-        
+
       </div>
       <h1 class="title is-size-5 has-text-centered">Produtos Utilizados</h1>
-  
+
       <table>
         <thead>
           <th>Produto</th>
@@ -39,26 +39,30 @@
         </thead>
         <tbody>
           <%= render 'empty_product_usage' %>
-          <%= form.fields_for :product_usages do |product_usages_form| %>  
-            
+          <%= form.fields_for :product_usages do |product_usages_form| %>
+
+
             <%= render "product_usage_fields", f: product_usages_form %>
           <% end %>
-  
+
         </tbody>
       </table>
+
       <%= link_to_add_fields "Adicionar Novo", form, :product_usages, 'button is-link is-small mt-2' %>
+
       <div class="buttons is-centered">
         <%= form.submit 'Salvar', class: 'button is-primary' %>
       </div>
     <% end %>
-  
+
     <script>
       $('form').on('click', '.remove_fields', function(event) {
         $(this).prev('input[type=hidden]').val('1');
+        $(this).closest('tr').removeClass();
         $(this).closest('tr').hide();
         return event.preventDefault();
       });
-  
+
       $('form').on('click', '.add_fields', function(event) {
         var regexp, time;
         time = new Date().getTime();
@@ -68,6 +72,6 @@
       });
     </script>
   </div>
-  
+
 
 </div>
