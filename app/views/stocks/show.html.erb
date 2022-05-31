@@ -1,1 +1,23 @@
-<%= render template: 'stocks/_stock', locals: { stock: @stock }  %>
+<div class="columns is-centered mt-6">
+  <div class="column is-narrow">
+    <h1 class="title has-text-centered is-size-2">Novo Estoque Adicionado</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Quantidade</th>
+          <th>Integralizado em</th>
+          <th><%= link_to "Voltar para os estoques", product_stocks_path(@product), class: "tag is-small is-link" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <div id="stocks">
+          
+            <tr>
+              <%= render template: 'stocks/_stock', locals: { stock: @stock }  %>
+            </tr>
+          
+        </div>
+      </tbody>
+    </table>  
+  </div>
+</div>

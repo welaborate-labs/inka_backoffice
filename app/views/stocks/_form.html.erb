@@ -1,22 +1,35 @@
-<%= form_with model: [@product, @stock] do |f| %>
-  <%= render 'shared/error_messages', resource: @stock %>
+<div class="columns mt-6 is-centered">
+  <div class="column is-narrow">
+    <%= form_with model: [@product, @stock] do |f| %>
+    <%= render 'shared/error_messages', resource: @stock %>
 
-  <div class="field">
-    <%= f.label :quantity %>
-    <%= f.text_field :quantity %>
-  </div>
+      <div class="field">
+        <%= f.label :quantidade, class: "label" %>
+        <%= f.text_field :quantity, class: "input" %>
+      </div>
 
-  <div class="field">
-    <%= f.label :integralized_at %>
-    <%= f.date_select :integralized_at %>
-  </div>
+      <div class="field">
+        <%= f.label :integralizado_em, class: "label" %>
+        <div class="control">
+          <div class="select is-fullwidth is-flex">
+            <%= f.date_select :integralized_at %>
+          </div>
+        </div>  
+      </div>
 
-  <div>
-    <%= f.label :entrada_ou_saida, class: "display: block" %>
-    <%= f.select :type, options_for_select([['entrada', 'StockIncrement'], ['saida', 'StockDecrement']]) %>
-  </div>
+      <div class="field">
+        <%= f.label :entrada_ou_saida, class: "label display: block" %>
+        <div class="control">
+          <div class="select is-fullwidth">
+            <%= f.select :type, options_for_select([['entrada', 'StockIncrement'], ['saida', 'StockDecrement']]) %>
+          </div>
+        </div>
+      </div>
 
-  <div class="actions">
-    <%= f.submit %>
+      <div class="buttons is-centered">
+        <%= f.submit "Criar Estoque", class: "button is-primary" %>
+      </div>
+    
+    <% end %>
   </div>
-<% end %>
+</div>
