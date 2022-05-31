@@ -12,6 +12,8 @@ class ServiceBooking < ApplicationRecord
   validates :status, :booking_datetime, presence: true
   validate :validate_timeslots_duration
 
+  before_update :create_stock_decrement, if: -> { status == 'completed' }
+
   enum status: %i[
          requested
          accepted
@@ -94,7 +96,10 @@ class ServiceBooking < ApplicationRecord
   end
 
   def create_stock_decrement
-    # Implement creation of StocksDecrements for each ProductUsages from Service
-    # This must run when ServiceBooking is completed
+    service.product_usages.each do |product_usage|
+      DescrementStock.create product_id: product_usage.product_id,
+                             quantity: product_usage.quantity,
+                             integralized_at: DateTime.now
+    end
   end
 end
