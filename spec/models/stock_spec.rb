@@ -3,24 +3,6 @@ require 'rails_helper'
 RSpec.describe Stock, type: :model do
   let(:product) { create(:product) }
 
-  describe 'STI with StockIncrement and StockDecrement' do
-    let(:stock) { create(:stock, type: type, product: product) }
-
-    subject { Stock.find(stock.id) }
-
-    context 'when type is StockIncrement' do
-      let(:type) { 'StockIncrement' }
-
-      it { is_expected.to be_a(StockIncrement) }
-    end
-
-    describe 'polymorphs as StockDecrement' do
-      let(:type) { 'StockDecrement' }
-
-      it { is_expected.to be_a(StockDecrement) }
-    end
-  end
-
   describe 'validations' do
     let(:invalid_stock) { Stock.new }
 
@@ -44,8 +26,28 @@ RSpec.describe Stock, type: :model do
     end
   end
 
-  describe 'should verify the #balance_change' do
+  describe 'STI with StockIncrement and StockDecrement' do
     let(:stock) { create(:stock, type: type, product: product) }
+
+    subject { Stock.find(stock.id) }
+
+    context 'when type is StockIncrement' do
+      let(:type) { 'StockIncrement' }
+
+      it { is_expected.to be_a(StockIncrement) }
+    end
+
+    describe 'polymorphs as StockDecrement' do
+      let(:type) { 'StockDecrement' }
+
+      it { is_expected.to be_a(StockDecrement) }
+    end
+  end
+
+  describe 'verify the balance_change used in the product' do
+    let(:stock) { create(:stock, type: type, product: product) }
+
+    subject { Stock.find(stock.id) }
 
     context 'when type is Stock' do
       let(:type) { 'Stock' }
@@ -58,19 +60,42 @@ RSpec.describe Stock, type: :model do
     context 'when type is StockIncrement' do
       let(:type) { 'StockIncrement' }
 
-      subject { StockIncrement.find(stock.id) }
-
-      it 'returns the quantity plus 1' do
-        is_expected.to change { stock.quantity }.by(1)
+      it 'returns positive 1' do
+        expect(subject.balance_change).to eq 1
       end
     end
 
     context 'when StockDecrement' do
       let(:type) { 'StockDecrement' }
 
-      it 'returns the quantity less 1' do
-        expect { stock.balance_change }.to change { stock.quantity }.by(-1)
+      it 'returns negative 1' do
+        expect(subject.balance_change).to eq -1
       end
+    end
+  end
+
+  describe 'verify the scopes for Increments/Decremtens' do
+    let(:stock_increment) { create(:stock, type: 'StockIncrement', product: product) }
+    let(:stock_decrement) { create(:stock, type: 'StockDecrement', product: product) }
+
+    context 'should return all the stocks' do
+      subject { Stock.all }
+
+      it { is_expected.to include(stock_increment, stock_decrement) }
+    end
+
+    context 'should return only the stockIncrements' do
+      subject { Stock.stock_increments }
+
+      it { is_expected.to include(stock_increment) }
+      it { is_expected.not_to include(stock_decrement) }
+    end
+
+    context 'should return only the stockDecrements' do
+      subject { Stock.stock_decrements }
+
+      it { is_expected.to include(stock_decrement) }
+      it { is_expected.not_to include(stock_increment) }
     end
   end
 end

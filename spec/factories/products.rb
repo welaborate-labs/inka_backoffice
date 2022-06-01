@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :product do
-    name { "MyString" }
-    sku { "MyString" }
+    name { 'Some name' }
+    sku { 'CodeSKU' }
+    unit { 'kilograma' }
   end
 end
