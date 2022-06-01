@@ -2,17 +2,17 @@
   <div class="column is-3">
     <%= form_with(model: product, class: "box") do |form| %>
       <%= render 'shared/error_messages', resource: product %>
-    
+
       <div class="field">
         <%= form.label :nome, style: "display: block", class: "label" %>
         <%= form.text_field :name, class: "input" %>
       </div>
-    
+
       <div class="field">
         <%= form.label :sku, style: "display: block", class: "label" %>
         <%= form.text_field :sku, class: "input" %>
       </div>
-    
+
       <div class="field">
         <%= form.label :unidade, style: "display: block", class: "label" %>
         <div class="control">
@@ -21,9 +21,8 @@
           </div>
         </div>
       </div>
-    
+
       <div class="buttons is-centered">
-        <%= puts @product.inspect %>
         <% if !@product.id.nil? %>
           <% description = "Atualizar" %>
         <% else %>
