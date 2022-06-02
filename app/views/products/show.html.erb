@@ -1,8 +1,24 @@
-<%= render @product %>
-
-<div>
-  <%= link_to "Editar Produto", edit_product_path(@product) %> |
-  <%= link_to "Back to products", products_path %>
-
-  <%= button_to "Destroy this product", @product, method: :delete %>
+<div class="columns is-centered mt-6">
+  <div class="column is-narrow">
+    <h1 class="title has-text-centered">Novo Produto Adicionado</h1>
+    <h1 class="title has-text-centered"><%= @product.name %></h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Código SKU</th>
+          <th>Estoque Atual</th>
+          <th>Estoque</th>
+          <th><%= link_to "Voltar para produtos", products_path, class: "tag is-small is-link" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <div id="products">
+            <tr>
+              <%= render @product %>
+            </tr>
+        </div>
+      </tbody>
+    </table>
+  </div>  
 </div>
