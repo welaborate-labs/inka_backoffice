@@ -1,9 +1,7 @@
-<h1>Editing stock</h1>
+<h1 class="title mt-6 has-text-centered">Editar Estoque</h1>
 
 <%= render 'form', product: @product, stock: @stock %>
 
-<br>
-
 <div>
-  <%= link_to "Voltar", product_stocks_path(@product) %>
+  <%= link_to "Voltar para produtos", product_stocks_path(@product), class: "tag is-medium is-link" %>
 </div>
