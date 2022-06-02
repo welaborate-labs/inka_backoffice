@@ -27,11 +27,11 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, notice: 'Signed out!'
+    redirect_to login_url, notice: 'Signed out!'
   end
 
   def failure
-    redirect_to root_url, alert: 'Authentication failed, please try again.'
+    redirect_to login_url, alert: 'Email or Password incorrect.'
   end
 
   protected
