@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_or_create_from_hash(auth_hash)
+    return failure if !@user
 
     if signed_in?
       if @user

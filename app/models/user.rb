@@ -15,7 +15,6 @@ class User < ApplicationRecord
     return user if user
 
     user = User.find_by(email: auth_hash['info']['email'])
-    user ||= User.create_from_hash(auth_hash) if !user
   end
 
   def self.create_from_hash(auth_hash)
