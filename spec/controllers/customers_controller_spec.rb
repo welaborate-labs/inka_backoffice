@@ -140,7 +140,7 @@ RSpec.describe CustomersController, type: :controller do
 
         it 'redirects to the customers list' do
           post :create, params: { customer: valid_attributes }
-          expect(response).to redirect_to(customers_url)
+          expect(response).to redirect_to(customer_url(Customer.last))
         end
       end
 
@@ -193,7 +193,7 @@ RSpec.describe CustomersController, type: :controller do
         end
 
         it 'redirects to the customer' do
-          expect(customer.reload).to redirect_to(root_url)
+          expect(customer.reload).to redirect_to(customer_url(customer))
         end
 
         it 'returns a flash message' do
