@@ -3,5 +3,5 @@ class Identity < OmniAuth::Identity::Models::ActiveRecord
 
   # Validations
   validates :email, uniqueness: true
-  validates :email, :name, :phone, presence: true
+  validates :email, :name, presence: true
 end

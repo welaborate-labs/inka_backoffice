@@ -1,7 +1,9 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "3.0.2"
+ruby "3.0.4"
+
+gem "dotenv-rails", "~> 2.7", ">= 2.7.6"
 
 gem "rails", "~> 7.0.2", ">= 7.0.2.2"
 gem "sprockets-rails"
@@ -16,6 +18,19 @@ gem "bcrypt", "~> 3.1.7"
 gem 'omniauth-identity'
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
+
+# Use Sass to process CSS
+# gem "sassc-rails"
+
+# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# gem "image_processing", "~> 1.2"
+
+gem "jquery-rails", "~> 4.4"
+gem "bulma-rails", "~> 0.9.3"
+gem 'i18n', "~> 1.10"
+
+# Data migrations
+gem "data_migrate", "~> 8.0"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -35,7 +50,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem 'jquery-rails', '~> 4.4'
-gem 'bulma-rails', '~> 0.9.3'
-gem 'i18n', '~> 1.10'
