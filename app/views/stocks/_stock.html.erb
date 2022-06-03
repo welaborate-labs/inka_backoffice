@@ -1,0 +1,20 @@
+<div id="<%= dom_id stock %>">
+
+  <td>
+    <% if stock.get_type_formatted == 'Entrada' %>
+      <%= "+#{stock.quantity}" %>
+    <% else %>
+    <%= "-#{stock.quantity}" %>
+    <% end %>
+  </td>
+
+  <td>
+    <%= stock.integralized_at.to_date %>
+  </td>
+
+  <td>
+    <%= link_to "Editar", edit_product_stock_path(@product, stock), class: "button is-link is-small is-hovered" %>
+
+    <%= link_to "Deletar", product_stock_path(@product, stock), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
+  </td>
+</div>

@@ -1,0 +1,25 @@
+<div class="columns is-centered mt-6">
+  <table class="table">
+    <thead>
+      <%= render 'search' %>
+
+      <tr>
+        <th class="is-size-5">Nome</th>
+        <th class="is-size-5">Código SKU</th>
+        <th class="is-size-5">Estoque Atual</th>
+        <th class="is-size-5">Estoque</th>
+        <th colspan="2"></th>
+        <th class="has-text-right"><%= link_to "+", new_product_path, class: "tag is-large is-primary" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <div id="products">
+        <% @products.each do |product| %>
+          <tr>
+            <%= render product %>
+          </tr>
+        <% end %>
+      </div>
+    </tbody>
+  </table>
+  </div>

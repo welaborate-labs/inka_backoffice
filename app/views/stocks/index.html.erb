@@ -1,0 +1,26 @@
+<div class="columns is-centered mt-6">
+  <div class="column is-narrow">
+    <h1 class="title has-text-centered is-size-2">Estoque</h1>
+    <h1 class="title has-text-centered is-size-4">Produto: <%= @product.name %></h1>
+    <h1 class="title has-text-centered is-size-5">Estoque Atual: <%= @product.stock_balance %></h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Quantidade</th>
+          <th>Integralizado em</th>
+          <th><%= link_to "Adicionar novo estoque", new_product_stock_path(@product), class: "tag is-small is-link" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <div id="stocks">
+          <% @product.stocks.each do |stock| %>
+            <tr>
+              <%= render partial: 'stocks/stock', locals: { stock: stock }  %>
+            </tr>
+          <% end %>
+        </div>
+      </tbody>
+    </table>  
+  </div>
+</div>
+  

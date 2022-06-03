@@ -14,10 +14,22 @@ RSpec.describe 'Sessions', type: :request do
   let!(:user_2) { create(:user, email: 'jane.doe@example.com') }
 
   describe 'GET /' do
-    subject { response }
-    before { get '/' }
+    context 'when authenticated' do
+      before do
+        user.save
+        allow_any_instance_of(ApplicationController).to receive(:current_user) { user }
+      end
 
-    it { is_expected.to have_http_status(:redirect) }
+      subject { response }
+      before { get '/' }
+      it { is_expected.to have_http_status(:success) }
+    end
+
+    context 'when does not authenticated' do
+      subject { response }
+      before { get '/' }
+      it { is_expected.to have_http_status(:redirect) }
+    end
   end
 
   describe 'GET /auth/:provider/callback' do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_19_151948) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -59,6 +59,24 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_usages", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.bigint "service_id", null: false
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_usages_on_product_id"
+    t.index ["service_id"], name: "index_product_usages_on_service_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.string "sku"
+    t.integer "unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "professionals", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -86,14 +104,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
   create_table "service_bookings", force: :cascade do |t|
     t.text "notes"
     t.integer "status"
-    t.datetime "canceled_at"
+    t.datetime "canceledAt"
     t.bigint "customer_id", null: false
+    t.bigint "timeslot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "service_id"
-    t.integer "free_time"
     t.index ["customer_id"], name: "index_service_bookings_on_customer_id"
-    t.index ["service_id"], name: "index_service_bookings_on_service_id"
+    t.index ["timeslot_id"], name: "index_service_bookings_on_timeslot_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -109,6 +126,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
     t.index ["service_id"], name: "index_services_on_service_id"
   end
 
+  create_table "stocks", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.string "type", null: false
+    t.datetime "integralized_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_stocks_on_product_id"
+  end
+
   create_table "timeslots", force: :cascade do |t|
     t.datetime "starts_at"
     t.datetime "ends_at"
@@ -116,9 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
-    t.bigint "service_booking_id"
     t.index ["schedule_id"], name: "index_timeslots_on_schedule_id"
-    t.index ["service_booking_id"], name: "index_timeslots_on_service_booking_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -133,12 +158,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_13_181325) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "product_usages", "products"
+  add_foreign_key "product_usages", "services"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
   add_foreign_key "service_bookings", "customers"
-  add_foreign_key "service_bookings", "services"
+  add_foreign_key "service_bookings", "timeslots"
   add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
+  add_foreign_key "stocks", "products"
   add_foreign_key "timeslots", "schedules"
-  add_foreign_key "timeslots", "service_bookings"
 end

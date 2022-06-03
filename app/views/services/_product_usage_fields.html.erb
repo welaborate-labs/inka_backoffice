@@ -1,0 +1,14 @@
+<tr class="is-flex is-justify-content-space-between">
+  <td>
+    <%= f.collection_select :product_id, @products, :id, :name, { include_blank: 'selecione...', include_hidden: false }, class: "select" %>
+  </td>
+
+  <td>
+    <%= f.text_field :quantity, class: "input" %>
+  </td>
+
+  <td>
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "Deletar", '#', class: "remove_fields button is-small is-danger" %>
+  </td>
+</tr>

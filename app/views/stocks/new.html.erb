@@ -1,0 +1,7 @@
+<h1 class="mt-6 title has-text-centered">Novo Estoque</h1>
+
+<%= render "form", locals: { stock: @stock }  %>
+
+<div>
+  <%= link_to "Voltar para os estoques", product_stocks_path(@product), class: "tag is-medium is-link" %>
+</div>

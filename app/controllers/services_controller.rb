@@ -1,24 +1,21 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[show edit update destroy]
   before_action :set_services, only: %i[new create edit update]
+  before_action :set_products, only: %i[new create edit update]
+  before_action :set_professional, only: %i[new create edit update]
 
-  # GET /services or /services.json
   def index
     @services = Service.all
   end
 
-  # GET /services/1 or /services/1.json
   def show; end
 
-  # GET /services/new
   def new
     @service = Service.new
   end
 
-  # GET /services/1/edit
   def edit; end
 
-  # POST /services or /services.json
   def create
     @service = Service.new(service_params)
 
@@ -35,7 +32,6 @@ class ServicesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /services/1 or /services/1.json
   def update
     respond_to do |format|
       if @service.update(service_params)
@@ -50,7 +46,6 @@ class ServicesController < ApplicationController
     end
   end
 
-  # DELETE /services/1 or /services/1.json
   def destroy
     @service.destroy
 
@@ -62,21 +57,34 @@ class ServicesController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_service
     @service = Service.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def service_params
     params
       .require(:service)
-      .permit(:title, :duration, :price, :is_comissioned, :professional_id, :service_id)
+      .permit(
+        :title,
+        :duration,
+        :price,
+        :is_comissioned,
+        :professional_id,
+        :service_id,
+        product_usages_attributes: %i[product_id quantity _destroy]
+      )
       .merge(professional: @professional)
   end
 
+  def set_professional
+    @professional ||= Professional.find_by(user_id: current_user.id)
+  end
+
   def set_services
-    @professional = Professional.find_by(user_id: current_user.id)
-    @services = Service.all
+    @services ||= Service.all
+  end
+
+  def set_products
+    @products ||= Product.all
   end
 end

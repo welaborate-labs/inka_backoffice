@@ -1,4 +1,19 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <%= render @service %>
+<div class="columns mt-6 is-centered ">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Duração (min)</th>
+        <th>Preço</th>
+        <th>Comissionado</th>
+        <th>Serviço Opcional</th>
+        <th><%= link_to 'Voltar para serviços', services_path, class: "tag is-medium is-link" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <%= render @service %>
+      </tr>
+    </tbody>
+  </table>
 </div>

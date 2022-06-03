@@ -1,45 +1,29 @@
 require 'rails_helper'
 
-RSpec.describe CustomersController, type: :controller do
-  let(:identity) { create(:identity) }
-  let(:user) { create(:user, uid: identity.id) }
-  let(:customer) { build(:customer, :with_avatar) }
+RSpec.describe ProductsController, type: :controller do
+  let(:user) { create(:user) }
+  let(:customer) { create(:customer, :with_avatar) }
+  let(:professional) { create(:professional, :with_avatar, user: user) }
+  let(:service) { create(:service, professional: professional) }
+  let(:product) { create(:product) }
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
-  let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
-
-  let(:new_attributes) { { name: 'Jane Doe' } }
-  let(:valid_attributes) do
-    {
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '1199998888',
-      address: 'Some Random Address',
-      document: '12345678909',
-      avatar: avatar
-    }
-  end
+  let(:new_attributes) { { name: 'New name' } }
+  let(:valid_attributes) { { name: 'Some name', sku: 'SKUCode', unit: 'litro' } }
   let(:invalid_attributes) { { name: nil } }
 
   describe 'GET /index' do
     context 'when authenticated' do
-      before do
-        customer.save!
-        get :index
-      end
+      before { get :index }
 
       it { expect(response).to render_template(:index) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:customers)).to include customer }
+      it { expect(assigns(:products)).to include product }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
-
-      before do
-        customer.save!
-        get :index
-      end
+      before { get :index }
 
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
@@ -54,16 +38,13 @@ RSpec.describe CustomersController, type: :controller do
 
       it { expect(response).to render_template(:new) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:customer)).to be_a_new Customer }
+      it { expect(assigns(:product)).to be_a_new Product }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
-
       before { get :new }
 
-      it { expect(response).not_to render_template(:new) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
@@ -71,26 +52,17 @@ RSpec.describe CustomersController, type: :controller do
 
   describe 'GET /show' do
     context 'when authenticated' do
-      before do
-        customer.save!
-        get :show, params: { id: customer }
-      end
+      before { get :show, params: { id: product } }
 
       it { expect(response).to render_template(:show) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:customer)).to eq customer }
+      it { expect(assigns(:product)).to eq product }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+      before { get :show, params: { id: product } }
 
-      before do
-        customer.save!
-        get :show, params: { id: customer }
-      end
-
-      it { expect(response).not_to render_template(:show) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
@@ -98,26 +70,17 @@ RSpec.describe CustomersController, type: :controller do
 
   describe 'GET /edit' do
     context 'when authenticated' do
-      before do
-        customer.save!
-        get :edit, params: { id: customer }
-      end
+      before { get :edit, params: { id: product } }
 
       it { expect(response).to render_template(:edit) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:customer)).to eq customer }
+      it { expect(assigns(:product)).to eq product }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+      before { get :edit, params: { id: customer } }
 
-      before do
-        customer.save!
-        get :edit, params: { id: customer }
-      end
-
-      it { expect(response).not_to render_template(:edit) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
@@ -126,29 +89,47 @@ RSpec.describe CustomersController, type: :controller do
   describe 'POST /create' do
     context 'when authenticated' do
       context 'with valid parameters' do
-        it 'creates a new customer' do
-          expect { post :create, params: { customer: valid_attributes } }.to change(
-            Customer,
-            :count
-          ).by(01)
+        it 'creates a new product' do
+          expect { post :create, params: { product: valid_attributes } }.to change(Product, :count)
+            .by(01)
         end
 
         it 'returns the successfull message' do
-          post :create, params: { customer: valid_attributes }
-          expect(flash[:notice]).to eq 'Customer was successfully created.'
+          post :create, params: { product: valid_attributes }
+          expect(flash[:notice]).to eq 'Product was successfully created.'
         end
 
-        it 'redirects to the customers list' do
-          post :create, params: { customer: valid_attributes }
-          expect(response).to redirect_to(customer_url(Customer.last))
+        it 'redirects to the products list' do
+          post :create, params: { product: valid_attributes }
+          expect(response).to redirect_to(product_url(Product.last))
         end
       end
 
+      context 'when authenticated and with produc_usages' do
+        subject do
+          post :create,
+               params: {
+                 product: {
+                   name: 'Some name',
+                   sku: 'SKUCode',
+                   unit: 'kilograma',
+                   product_usage_attributes: {
+                     service_id: service.id,
+                     quantity: 5
+                   }
+                 }
+               }
+        end
+
+        it { expect(response).to be_successful }
+      end
+
       context 'with invalid parameters' do
-        before { post :create, params: { customer: invalid_attributes } }
-        it 'does not create a new customer' do
-          expect { post :create, params: { customer: invalid_attributes } }.to change(
-            Customer,
+        before { post :create, params: { product: invalid_attributes } }
+
+        it 'does not create a new product' do
+          expect { post :create, params: { product: invalid_attributes } }.to change(
+            Product,
             :count
           ).by(0)
         end
@@ -166,11 +147,8 @@ RSpec.describe CustomersController, type: :controller do
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+      before { post :create, params: { product: valid_attributes } }
 
-      before { post :create, params: { customer: valid_attributes } }
-
-      it { expect(response).not_to render_template(:edit) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
@@ -179,50 +157,37 @@ RSpec.describe CustomersController, type: :controller do
   describe 'PUT /update' do
     context 'when authenticate' do
       context 'with valid parameters' do
-        before do
-          customer.save!
-          patch :update, params: { id: customer, customer: new_attributes }
-        end
+        before { patch :update, params: { id: product, product: new_attributes } }
 
         it 'should assigns the customer' do
-          expect(assigns(:customer)).to eq customer
+          expect(assigns(:product)).to eq product
         end
 
         it 'updates the requested customer' do
-          expect { customer.reload }.to change { customer.name }.from('John Doe').to('Jane Doe')
+          expect { product.reload }.to change { product.name }.from('Some name').to('New name')
         end
 
         it 'redirects to the customer' do
-          expect(customer.reload).to redirect_to(customer_url(customer))
+          expect(customer.reload).to redirect_to(product_url(Product.last))
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Customer was successfully updated.'
+          expect(flash[:notice]).to eq 'Product was successfully updated.'
         end
       end
 
       describe 'invalid attributes' do
-        before do
-          customer.save
-          patch :update, params: { id: customer, customer: { name: nil } }
-          customer.reload
-        end
+        before { patch :update, params: { id: product, product: { name: nil } } }
 
-        it { expect(customer.name).to eq('John Doe') }
-        it { expect(customer.name).not_to eq(nil) }
+        it { expect(product.name).to eq('Some name') }
+        it { expect(product.name).not_to eq(nil) }
       end
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+      before { patch :update, params: { id: product, product: new_attributes } }
 
-      before do
-        customer.save
-        patch :update, params: { id: customer, customer: new_attributes }
-      end
-
-      it { expect(response).not_to render_template(:edit) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
@@ -230,28 +195,20 @@ RSpec.describe CustomersController, type: :controller do
 
   describe 'DELETE /destroy' do
     context 'when authenticated' do
-      before { customer.save }
+      before { product.save }
 
-      it do
-        expect { delete :destroy, params: { id: customer } }.to change(Customer, :count).by(-1)
-      end
+      it { expect { delete :destroy, params: { id: product } }.to change(Product, :count).by(-1) }
 
       it 'returns the flash message' do
-        delete :destroy, params: { id: customer }
-        expect(flash[:notice]).to eq 'Customer was successfully destroyed.'
+        delete :destroy, params: { id: product }
+        expect(flash[:notice]).to eq 'Product was successfully destroyed.'
       end
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+      before { delete :destroy, params: { id: product } }
 
-      before do
-        customer.save
-        delete :destroy, params: { id: customer.to_param }
-      end
-
-      it { expect(response).not_to render_template(:edit) }
-      it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
       it { expect(flash[:alert]).to eq 'You are not logged in.' }
     end
