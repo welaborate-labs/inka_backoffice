@@ -97,9 +97,9 @@ class ServiceBooking < ApplicationRecord
 
   def create_stock_decrement
     service.product_usages.each do |product_usage|
-      DescrementStock.create product_id: product_usage.product_id,
-                             quantity: product_usage.quantity,
-                             integralized_at: DateTime.now
+      StockDecrement.create product_id: product_usage.product_id,
+                            quantity: product_usage.quantity,
+                            integralized_at: DateTime.now
     end
   end
 end
