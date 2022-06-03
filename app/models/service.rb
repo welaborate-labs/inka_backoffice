@@ -2,7 +2,7 @@ class Service < ApplicationRecord
   belongs_to :professional
   belongs_to :service, class_name: 'Service', optional: true
 
-  has_many :service_bookings
+  has_many :service_bookings, dependent: :destroy
   has_many :optional_services,
            class_name: 'Service',
            foreign_key: 'service_id',
