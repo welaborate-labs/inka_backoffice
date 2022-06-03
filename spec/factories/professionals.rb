@@ -6,6 +6,6 @@ FactoryBot.define do
     address { 'Some Address' }
     document { '99988877755' }
     avatar { nil }
-    user { nil }
+    user
   end
 end

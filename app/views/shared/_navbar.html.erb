@@ -13,17 +13,21 @@
         <a class="navbar-item">
           <%= link_to "Customers", customers_path, class: "navbar-item" %>
         </a>
-        
+
         <a class="navbar-item">
           <%= link_to "Professionals", professionals_path, class: "navbar-item" %>
         </a>
-        
+
         <a class="navbar-item">
           <%= link_to "Services", services_path, class: "navbar-item" %>
         </a>
-        
+
         <a class="navbar-item">
           <%= link_to "Schedules", schedules_path, class: "navbar-item" %>
+        </a>
+
+        <a class="navbar-item">
+          <%= link_to "Service Booking", service_bookings_path, class: "navbar-item" %>
         </a>
       </div>
       <div class="navbar-end">
@@ -45,8 +49,7 @@
           </div>
           <div class="navbar-item">
             <strong> <%= link_to "Login", login_path, class: "button is-light" %> </strong>
-          </div>  
+          </div>
         </div>
-      <% end %>  
+      <% end %>
   </nav>
-  

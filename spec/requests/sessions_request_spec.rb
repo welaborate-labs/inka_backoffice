@@ -11,11 +11,13 @@ RSpec.describe 'Sessions', type: :request do
 
   let(:identity) { build(:identity) }
   let(:user) { build(:user, uid: uid) }
+  let!(:user_2) { create(:user, email: 'jane.doe@example.com') }
 
   describe 'GET /' do
     subject { response }
     before { get '/' }
-    it { is_expected.to have_http_status(:success) }
+
+    it { is_expected.to have_http_status(:redirect) }
   end
 
   describe 'GET /auth/:provider/callback' do

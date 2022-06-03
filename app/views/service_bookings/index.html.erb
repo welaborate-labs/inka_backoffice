@@ -1,0 +1,29 @@
+<div class="columns is-centered mt-6">
+  <div class="column is-narrow">
+      <h1 class="title has-text-centered">Reservas</h1>
+      <div class="buttons is-centered">
+        <%= link_to "Nova Reserva", new_service_booking_path, class: "button is-small is-link" %>
+      </div>
+      <table class="table">
+          <thead>
+            <tr>
+              <th>Notas</th>
+              <th>Status</th>
+              <th>Cancelado em</th>
+              <th>Cliente</th>
+              <th>Data - Horário</th>
+              <th colspan="2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div id="service_bookings">
+              <% @service_bookings.each do |service_booking| %>
+              <tr>
+                <%= render service_booking %>
+              </tr>
+              <% end %>
+            </div>
+          </tbody>
+      </table>
+  </div>
+</div>

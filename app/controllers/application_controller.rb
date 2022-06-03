@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+
   before_action :authenticate_user!
   helper_method :current_user, :logged_in?
 
@@ -25,6 +26,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    redirect_to root_path, alert: 'You are not logged in.' unless signed_in?
+    redirect_to login_path, alert: 'You are not logged in.' unless signed_in?
   end
 end

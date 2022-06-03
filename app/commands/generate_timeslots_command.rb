@@ -1,4 +1,5 @@
 class GenerateTimeslotsCommand
+  TIMESLOT_DURATION = ServiceBooking.const_get('TIMESLOT_DURATION')
   attr_reader :starts_at, :ends_at
   attr_accessor :timeslots
 
@@ -25,7 +26,8 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 0.5)
+                ends_at:
+                  DateTime.new(date.year, date.month, date.day, hour) + TIMESLOT_DURATION.minutes
               )
             )
           end
@@ -36,7 +38,8 @@ class GenerateTimeslotsCommand
             self.timeslots.push(
               schedule.timeslots.create(
                 starts_at: DateTime.new(date.year, date.month, date.day, hour),
-                ends_at: DateTime.new(date.year, date.month, date.day, hour + 0.5)
+                ends_at:
+                  DateTime.new(date.year, date.month, date.day, hour) + TIMESLOT_DURATION.minutes
               )
             )
           end

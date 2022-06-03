@@ -27,23 +27,26 @@ RSpec.describe Professional, type: :model do
     it "should verify the 'presence'" do
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[
-           user
-           name
-           email
-           phone
-           address
-           document
-           avatar
-         ]
-      expect(invalid.errors.messages.count).to eq 7
+      expect(invalid.errors.attribute_names).to eq %i[user name email phone address document]
+      expect(invalid.errors.messages.count).to eq 6
       expect(invalid.errors.messages[:user]).to eq ['must exist']
-      expect(invalid.errors.messages[:name]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:phone]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:address]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:document]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:avatar]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:name]).to eq [
+           "can't be blank",
+           'is too short (minimum is 3 characters)'
+         ]
+      expect(invalid.errors.messages[:email]).to eq ["can't be blank", 'is invalid']
+      expect(invalid.errors.messages[:phone]).to eq [
+           "can't be blank",
+           'is too short (minimum is 8 characters)'
+         ]
+      expect(invalid.errors.messages[:address]).to eq [
+           "can't be blank",
+           'is too short (minimum is 10 characters)'
+         ]
+      expect(invalid.errors.messages[:document]).to eq [
+           "can't be blank",
+           'is too short (minimum is 10 characters)'
+         ]
     end
 
     it "should verify the 'email format'" do

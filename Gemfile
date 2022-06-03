@@ -64,6 +64,8 @@ group :development, :test do
 
   # is used to easily generate fake data: names, addresses, phone numbers, etc.
   gem 'faker', '~> 2.20'
+
+  gem "pry-rails"
 end
 
 group :development do
