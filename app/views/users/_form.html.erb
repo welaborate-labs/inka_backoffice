@@ -2,7 +2,7 @@
   <%= render 'shared/error_messages', resource: user %>
 
   <div class="field">
-    <%= form.label :name, style: "display: block", class: "label" %>
+    <%= form.label :nome, style: "display: block", class: "label" %>
     <div class="control">
       <%= form.text_field :name, class: "input" %>
     </div>  
@@ -16,7 +16,7 @@
   </div>
 
   <div class="field">
-    <%= form.label :phone, style: "display: block", class: "label" %>
+    <%= form.label :telefone, style: "display: block", class: "label" %>
     <div class="control">
       <%= form.text_field :phone, class: "input" %>
     </div>
@@ -25,7 +25,7 @@
 
   <div class="actions">
     <div class="buttons is-centered">
-      <%= form.submit "Update", class: "button is-primary" %>
+      <%= form.submit "Atualizar", class: "button is-primary" %>
     </div>
     
   </div>
