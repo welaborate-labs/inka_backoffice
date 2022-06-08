@@ -1,22 +1,25 @@
 <div class="columns is-centered mt-6">
-<table class="table">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th class="has-text-right"> <%= link_to "+", new_identities_path, class: "tag is-large is-primary" %> </th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <div id="users">
-      <% @users.each do |user| %>
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered">Usuários</h1>
+    <div class="buttons is-centered"><%= link_to "Adicionar novo Usuário", nil, class: "button is-link is-small" %></div>
+    <table class="table">
+      <thead>
         <tr>
-          <%= render user %>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th colspan="2"></th>
         </tr>
-      <% end %>
-    </div>
-  </tbody>
-</table>
+      </thead> 
+      <tbody>
+        <div id="users">
+          <% @users.each do |user| %>
+            <tr>
+              <%= render user %>
+            </tr>
+          <% end %>
+        </div>
+      </tbody>
+    </table>
+  </div>  
 </div>
