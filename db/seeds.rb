@@ -95,16 +95,6 @@ end
 # with service ID
 5.times do |i|
   m = Service.new
-  m.title = "title#{i}#{i}#{i}"
-  m.duration = 45
-  m.price = 60 + i
-  m.is_comissioned = false
-  m.service_id = Service.last.id
-  m.professional_id = Professional.first.id
-  m.save!
-end
-5.times do |i|
-  m = Service.new
   m.title = "title#{i}#{i}#{i}#{i}"
   m.duration = 60
   m.price = 80 + i
@@ -120,7 +110,6 @@ end
   m.duration = 45
   m.price = 90 + i
   m.is_comissioned = false
-  m.service_id = Service.second.id
   m.professional_id = Professional.second.id
   m.save!
 end
@@ -150,8 +139,12 @@ end
 puts "#{Schedule.count} schedules created successfully!"
 
 puts 'creating Timeslots ...'
-starts_at = DateTime.new(2022, 5, 1, 00)
-ends_at = DateTime.new(2022, 5, 21, 00)
+year = DateTime.now.year
+month = DateTime.now.month
+day = DateTime.now.day
+hour = 8
+starts_at = DateTime.new(year, month, day, hour) - 5.day
+ends_at = DateTime.new(year, month, day, hour) + 10.hours
 GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at).run
 puts "#{Timeslot.count} timeslots created successfully!"
 
@@ -161,38 +154,130 @@ ServiceBooking.create!(
     {
       notes: 'some note',
       status: 0,
-      service_id: Service.first.id,
+      service_id: Service.second.id,
       customer_id: Customer.first.id,
-      booking_datetime: '2022-05-01 08:00'
+      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 1.day
     },
     {
       notes: 'some note_2',
       status: 1,
-      service_id: Service.first.id,
+      service_id: Service.second.id,
       customer_id: Customer.first.id,
-      booking_datetime: '2022-05-01 09:00'
+      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 2.day
     },
     {
       notes: 'some note_3',
       status: 2,
-      service_id: Service.first.id,
+      service_id: Service.third.id,
       customer_id: Customer.first.id,
-      booking_datetime: '2022-05-03 08:00'
+      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 3.day
     },
     {
       notes: 'some note_3',
       status: 5,
-      service_id: Service.first.id,
+      service_id: Service.third.id,
       customer_id: Customer.first.id,
-      booking_datetime: '2022-05-05 15:00'
+      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 4.day
     },
     {
       notes: 'some note_4',
       status: 6,
-      service_id: Service.last.id,
+      service_id: Service.second.id,
       customer_id: Customer.first.id,
-      booking_datetime: '2022-05-18 10:00'
+      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 5.day
     }
   ]
 )
 puts "#{ServiceBooking.count} service bookings created successfully!"
+
+puts 'creating Products...'
+Product.create!(
+  [
+    {
+      name: 'some product name_1',
+      sku: 'SKU01',
+      unit: 'kilograma'
+    },
+    {
+      name: 'some product name_2',
+      sku: 'SKU02',
+      unit: 'kilograma'
+    },
+    {
+      name: 'some product name_3',
+      sku: 'SKU03',
+      unit: 'kilograma'
+    },
+    {
+      name: 'some product name_4',
+      sku: 'SKU04',
+      unit: 'litro'
+    },
+    {
+      name: 'some product name_5',
+      sku: 'SKU05',
+      unit: 'litro'
+    },
+    {
+      name: 'product_6',
+      sku: 'PR06SK',
+      unit: 'kilograma'
+    }
+  ]
+)
+puts "#{Product.count} products created successfully!"
+
+puts 'creating Stocks...'
+Stock.create!(
+  [
+    {
+      product_id: Product.first.id,
+      quantity: 22,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    },
+    {
+      product_id: Product.first.id,
+      quantity: 2,
+      integralized_at: DateTime.now,
+      type: "StockDecrement"
+    },
+    {
+      product_id: Product.second.id,
+      quantity: 15,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    },
+    {
+      product_id: Product.third.id,
+      quantity: 10,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    },
+    {
+      product_id: Product.fourth.id,
+      quantity: 55,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    },
+    {
+      product_id: Product.fifth.id,
+      quantity: 120,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    },
+    {
+      product_id: Product.fifth.id,
+      quantity: 20,
+      integralized_at: DateTime.now,
+      type: "StockDecrement"
+    },
+    {
+      product_id: Product.last.id,
+      quantity: 20,
+      integralized_at: DateTime.now,
+      type: "StockIncrement"
+    }
+  ]
+)
+puts "#{Stock.count} stocks created successfully!"
