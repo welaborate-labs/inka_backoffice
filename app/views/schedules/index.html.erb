@@ -1,24 +1,30 @@
-<h1 class="font-bold text-4xl">Schedules</h1>
-<%= link_to 'New schedule', new_schedule_path %>
-<table class="table-fixed">
-  <thead>
-    <tr>
-      <th>weekday</th>
-      <th>starts_at</th>
-      <th>ends_at</th>
-      <th>interval_starts_at</th>
-      <th>interval_ends_at</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render 'empty' %>
-    <div id="schedules">
-      <% @schedules.each do |schedule| %>
-        <tr>
-          <%= render schedule %>
-        </tr>
-      <% end %>
+<div class="columns mt-6 is-centered">
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered">Agendamentos</h1>
+    <div class="buttons is-centered">
+      <%= link_to 'Novo Agendamento', new_schedule_path, class: "button is-small is-link" %>
     </div>
-  </tbody>
-</table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Dias</th>
+          <th>Começa em</th>
+          <th>Termina em</th>
+          <th>interval_starts_at</th>
+          <th>interval_ends_at</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render 'empty' %>
+        <div id="schedules">
+          <% @schedules.each do |schedule| %>
+            <tr>
+              <%= render schedule %>
+            </tr>
+          <% end %>
+        </div>
+      </tbody>
+    </table>
+  </div>
+</div>
