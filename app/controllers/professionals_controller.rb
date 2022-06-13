@@ -11,7 +11,7 @@ class ProfessionalsController < ApplicationController
 
   # GET /professionals/new
   def new
-    @professional = Professional.new
+    @professional = current_user.build_professional
   end
 
   # GET /professionals/1/edit
@@ -19,7 +19,7 @@ class ProfessionalsController < ApplicationController
 
   # POST /professionals or /professionals.json
   def create
-    @professional = Professional.new(professional_params)
+    @professional = current_user.build_professional(professional_params)
 
     respond_to do |format|
       if @professional.save
@@ -61,7 +61,11 @@ class ProfessionalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_professional
-    @professional = Professional.find(params[:id])
+    professional = Professional.find(params[:id])
+    @professional = current_user.professional
+    if professional != @professional
+      return redirect_to professionals_url, alert: 'Profissional não encontrado para o usuário atual!'
+    end
   end
 
   # Only allow a list of trusted parameters through.

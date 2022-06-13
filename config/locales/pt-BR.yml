@@ -22,8 +22,8 @@ pt-BR:
         one: 'Produto'
         other: 'Produtos'
       professional:
-        one: 'Produto'
-        other: 'Produtos'
+        one: 'Profissional'
+        other: 'Profissional'
       schedule:
         one: 'Agenda'
         other: 'Agendas'

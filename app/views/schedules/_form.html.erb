@@ -6,7 +6,7 @@
       <%= form.label :Dia, class: "label" %>
       <div class="control">
         <div class="select is-fullwidth">
-          <%= form.select :weekday, options_for_select(Schedule.weekday_attributes_for_select), selected: schedule.weekday %>
+          <%= form.select :weekday, Schedule.weekday_attributes_for_select %>
         </div>
       </div>
     </div>
