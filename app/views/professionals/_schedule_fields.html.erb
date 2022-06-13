@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= f.select :weekday, Schedule.weekdays.keys.to_a %>
+    <%= f.select :weekday, options_for_select(Schedule.weekday_attributes_for_select) %>
   </td>
   <td>
     <%= f.text_field :starts_at %>
@@ -16,6 +16,6 @@
   </td>
   <td>
     <%= f.hidden_field :_destroy %>
-    <%= link_to "delete", '#', class: "remove_fields bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %>
+    <%= link_to "Remover", '#', class: "remove_fields bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %>
   </td>
 </tr>

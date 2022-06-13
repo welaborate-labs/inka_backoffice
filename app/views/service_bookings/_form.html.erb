@@ -15,7 +15,7 @@
         <%= form.label :status, style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.select :status, ServiceBooking.statuses.keys.to_a %>
+            <%= form.select :status, options_for_select(ServiceBooking.status_attributes_for_select) %>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class="control">
           <div class="is-fullwidth is-medium">
             <% if !service_booking.booking_datetime.nil? %>
-              Data / Horário: <strong><%= service_booking.booking_datetime&.to_time.strftime("%m/%d/%Y, %H:%M:%S")%></strong><br />
+              Data / Horário: <strong><%= service_booking.booking_datetime&.to_time.strftime("%d/%m/%Y, %H:%M:%S") %></strong><br />
               Selecione a data abaixo para alterar a data e horário de agendamento <br />
             <% end %>
             <%= form.datetime_field :booking_datetime,

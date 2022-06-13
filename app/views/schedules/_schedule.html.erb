@@ -1,6 +1,6 @@
 <div id="<%= dom_id schedule %>">
   <td>
-    <%= schedule.weekday %>
+    <%= Schedule.human_attribute_name("weekday.#{schedule.weekday}") %>
   </td>
   <td>
     <%= schedule.starts_at %>

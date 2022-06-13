@@ -1,5 +1,5 @@
 <%= form_with(model: customer) do |form| %>
-  <%= render 'customers/shared/error_messages', customer: customer %>
+  <%= render 'shared/error_messages', resource: customer %>
 
   <div>
     <%= form.label :name, style: "display: block" %>

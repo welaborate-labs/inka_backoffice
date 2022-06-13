@@ -4,7 +4,7 @@
   </td>
 
   <td>
-    <%= service_booking.status %>
+    <%= ServiceBooking.human_attribute_name("status.#{service_booking.status}") %>
   </td>
 
   <td>
@@ -16,7 +16,7 @@
   </td>
 
   <td>
-    <%= service_booking.timeslots&.first.starts_at.to_time.strftime("%m/%d/%Y, %H:%M:%S") %>
+    <%= service_booking.timeslots&.first.starts_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
   </td>
 
   <td>

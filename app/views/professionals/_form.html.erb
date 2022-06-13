@@ -1,14 +1,14 @@
 <div class="columns mt-6 is-centered">
   <div class="column is-3">
     <%= form_for @professional do |form| %>
-    <%= render 'shared/error_messages', resource: @professional %>
+      <%= render 'shared/error_messages', resource: @professional %>
       <div class="field">
         <label class="label">Nome</label>
           <%= form.text_field :name, class: "input" %>
       </div>
       <div class="field">
         <label class="label">Email</label>
-          <%= form.text_field :email, class: "input" %> 
+          <%= form.text_field :email, class: "input" %>
       </div>
       <div class="field">
         <label class="label">Telefone</label>
@@ -21,7 +21,7 @@
       <div class="field">
         <label class="label">Documento</label>
           <%= form.text_field :document, class: "input" %>
-      </div>      
+      </div>
       <div class="field">
         <label class="label">Avatar</label>
         <%= form.file_field :avatar, class: "input" %>
@@ -29,11 +29,11 @@
     <h1>Schedules Form</h1>
     <table>
       <thead>
-        <th>weekday</th>
-        <th>starts_at</th>
-        <th>ends_at</th>
-        <th>interval_starts_at</th>
-        <th>interval_ends_at</th>
+        <th>Dia da Semana</th>
+        <th>Começa em</th>
+        <th>Termina em</th>
+        <th>Intervalo começa em</th>
+        <th>intervalo termina em</th>
         <th></th>
       </thead>
       <body>
@@ -43,9 +43,9 @@
         <% end %>
       </body>
     </table>
-    <%= link_to_add_fields "Add Schedules", form, :schedules, 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+    <%= link_to_add_fields "Adicionar nova Agenda", form, :schedules, 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
     <div class="actions">
-      <%= form.submit 'Submit', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
+      <%= form.submit 'Salvar', class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded' %>
     </div>
   <% end %>
   </div>
