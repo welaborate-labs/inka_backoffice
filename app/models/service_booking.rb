@@ -102,4 +102,10 @@ class ServiceBooking < ApplicationRecord
                             integralized_at: DateTime.now
     end
   end
+
+  def self.status_attributes_for_select
+    statuses.map do |status, _|
+      [I18n.t("activerecord.attributes.#{model_name.i18n_key}.statuses.#{status}"), status]
+    end
+  end
 end

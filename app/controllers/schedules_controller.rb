@@ -24,7 +24,7 @@ class SchedulesController < ApplicationController
     respond_to do |format|
       if @schedule.save
         format.html do
-          redirect_to schedule_url(@schedule), notice: 'Schedule was successfully created.'
+          redirect_to schedule_url(@schedule), notice: 'Agenda criada com sucesso!'
         end
         format.json { render :show, status: :created, location: @schedule }
       else
@@ -39,7 +39,7 @@ class SchedulesController < ApplicationController
     respond_to do |format|
       if @schedule.update(schedule_params)
         format.html do
-          redirect_to schedule_url(@schedule), notice: 'Schedule was successfully updated.'
+          redirect_to schedule_url(@schedule), notice: 'Agenda atualizada com sucesso!'
         end
         format.json { render :show, status: :ok, location: @schedule }
       else
@@ -54,7 +54,7 @@ class SchedulesController < ApplicationController
     @schedule.destroy
 
     respond_to do |format|
-      format.html { redirect_to schedules_url, notice: 'Schedule was successfully destroyed.' }
+      format.html { redirect_to schedules_url, notice: 'Agenda removida com sucesso!' }
       format.json { head :no_content }
     end
   end
