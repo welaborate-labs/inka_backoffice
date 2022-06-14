@@ -1,12 +1,28 @@
-<h1>Customers</h1>
-
-<div id="customers">
-  <% @customers.each do |customer| %>
-    <%= render customer %>
-    <p>
-      <%= link_to "Show this customer", customer %>
-    </p>
-  <% end %>
+<div class="columns is-centered mt-6">
+  <div class="column is-narrow">
+    <h1 class="title is-size-3 has-text-centered">Clientes</h1>
+    <div class="buttons is-centered"><%= link_to "Novo Cliente", new_customer_path, class: "button is-link is-small" %></div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Endereço</th>
+          <th>Documento</th>
+          <th>Avatar</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <div id="customers">
+          <% @customers.each do |customer| %>
+            <tr>
+            <%= render customer %>
+            </tr>
+          <% end %>
+        </div>
+      </tbody>
+      </table>
+  </div>
 </div>
-
-<%= link_to "New customer", new_customer_path %>

@@ -1,32 +1,30 @@
 <div id="<%= dom_id customer %>">
-  <p>
-    <strong><%= Customer.human_attribute_name("customer.name") %></strong>
+  <td>
     <%= customer.name %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
+  </td>
+    
+  <td>
     <%= customer.email %>
-  </p>
+  </td>
 
-  <p>
-    <strong><%= Customer.human_attribute_name("customer.phone") %></strong>
+  <td>
     <%= customer.phone %>
-  </p>
+  </td>
 
-  <p>
-    <strong><%= Customer.human_attribute_name("customer.address") %></strong>
+  <td>
     <%= customer.address %>
-  </p>
+  </td>
 
-  <p>
-    <strong><%= Customer.human_attribute_name("customer.document") %></strong>
+  <td>
     <%= customer.document %>
-  </p>
+  </td>
 
-  <p>
-    <strong>Avatar:</strong>
+  <td>
     <%= link_to customer.avatar.filename, customer.avatar if customer.avatar.attached? %>
-  </p>
+  </td>
 
+  <td>
+  <%= link_to "Editar", edit_customer_path(@customer), class: "button is-primary is-small" %>
+  <%= link_to "Deletar", @customer, method: :delete, class: "button is-danger is-small" %>
+  </td>
 </div>

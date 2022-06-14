@@ -1,13 +1,12 @@
 <div class="columns mt-6 is-centered">
   <div class="column is-narrow">
-    <%= form_with model: [@product, @stock] do |f| %>
-    <%= render 'shared/error_messages', resource: @stock %>
+    <%= form_with model: [@product, @stock], class: "box" do |f| %>
+      <%= render 'shared/error_messages', resource: @stock %>
 
       <div class="field">
         <%= f.label :quantidade, class: "label" %>
         <%= f.text_field :quantity, class: "input" %>
       </div>
-
       <div class="field">
         <%= f.label :integralizado_em, class: "label" %>
         <div class="control">
@@ -16,7 +15,6 @@
           </div>
         </div>  
       </div>
-
       <div class="field">
         <%= f.label :entrada_ou_saida, class: "label display: block" %>
         <div class="control">
@@ -25,11 +23,10 @@
           </div>
         </div>
       </div>
-
       <div class="buttons is-centered">
-        <%= f.submit "Criar Estoque", class: "button is-primary" %>
+        <%= f.submit  class: "button is-primary" %>
       </div>
-    
     <% end %>
+    <%= link_to "Voltar para estoques", product_stocks_path(@product), class: "tag is-medium is-link" %>
   </div>
 </div>

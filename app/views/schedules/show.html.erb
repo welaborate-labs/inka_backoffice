@@ -7,18 +7,17 @@
           <th>Dias</th>
           <th>Começa em</th>
           <th>Termina em</th>
-          <th>interval_starts_at</th>
-          <th>interval_ends_at</th>
+          <th>Intervalo Começa em</th>
+          <th>Intervalo Termina em</th>
+          <th><%= link_to 'Voltar para agendamentos', schedules_path, class: "tag is-link is-small" %></th>
           <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
         <div id="schedules">
-          
             <tr>
-              <%= render schedule %>
+              <%= render @schedule %>
             </tr>
-          
         </div>
       </tbody>
     </table>

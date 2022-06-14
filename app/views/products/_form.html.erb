@@ -23,12 +23,7 @@
       </div>
 
       <div class="buttons is-centered">
-        <% if !@product.id.nil? %>
-          <% description = "Atualizar" %>
-        <% else %>
-          <% description = "Criar Produto" %>
-        <% end %>
-        <%= form.submit description, class: "button is-primary" %>
+        <%= form.submit class: "button is-primary" %>
       </div>
     <% end %>
     <%= link_to "Voltar para produtos", products_path, class: "tag is-medium is-link" %>

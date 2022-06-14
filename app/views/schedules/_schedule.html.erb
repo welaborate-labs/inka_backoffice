@@ -15,7 +15,7 @@
     <%= schedule.interval_ends_at %>
   </td>
   <td>
-    <%= link_to "Editar", edit_schedule_path(schedule), class: 'button is-primary' %>
-    <%= link_to "Destruir", schedule, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button is-danger' %>
+    <%= link_to "Editar", edit_schedule_path(schedule), class: 'button is-small is-primary' %>
+    <%= link_to "Destruir", schedule, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button is-small is-danger' %>
   </td>
 </div>
