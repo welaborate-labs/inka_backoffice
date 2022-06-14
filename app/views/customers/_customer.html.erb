@@ -1,6 +1,6 @@
 <div id="<%= dom_id customer %>">
   <p>
-    <strong>Name:</strong>
+    <strong><%= Customer.human_attribute_name("customer.name") %></strong>
     <%= customer.name %>
   </p>
 
@@ -10,17 +10,17 @@
   </p>
 
   <p>
-    <strong>Phone:</strong>
+    <strong><%= Customer.human_attribute_name("customer.phone") %></strong>
     <%= customer.phone %>
   </p>
 
   <p>
-    <strong>Address:</strong>
+    <strong><%= Customer.human_attribute_name("customer.address") %></strong>
     <%= customer.address %>
   </p>
 
   <p>
-    <strong>Document:</strong>
+    <strong><%= Customer.human_attribute_name("customer.document") %></strong>
     <%= customer.document %>
   </p>
 

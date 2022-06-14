@@ -21,7 +21,7 @@ class ProductsController < ApplicationController
     respond_to do |format|
       if @product.save
         format.html do
-          redirect_to product_url(@product), notice: 'Product was successfully created.'
+          redirect_to product_url(@product), notice: 'Produto criado com sucesso!'
         end
         format.json { render :show, status: :created, location: @product }
       else
@@ -35,7 +35,7 @@ class ProductsController < ApplicationController
     respond_to do |format|
       if @product.update(product_params)
         format.html do
-          redirect_to product_url(@product), notice: 'Product was successfully updated.'
+          redirect_to product_url(@product), notice: 'Produto atualizado com sucesso!'
         end
         format.json { render :show, status: :ok, location: @product }
       else
@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
     @product.destroy
 
     respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Product was successfully destroyed.' }
+      format.html { redirect_to products_url, notice: 'Produto removido com sucesso!' }
       format.json { head :no_content }
     end
   end

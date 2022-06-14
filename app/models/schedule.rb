@@ -14,4 +14,10 @@ class Schedule < ApplicationRecord
   validates :ends_at, inclusion: { in: HOURS }
   validates :interval_starts_at, inclusion: { in: HOURS }
   validates :interval_ends_at, inclusion: { in: HOURS }
+
+  def self.weekday_attributes_for_select
+    weekdays.map do |weekday, _|
+      [I18n.t("activerecord.attributes.#{model_name.i18n_key}.weekdays.#{weekday}"), weekday]
+    end
+  end
 end

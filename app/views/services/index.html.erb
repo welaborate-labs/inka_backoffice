@@ -1,24 +1,30 @@
 <div class="columns mt-6 is-centered ">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Título</th>
-        <th>Duração (min)</th>
-        <th>Preço</th>
-        <th>Comissionado</th>
-        <th>Serviço Opcional</th>
-        <th><%= link_to "Adicionar novo Serviço", new_service_path, class: "tag is-link is-medium" %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <div id="services">
-        <% @services.each do |service| %>
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered">Serviços</h1>
+    <div class="buttons is-centered">
+      <%= link_to "Adicionar novo Serviço", new_service_path, class: "button is-link is-small" %>
+    </div>
+      <table class="table">
+        <thead>
           <tr>
-            <%= render service %>
+            <th>Título</th>
+            <th>Duração (min)</th>
+            <th>Preço</th>
+            <th>Comissionado</th>
+            <th>Serviço Opcional</th>
+            <th colspan="1"></th>
           </tr>
-        <% end %>
-      </div>
-    </tbody>
-  </table>
+        </thead>
+        <tbody>
+          <div id="services">
+            <% @services.each do |service| %>
+              <tr>
+                <%= render service %>
+              </tr>
+            <% end %>
+          </div>
+        </tbody>
+      </table>
+  </div>
 
 </div>

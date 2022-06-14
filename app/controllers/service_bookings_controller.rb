@@ -22,7 +22,7 @@ class ServiceBookingsController < ApplicationController
 
     respond_to do |format|
       if @service_booking.save
-        format.html { redirect_to root_url, notice: 'Service booking was successfully created.' }
+        format.html { redirect_to service_booking_path(@service_booking), notice: 'Reserva criada com sucesso!' }
         format.json { render :show, status: :created, location: @service_booking }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,7 +34,7 @@ class ServiceBookingsController < ApplicationController
   def update
     respond_to do |format|
       if @service_booking.update(service_booking_params)
-        format.html { redirect_to root_path, notice: 'Service booking was successfully updated.' }
+        format.html { redirect_to service_booking_path(@service_booking), notice: 'Reserva atualizada com sucesso!' }
         format.json { render :show, status: :ok, location: @service_booking }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,7 +47,7 @@ class ServiceBookingsController < ApplicationController
     @service_booking.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_url, notice: 'Service booking was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'Reserva removida com sucesso!' }
       format.json { head :no_content }
     end
   end

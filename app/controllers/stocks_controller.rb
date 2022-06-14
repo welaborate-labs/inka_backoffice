@@ -23,7 +23,7 @@ class StocksController < ApplicationController
       if @stock.save
         format.html do
           redirect_to product_stock_url(@product, @stock),
-                      notice: 'Stock was successfully created.'
+                      notice: 'Estoque criado com sucesso.'
         end
         format.json { render :show, status: :created, location: @stock }
       else
@@ -37,7 +37,7 @@ class StocksController < ApplicationController
     respond_to do |format|
       if @stock.update(stock_params)
         format.html do
-          redirect_to product_stocks_path(@product), notice: 'Stock was successfully updated.'
+          redirect_to product_stocks_path(@product), notice: 'Estoque atualizado com sucesso.'
         end
         format.json { render :show, status: :ok, location: @stock }
       else
@@ -52,7 +52,7 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to product_stocks_url(@stock), notice: 'Stock was successfully destroyed.'
+        redirect_to product_stocks_url(@stock), notice: 'Estoque removido com sucesso.'
       end
       format.json { head :no_content }
     end

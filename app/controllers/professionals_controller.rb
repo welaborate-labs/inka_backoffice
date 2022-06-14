@@ -23,7 +23,7 @@ class ProfessionalsController < ApplicationController
 
     respond_to do |format|
       if @professional.save
-        format.html { redirect_to @professional, notice: 'Professional was successfully created.' }
+        format.html { redirect_to @professional, notice: 'Profissional criado com sucesso!' }
         format.json { render :show, status: :created, location: @professional }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,7 +36,7 @@ class ProfessionalsController < ApplicationController
   def update
     respond_to do |format|
       if @professional.update(professional_params)
-        format.html { redirect_to @professional, notice: 'Professional was successfully updated.' }
+        format.html { redirect_to @professional, notice: 'Profissional atualizado com sucesso!' }
         format.json { render :show, status: :ok, location: @professional }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,7 +51,7 @@ class ProfessionalsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to professionals_url, notice: 'Professional was successfully destroyed.'
+        redirect_to professionals_url, notice: 'Profissional removido com sucesso!'
       end
       format.json { head :no_content }
     end
@@ -61,7 +61,11 @@ class ProfessionalsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_professional
+    professional = Professional.find(params[:id])
     @professional = current_user.professional
+    if professional != @professional
+      return redirect_to professionals_url, alert: 'Profissional não encontrado para o usuário atual!'
+    end
   end
 
   # Only allow a list of trusted parameters through.

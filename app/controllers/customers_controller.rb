@@ -24,7 +24,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.save
         format.html do
-          redirect_to customer_path(@customer), notice: 'Customer was successfully created.'
+          redirect_to customer_path(@customer), notice: 'Cliente criado com sucesso!'
         end
         format.json { render :show, status: :created, location: @customer }
       else
@@ -39,7 +39,7 @@ class CustomersController < ApplicationController
     respond_to do |format|
       if @customer.update(customer_params)
         format.html do
-          redirect_to customer_path(@customer), notice: 'Customer was successfully updated.'
+          redirect_to customer_path(@customer), notice: 'Cliente atualizado com sucesso!'
         end
         format.json { render :show, status: :ok, location: @customer }
       else
@@ -54,7 +54,7 @@ class CustomersController < ApplicationController
     @customer.destroy
 
     respond_to do |format|
-      format.html { redirect_to customers_url, notice: 'Customer was successfully destroyed.' }
+      format.html { redirect_to customers_url, notice: 'Cliente removido com sucesso!' }
       format.json { head :no_content }
     end
   end
