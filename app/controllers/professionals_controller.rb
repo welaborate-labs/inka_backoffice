@@ -1,23 +1,19 @@
 class ProfessionalsController < ApplicationController
   before_action :set_professional, only: %i[show edit update destroy]
+  before_action :check_existing_professional, only: %i[new create]
 
-  # GET /professionals or /professionals.json
   def index
     @professionals = Professional.all
   end
 
-  # GET /professionals/1 or /professionals/1.json
   def show; end
 
-  # GET /professionals/new
   def new
     @professional = current_user.build_professional
   end
 
-  # GET /professionals/1/edit
   def edit; end
 
-  # POST /professionals or /professionals.json
   def create
     @professional = current_user.build_professional(professional_params)
 
@@ -32,7 +28,6 @@ class ProfessionalsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /professionals/1 or /professionals/1.json
   def update
     respond_to do |format|
       if @professional.update(professional_params)
@@ -45,7 +40,6 @@ class ProfessionalsController < ApplicationController
     end
   end
 
-  # DELETE /professionals/1 or /professionals/1.json
   def destroy
     @professional.destroy
 
@@ -59,7 +53,12 @@ class ProfessionalsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def check_existing_professional
+    if current_user.professional
+      return redirect_to professionals_url, alert: 'Esta conta já possui um profissional cadastrado.'
+    end
+  end
+
   def set_professional
     professional = Professional.find(params[:id])
     @professional = current_user.professional
@@ -68,7 +67,6 @@ class ProfessionalsController < ApplicationController
     end
   end
 
-  # Only allow a list of trusted parameters through.
   def professional_params
     params
       .require(:professional)
