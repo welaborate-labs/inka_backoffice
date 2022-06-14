@@ -64,7 +64,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
       it { expect(response).not_to render_template(:new) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
       it { expect(response).not_to render_template(:show) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -118,7 +118,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -134,12 +134,12 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
         it 'returns the successfull message' do
           post :create, params: { service_booking: valid_attributes }
-          expect(flash[:notice]).to eq 'Service booking was successfully created.'
+          expect(flash[:notice]).to eq "Reserva criada com sucesso!"
         end
 
         it 'redirects to the calendar view' do
           post :create, params: { service_booking: valid_attributes }
-          expect(response).to redirect_to(root_url)
+          expect(response).to redirect_to(service_booking_url(ServiceBooking.last))
         end
       end
 
@@ -171,7 +171,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -194,11 +194,11 @@ RSpec.describe ServiceBookingsController, type: :controller do
         end
 
         it 'redirects to the service_booking' do
-          expect(service_booking.reload).to redirect_to(root_url)
+          expect(service_booking.reload).to redirect_to(service_booking_url(service_booking))
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Service booking was successfully updated.'
+          expect(flash[:notice]).to eq "Reserva atualizada com sucesso!"
         end
       end
 
@@ -229,7 +229,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -246,7 +246,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       it 'returns the successfull message' do
         delete :destroy, params: { id: service_booking }
-        expect(flash[:notice]).to eq 'Service booking was successfully destroyed.'
+        expect(flash[:notice]).to eq "Reserva removida com sucesso!"
       end
 
       it 'redirects to the calendar view' do
@@ -265,7 +265,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_url }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end

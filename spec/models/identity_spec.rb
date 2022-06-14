@@ -26,10 +26,10 @@ RSpec.describe Identity, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[password email name phone]
       expect(invalid.errors.messages.count).to eq 4
-      expect(invalid.errors.messages[:password]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:name]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:phone]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:password]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco"]
     end
 
     it 'should verify the uniqueness' do
@@ -39,7 +39,7 @@ RSpec.describe Identity, type: :model do
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq [:email]
       expect(invalid.errors.messages.count).to eq 1
-      expect(invalid.errors.messages[:email]).to eq ['has already been taken']
+      expect(invalid.errors.messages[:email]).to eq ["já está em uso"]
     end
   end
 end

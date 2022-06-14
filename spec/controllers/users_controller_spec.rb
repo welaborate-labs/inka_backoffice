@@ -44,7 +44,7 @@ RSpec.describe UsersController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -65,11 +65,11 @@ RSpec.describe UsersController, type: :controller do
         end
 
         it 'redirects to the user' do
-          expect(user.reload).to redirect_to(root_url)
+          expect(user.reload).to redirect_to(user_url(user))
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'User was successfully updated.'
+          expect(flash[:notice]).to eq "Usuário atualizado com sucesso."
         end
       end
 
@@ -100,7 +100,7 @@ RSpec.describe UsersController, type: :controller do
 
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe UsersController, type: :controller do
 
       it 'returns the successfull message' do
         delete :destroy, params: { id: user }
-        expect(flash[:notice]).to eq 'User was successfully destroyed.'
+        expect(flash[:notice]).to eq "Usuário removido com sucesso."
       end
 
       it 'redirects to the courses list' do
@@ -139,7 +139,7 @@ RSpec.describe UsersController, type: :controller do
 
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end

@@ -32,7 +32,7 @@ RSpec.describe StocksController, type: :controller do
       before { get :index, params: { product_id: product.id, type: 'Stock' } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -50,7 +50,7 @@ RSpec.describe StocksController, type: :controller do
       before { get :new, params: { product_id: product.id, type: 'Stock' } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -82,7 +82,7 @@ RSpec.describe StocksController, type: :controller do
       end
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe StocksController, type: :controller do
       end
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -139,7 +139,7 @@ RSpec.describe StocksController, type: :controller do
                  product_id: product.id,
                  type: 'StockIncrement'
                }
-          expect(flash[:notice]).to eq 'Stock was successfully created.'
+          expect(flash[:notice]).to eq "Estoque criado com sucesso."
         end
 
         it 'redirects to the stocks list' do
@@ -197,7 +197,7 @@ RSpec.describe StocksController, type: :controller do
       end
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -227,7 +227,7 @@ RSpec.describe StocksController, type: :controller do
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Stock was successfully updated.'
+          expect(flash[:notice]).to eq "Estoque atualizado com sucesso."
         end
       end
 
@@ -263,7 +263,7 @@ RSpec.describe StocksController, type: :controller do
       end
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -287,7 +287,7 @@ RSpec.describe StocksController, type: :controller do
                  type: 'StockIncrement',
                  id: stock_increment.id
                }
-        expect(flash[:notice]).to eq 'Stock was successfully destroyed.'
+        expect(flash[:notice]).to eq "Estoque removido com sucesso."
       end
     end
 
@@ -304,7 +304,7 @@ RSpec.describe StocksController, type: :controller do
       end
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end

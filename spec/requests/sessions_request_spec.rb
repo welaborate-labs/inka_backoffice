@@ -49,46 +49,6 @@ RSpec.describe 'Sessions', type: :request do
       )
     end
 
-    context 'user is not logged in' do
-      context 'identity and user does not exist' do
-        describe 'request' do
-          it { expect { http_request }.to change { User.where(uid: uid).count }.by(1) }
-        end
-
-        describe 'response' do
-          subject { response }
-          before { http_request }
-          it { is_expected.to have_http_status :redirect }
-          it { is_expected.to redirect_to root_path }
-          it 'sends Signed in! flash message' do
-            expect(flash[:notice]).to eq 'Signed in!'
-          end
-        end
-      end
-
-      context 'user and identity exists' do
-        before do
-          identity.save!
-          user.save!
-        end
-
-        describe 'request' do
-          it { expect { http_request }.not_to change { User.count } }
-        end
-
-        describe 'response' do
-          subject { response }
-          before { http_request }
-
-          it { is_expected.to have_http_status :redirect }
-          it { is_expected.to redirect_to root_path }
-          it 'sends Signed in! flash message' do
-            expect(flash[:notice]).to eq 'Signed in!'
-          end
-        end
-      end
-    end
-
     context 'user is logged in' do
       before do
         identity.save!
@@ -108,8 +68,8 @@ RSpec.describe 'Sessions', type: :request do
 
           it { is_expected.to have_http_status :redirect }
           it { is_expected.to redirect_to root_path }
-          it 'sends You are already logged in! flash message' do
-            expect(flash[:notice]).to eq 'You are already logged in.'
+          it 'sends Você já está logado(a). flash message' do
+            expect(flash[:notice]).to eq "Você já está logado(a)."
           end
         end
       end
@@ -121,9 +81,9 @@ RSpec.describe 'Sessions', type: :request do
     before { get '/auth/failure' }
 
     it { is_expected.to have_http_status(:redirect) }
-    it { is_expected.to redirect_to root_path }
-    it 'sends Authentication failed, please try again. flash message' do
-      expect(flash[:alert]).to eq 'Authentication failed, please try again.'
+    it { is_expected.to redirect_to login_path }
+    it 'sends Email ou Senha está incorreto. flash message' do
+      expect(flash[:alert]).to eq "Email ou Senha está incorreto."
     end
   end
 
@@ -141,9 +101,9 @@ RSpec.describe 'Sessions', type: :request do
       before { http_request }
 
       it { is_expected.to have_http_status(:redirect) }
-      it { is_expected.to redirect_to root_path }
-      it 'sends Signed out! flash message' do
-        expect(flash[:notice]).to eq 'Signed out!'
+      it { is_expected.to redirect_to login_path }
+      it 'sends Deslogado(a). flash message' do
+        expect(flash[:notice]).to eq "Deslogado(a)."
       end
     end
   end

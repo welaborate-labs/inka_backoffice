@@ -46,7 +46,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:new) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe ServicesController, type: :controller do
 
         it 'returns the successfull message' do
           post :create, params: { service: valid_attributes }
-          expect(flash[:notice]).to eq 'Service was successfully created.'
+          expect(flash[:notice]).to eq "Serviço criado com sucesso."
         end
 
         it 'redirects to the service index' do
@@ -123,7 +123,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -150,7 +150,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:show) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -177,7 +177,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -204,7 +204,7 @@ RSpec.describe ServicesController, type: :controller do
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Service was successfully updated.'
+          expect(flash[:notice]).to eq "Serviço atualizado com sucesso."
         end
       end
 
@@ -231,7 +231,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -243,7 +243,7 @@ RSpec.describe ServicesController, type: :controller do
 
       it 'returns the flash message' do
         delete :destroy, params: { id: service }
-        expect(flash[:notice]).to eq 'Service was successfully destroyed.'
+        expect(flash[:notice]).to eq "Serviço removido com sucesso."
       end
     end
 
@@ -258,7 +258,7 @@ RSpec.describe ServicesController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end

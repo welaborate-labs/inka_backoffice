@@ -19,10 +19,10 @@ RSpec.describe Stock, type: :model do
            ]
       end
       it { expect(invalid_stock.errors.messages.count).to eq 4 }
-      it { expect(invalid_stock.errors.messages[:product]).to eq ['must exist'] }
-      it { expect(invalid_stock.errors.messages[:type]).to eq ["can't be blank"] }
-      it { expect(invalid_stock.errors.messages[:quantity]).to eq ["can't be blank"] }
-      it { expect(invalid_stock.errors.messages[:integralized_at]).to eq ["can't be blank"] }
+      it { expect(invalid_stock.errors.messages[:product]).to eq ["é obrigatório(a)"] }
+      it { expect(invalid_stock.errors.messages[:type]).to eq ["não pode ficar em branco"] }
+      it { expect(invalid_stock.errors.messages[:quantity]).to eq ["não pode ficar em branco"] }
+      it { expect(invalid_stock.errors.messages[:integralized_at]).to eq ["não pode ficar em branco"] }
     end
   end
 

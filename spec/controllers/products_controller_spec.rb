@@ -28,7 +28,7 @@ RSpec.describe ProductsController, type: :controller do
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -46,7 +46,7 @@ RSpec.describe ProductsController, type: :controller do
       before { get :new }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -64,7 +64,7 @@ RSpec.describe ProductsController, type: :controller do
       before { get :show, params: { id: product } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -82,7 +82,7 @@ RSpec.describe ProductsController, type: :controller do
       before { get :edit, params: { id: customer } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe ProductsController, type: :controller do
 
         it 'returns the successfull message' do
           post :create, params: { product: valid_attributes }
-          expect(flash[:notice]).to eq 'Product was successfully created.'
+          expect(flash[:notice]).to eq "Produto criado com sucesso!"
         end
 
         it 'redirects to the products list' do
@@ -150,7 +150,7 @@ RSpec.describe ProductsController, type: :controller do
       before { post :create, params: { product: valid_attributes } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -172,7 +172,7 @@ RSpec.describe ProductsController, type: :controller do
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Product was successfully updated.'
+          expect(flash[:notice]).to eq "Produto atualizado com sucesso!"
         end
       end
 
@@ -189,7 +189,7 @@ RSpec.describe ProductsController, type: :controller do
       before { patch :update, params: { id: product, product: new_attributes } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -201,7 +201,7 @@ RSpec.describe ProductsController, type: :controller do
 
       it 'returns the flash message' do
         delete :destroy, params: { id: product }
-        expect(flash[:notice]).to eq 'Product was successfully destroyed.'
+        expect(flash[:notice]).to eq "Produto removido com sucesso!"
       end
     end
 
@@ -210,7 +210,7 @@ RSpec.describe ProductsController, type: :controller do
       before { delete :destroy, params: { id: product } }
 
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end
