@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ServiceBookingsController, type: :controller do
+RSpec.describe BookingsController, type: :controller do
   let!(:user) { create(:user) }
   let!(:customer) { create(:customer, :with_avatar) }
   let(:professional) { create(:professional, :with_avatar, user: user) }
@@ -14,9 +14,9 @@ RSpec.describe ServiceBookingsController, type: :controller do
     )
   end
   let!(:service) { create(:service, professional: professional) }
-  let(:service_booking) do
+  let(:booking) do
     build(
-      :service_booking,
+      :booking,
       customer: customer,
       service: service,
       booking_datetime: '2022-05-10 09:00'
@@ -38,13 +38,13 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
   describe 'GET /index' do
     before do
-      service_booking.save!
+      booking.save!
       get :index
     end
 
     it { expect(response).to render_template(:index) }
     it { expect(response).to be_successful }
-    it { expect(assigns(:service_bookings)).to include service_booking }
+    it { expect(assigns(:bookings)).to include booking }
   end
 
   describe 'GET /new' do
@@ -53,7 +53,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       it { expect(response).to render_template(:new) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:service_booking)).to be_a_new ServiceBooking }
+      it { expect(assigns(:booking)).to be_a_new Booking }
     end
 
     context 'when does not authenticated' do
@@ -71,21 +71,21 @@ RSpec.describe ServiceBookingsController, type: :controller do
   describe 'GET /show' do
     context 'when authenticated' do
       before do
-        service_booking.save!
-        get :show, params: { id: service_booking }
+        booking.save!
+        get :show, params: { id: booking }
       end
 
       it { expect(response).to render_template(:show) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:service_booking)).to eq service_booking }
+      it { expect(assigns(:booking)).to eq booking }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        service_booking.save!
-        get :show, params: { id: service_booking }
+        booking.save!
+        get :show, params: { id: booking }
       end
 
       it { expect(response).not_to render_template(:show) }
@@ -98,21 +98,21 @@ RSpec.describe ServiceBookingsController, type: :controller do
   describe 'GET /edit' do
     context 'when authenticated' do
       before do
-        service_booking.save!
-        get :edit, params: { id: service_booking }
+        booking.save!
+        get :edit, params: { id: booking }
       end
 
       it { expect(response).to render_template(:edit) }
       it { expect(response).to be_successful }
-      it { expect(assigns(:service_booking)).to eq service_booking }
+      it { expect(assigns(:booking)).to eq booking }
     end
 
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        service_booking.save!
-        get :edit, params: { id: service_booking }
+        booking.save!
+        get :edit, params: { id: booking }
       end
 
       it { expect(response).not_to render_template(:edit) }
@@ -126,28 +126,28 @@ RSpec.describe ServiceBookingsController, type: :controller do
     context 'when authenticated' do
       context 'with valid parameters' do
         it 'creates a new service booking' do
-          expect { post :create, params: { service_booking: valid_attributes } }.to change(
-            ServiceBooking,
+          expect { post :create, params: { booking: valid_attributes } }.to change(
+            Booking,
             :count
           ).by(01)
         end
 
         it 'returns the successfull message' do
-          post :create, params: { service_booking: valid_attributes }
+          post :create, params: { booking: valid_attributes }
           expect(flash[:notice]).to eq "Reserva criada com sucesso!"
         end
 
         it 'redirects to the calendar view' do
-          post :create, params: { service_booking: valid_attributes }
-          expect(response).to redirect_to(service_booking_url(ServiceBooking.last))
+          post :create, params: { booking: valid_attributes }
+          expect(response).to redirect_to(booking_url(Booking.last))
         end
       end
 
       context 'with invalid parameters' do
-        before { post :create, params: { service_booking: invalid_attributes } }
+        before { post :create, params: { booking: invalid_attributes } }
         it 'does not create a new service booking' do
-          expect { post :create, params: { service_booking: invalid_attributes } }.not_to change(
-            ServiceBooking,
+          expect { post :create, params: { booking: invalid_attributes } }.not_to change(
+            Booking,
             :count
           )
         end
@@ -166,7 +166,7 @@ RSpec.describe ServiceBookingsController, type: :controller do
     context 'when does not authenticated' do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
-      before { post :create, params: { service_booking: valid_attributes } }
+      before { post :create, params: { booking: valid_attributes } }
 
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
@@ -179,22 +179,22 @@ RSpec.describe ServiceBookingsController, type: :controller do
     context 'when authenticated' do
       context 'with valid parameters' do
         before do
-          service_booking.save!
-          patch :update, params: { id: service_booking, service_booking: new_attributes }
+          booking.save!
+          patch :update, params: { id: booking, booking: new_attributes }
         end
 
-        it 'should assigns the service_booking' do
-          expect(assigns(:service_booking)).to eq service_booking
+        it 'should assigns the booking' do
+          expect(assigns(:booking)).to eq booking
         end
 
-        it 'updates the requested service_booking' do
-          expect { service_booking.reload }.to change { service_booking.notes }
+        it 'updates the requested booking' do
+          expect { booking.reload }.to change { booking.notes }
             .from('some note')
             .to('new notes')
         end
 
-        it 'redirects to the service_booking' do
-          expect(service_booking.reload).to redirect_to(service_booking_url(service_booking))
+        it 'redirects to the booking' do
+          expect(booking.reload).to redirect_to(booking_url(booking))
         end
 
         it 'returns a flash message' do
@@ -204,8 +204,8 @@ RSpec.describe ServiceBookingsController, type: :controller do
 
       context 'with invalid parameters' do
         before do
-          service_booking.save!
-          patch :update, params: { id: service_booking, service_booking: { status: nil } }
+          booking.save!
+          patch :update, params: { id: booking, booking: { status: nil } }
         end
 
         it 'should return :unprocessable_entity 422' do
@@ -223,8 +223,8 @@ RSpec.describe ServiceBookingsController, type: :controller do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        service_booking.save!
-        patch :update, params: { id: service_booking, service_booking: new_attributes }
+        booking.save!
+        patch :update, params: { id: booking, booking: new_attributes }
       end
 
       it { expect(response).not_to be_successful }
@@ -234,23 +234,23 @@ RSpec.describe ServiceBookingsController, type: :controller do
   end
 
   describe 'DELETE /destroy' do
-    before { service_booking.save! }
+    before { booking.save! }
 
     describe 'when authenticated' do
-      it 'destroys the requested service_booking' do
-        expect { delete :destroy, params: { id: service_booking } }.to change(
-          ServiceBooking,
+      it 'destroys the requested booking' do
+        expect { delete :destroy, params: { id: booking } }.to change(
+          Booking,
           :count
         ).by(-1)
       end
 
       it 'returns the successfull message' do
-        delete :destroy, params: { id: service_booking }
+        delete :destroy, params: { id: booking }
         expect(flash[:notice]).to eq "Reserva removida com sucesso!"
       end
 
       it 'redirects to the calendar view' do
-        delete :destroy, params: { id: service_booking }
+        delete :destroy, params: { id: booking }
         expect(response).to redirect_to(root_url)
       end
     end
@@ -259,8 +259,8 @@ RSpec.describe ServiceBookingsController, type: :controller do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
-        service_booking.save!
-        delete :destroy, params: { id: service_booking }
+        booking.save!
+        delete :destroy, params: { id: booking }
       end
 
       it { expect(response).not_to be_successful }

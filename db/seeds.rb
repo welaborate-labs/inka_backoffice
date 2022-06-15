@@ -149,7 +149,7 @@ GenerateTimeslotsCommand.new(starts_at: starts_at, ends_at: ends_at).run
 puts "#{Timeslot.count} timeslots created successfully!"
 
 puts 'creating Service Bookings...'
-ServiceBooking.create!(
+Booking.create!(
   [
     {
       notes: 'some note',
@@ -188,7 +188,7 @@ ServiceBooking.create!(
     }
   ]
 )
-puts "#{ServiceBooking.count} service bookings created successfully!"
+puts "#{Booking.count} service bookings created successfully!"
 
 puts 'creating Products...'
 Product.create!(

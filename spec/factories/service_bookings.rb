@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :service_booking do
+  factory :booking do
     notes { 'some note' }
     status { 1 }
     canceled_at { nil }

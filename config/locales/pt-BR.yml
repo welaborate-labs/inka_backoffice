@@ -27,7 +27,7 @@ pt-BR:
       schedule:
         one: 'Agenda'
         other: 'Agendas'
-      service_booking:
+      booking:
         one: 'Reserva'
         other: 'Reservas'
       service:
@@ -96,7 +96,7 @@ pt-BR:
         thursday: 'Quinta-feira'
         friday: 'Sexta-feira'
         saturday: Sábado
-      service_booking:
+      booking:
         notes: 'Anotações'
         cancelet_at: 'Cancelado em'
         customer_id: 'ID do Cliente'
@@ -113,7 +113,7 @@ pt-BR:
           professional_canceled: 'Cancelado pelo Profissional'
           absent: 'Ausente'
           completed: 'Completado'
-      service_booking/status:
+      booking/status:
         requested: 'Requerido'
         accepted: 'Aceitado'
         confirmed: 'Confirmado'
@@ -144,7 +144,7 @@ pt-BR:
         starts_at: 'Começa em'
         ends_at: 'Termina em'
         schedule_id: 'ID da Agenda'
-        service_booking_id: 'ID da Reserva'
+        booking_id: 'ID da Reserva'
         status:
           free:
             one: 'Livre'

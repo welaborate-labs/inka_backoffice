@@ -1,16 +1,16 @@
-class ServiceBooking < ApplicationRecord
+class Booking < ApplicationRecord
   TIMESLOT_DURATION = 30.freeze
 
   belongs_to :customer
   belongs_to :service
-  has_many :timeslots, dependent: :destroy
+  belongs_to :professional
 
-  before_validation :set_booking_datetime
+  # before_validation :set_booking_datetime
   before_validation :get_available_timeslot
   before_save :update_canceled_at, if: -> { status_changed? }
 
   validates :status, :booking_datetime, presence: true
-  validate :validate_timeslots_duration
+  validate :validate_duration
 
   before_update :create_stock_decrement, if: -> { status == 'completed' }
 
@@ -36,9 +36,9 @@ class ServiceBooking < ApplicationRecord
     end
   end
 
-  def get_available_timeslot
+  def get_available_booking
     return if !booking_datetime || !service
-    return true if timeslots.present? && timeslots.first.starts_at == booking_datetime
+    return true if starts_at == booking_datetime
 
     final_booking_datetime =
       booking_datetime.to_datetime + (service.duration * get_necessary_timeslots).minutes
@@ -48,21 +48,21 @@ class ServiceBooking < ApplicationRecord
         .professional
         .timeslots
         .where(
-          'service_booking_id IS NULL and timeslots.starts_at >= ? and timeslots.ends_at <= ?',
+          'booking_id IS NULL and timeslots.starts_at >= ? and timeslots.ends_at <= ?',
           booking_datetime.to_datetime,
           final_booking_datetime + set_get_free_time.minutes
         )
         .order('starts_at ASC')
   end
 
-  def validate_timeslots_duration
+  def validate_duration
     return if !service || !booking_datetime
 
     if sum_duration >= TIMESLOT_DURATION
-      return if timeslots.last&.ends_at.to_i - timeslots.first&.starts_at.to_i >= sum_duration * 60
+      return if ends_at.to_i - starts_at.to_i >= sum_duration * 60
     end
 
-    errors.add(:timeslots, 'not available for service duration')
+    errors.add(:bookings, 'not available for service duration')
   end
 
   def get_necessary_timeslots
@@ -87,12 +87,6 @@ class ServiceBooking < ApplicationRecord
 
   def sum_duration
     service.duration + service.optional_services&.sum(:duration)
-  end
-
-  def set_booking_datetime
-    return if booking_datetime.present?
-
-    self.booking_datetime = timeslots.first&.starts_at
   end
 
   def create_stock_decrement

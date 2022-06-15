@@ -2,7 +2,7 @@ class Customer < ApplicationRecord
   has_one_attached :avatar
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  has_many :service_bookings, dependent: :destroy
+  has_many :bookings, dependent: :destroy
 
   validates :name, :email, :phone, :address, :document, :avatar, presence: true
   validates :email, format: { with: REGEX_FORMAT }

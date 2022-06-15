@@ -9,13 +9,13 @@
           <th>Cancelado em</th>
           <th>Cliente</th>
           <th>Data - Horário</th>
-          <th><%= link_to 'Voltar para reservas', service_bookings_path, class: "tag is-link is-small" %></th>
+          <th><%= link_to 'Voltar para reservas', bookings_path, class: "tag is-link is-small" %></th>
           <th colspan="2"></th>
         </tr>
       </thead>
       <tbody>
-        <div id="service_bookings">
-          <tr><%= render @service_booking %></tr>
+        <div id="bookings">
+          <tr><%= render @booking %></tr>
         </div>
       </tbody>
     </table>

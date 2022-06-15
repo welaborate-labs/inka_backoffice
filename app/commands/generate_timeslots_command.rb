@@ -1,5 +1,5 @@
 class GenerateTimeslotsCommand
-  TIMESLOT_DURATION = ServiceBooking.const_get('TIMESLOT_DURATION')
+  TIMESLOT_DURATION = Booking.const_get('TIMESLOT_DURATION')
   attr_reader :starts_at, :ends_at
   attr_accessor :timeslots
 

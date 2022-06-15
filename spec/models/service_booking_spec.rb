@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ServiceBooking, type: :model do
+RSpec.describe Booking, type: :model do
   let(:customer) { create(:customer, :with_avatar) }
   let(:professional) { create(:professional) }
   let(:schedule_1) { create(:schedule, professional: professional) }
@@ -33,37 +33,37 @@ RSpec.describe ServiceBooking, type: :model do
   end
 
   let(:service) { create(:service, professional: professional) }
-  let(:service_booking) do
+  let(:booking) do
     build(
-      :service_booking,
+      :booking,
       customer: customer,
       service: service,
       booking_datetime: '2022-05-10 09:00'
     )
   end
 
-  let(:invalid_service_booking) { ServiceBooking.new }
+  let(:invalid_booking) { Booking.new }
 
   describe 'valitations' do
-    subject { service_booking }
+    subject { booking }
 
     context "should verify the 'presence'" do
-      before { invalid_service_booking.valid? }
+      before { invalid_booking.valid? }
 
       it do
-        expect(invalid_service_booking.errors.attribute_names).to eq %i[
+        expect(invalid_booking.errors.attribute_names).to eq %i[
              customer
              service
              status
              booking_datetime
            ]
       end
-      it { expect(invalid_service_booking.errors.messages.count).to eq 4 }
-      it { expect(invalid_service_booking.errors.messages[:customer]).to eq ["é obrigatório(a)"] }
-      it { expect(invalid_service_booking.errors.messages[:service]).to eq ["é obrigatório(a)"] }
-      it { expect(invalid_service_booking.errors.messages[:status]).to eq ["não pode ficar em branco"] }
+      it { expect(invalid_booking.errors.messages.count).to eq 4 }
+      it { expect(invalid_booking.errors.messages[:customer]).to eq ["é obrigatório(a)"] }
+      it { expect(invalid_booking.errors.messages[:service]).to eq ["é obrigatório(a)"] }
+      it { expect(invalid_booking.errors.messages[:status]).to eq ["não pode ficar em branco"] }
       it do
-        expect(invalid_service_booking.errors.messages[:booking_datetime]).to eq ["não pode ficar em branco"]
+        expect(invalid_booking.errors.messages[:booking_datetime]).to eq ["não pode ficar em branco"]
       end
     end
 
@@ -72,20 +72,20 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 30 minutes and not available timeslots' do
-      subject { service_booking_2 }
+      subject { booking_2 }
 
-      let!(:service_booking) do
+      let!(:booking) do
         create(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service,
           booking_datetime: '2022-05-10 09:00'
         )
       end
 
-      let(:service_booking_2) do
+      let(:booking_2) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service,
           booking_datetime: '2022-05-10 09:00'
@@ -102,21 +102,21 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 60 minutes and not available timeslots' do
-      subject { service_booking_2 }
+      subject { booking_2 }
 
       let(:service) { create(:service, professional: professional, duration: 60) }
-      let!(:service_booking) do
+      let!(:booking) do
         create(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service,
           booking_datetime: '2022-05-10 09:30'
         )
       end
 
-      let(:service_booking_2) do
+      let(:booking_2) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service,
           booking_datetime: '2022-05-10 10:25'
@@ -135,9 +135,9 @@ RSpec.describe ServiceBooking, type: :model do
     context 'service with 45 minutes and not available timeslots' do
       let(:service) { create(:service, professional: professional, duration: 45) }
 
-      let(:service_booking) do
+      let(:booking) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service,
           booking_datetime: '2022-05-10 11:00'
@@ -157,14 +157,14 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 30mins and 30mins from optional service but not available timeslots' do
-      subject { service_booking }
+      subject { booking }
       let(:service_2) do
         create(:service, professional: professional, duration: 30, optional_services: [service])
       end
 
-      let(:service_booking) do
+      let(:booking) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service_2,
           booking_datetime: '2022-05-10 11:00'
@@ -184,14 +184,14 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 30min and 30mins from optional service but not available timeslots' do
-      subject { service_booking }
+      subject { booking }
       let(:service_2) do
         create(:service, professional: professional, duration: 30, optional_services: [service])
       end
 
-      let(:service_booking) do
+      let(:booking) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service_2,
           booking_datetime: '2022-05-10 11:00'
@@ -211,14 +211,14 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 30min and 45mins from optional service and available timeslots' do
-      subject { service_booking }
+      subject { booking }
       let(:service_2) do
         create(:service, professional: professional, duration: 45, optional_services: [service])
       end
 
-      let(:service_booking) do
+      let(:booking) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service_2,
           booking_datetime: '2022-05-10 09:00'
@@ -229,14 +229,14 @@ RSpec.describe ServiceBooking, type: :model do
     end
 
     context 'service with 30min and 45mins from optional service but not available timeslots' do
-      subject { service_booking }
+      subject { booking }
       let(:service_2) do
         create(:service, professional: professional, duration: 45, optional_services: [service])
       end
 
-      let(:service_booking) do
+      let(:booking) do
         build(
-          :service_booking,
+          :booking,
           customer: customer,
           service: service_2,
           booking_datetime: '2022-05-10 09:30'
