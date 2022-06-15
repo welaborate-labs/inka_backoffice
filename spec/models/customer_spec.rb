@@ -27,31 +27,19 @@ RSpec.describe Customer, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[name email phone address document avatar]
       expect(invalid.errors.messages.count).to eq 6
-      expect(invalid.errors.messages[:name]).to eq [
-           "can't be blank",
-           'is too short (minimum is 3 characters)'
-         ]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank", 'is invalid']
-      expect(invalid.errors.messages[:phone]).to eq [
-           "can't be blank",
-           'is too short (minimum is 8 characters)'
-         ]
-      expect(invalid.errors.messages[:address]).to eq [
-           "can't be blank",
-           'is too short (minimum is 10 characters)'
-         ]
-      expect(invalid.errors.messages[:document]).to eq [
-           "can't be blank",
-           'is too short (minimum is 10 characters)'
-         ]
-      expect(invalid.errors.messages[:avatar]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
+      expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
+      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
+      expect(invalid.errors.messages[:address]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
+      expect(invalid.errors.messages[:document]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
+      expect(invalid.errors.messages[:avatar]).to eq ["não pode ficar em branco"]
     end
 
     it "should verify the 'email format'" do
       customer = build(:customer, :with_avatar, email: 'john.doe')
       customer.save
       expect(customer.errors.attribute_names).to eq [:email]
-      expect(customer.errors.messages[:email]).to eq ['is invalid']
+      expect(customer.errors.messages[:email]).to eq ["não é válido"]
     end
 
     it 'should verify the uniqueness' do
@@ -61,8 +49,8 @@ RSpec.describe Customer, type: :model do
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq %i[email document]
       expect(invalid.errors.messages.count).to eq 2
-      expect(invalid.errors.messages[:email]).to eq ['has already been taken']
-      expect(invalid.errors.messages[:document]).to eq ['has already been taken']
+      expect(invalid.errors.messages[:email]).to eq ["já está em uso"]
+      expect(invalid.errors.messages[:document]).to eq ["já está em uso"]
     end
 
     describe "should verify the 'length'" do
@@ -79,14 +67,10 @@ RSpec.describe Customer, type: :model do
         customer.save
         expect(customer.errors.messages.count).to be 4
         expect(customer.errors.attribute_names).to eq %i[name phone address document]
-        expect(customer.errors.messages[:name]).to eq ['is too short (minimum is 3 characters)']
-        expect(customer.errors.messages[:phone]).to eq ['is too short (minimum is 8 characters)']
-        expect(customer.errors.messages[:address]).to eq [
-             'is too short (minimum is 10 characters)'
-           ]
-        expect(customer.errors.messages[:document]).to eq [
-             'is too short (minimum is 10 characters)'
-           ]
+        expect(customer.errors.messages[:name]).to eq ["é muito curto (mínimo: 3 caracteres)"]
+        expect(customer.errors.messages[:phone]).to eq ["é muito curto (mínimo: 8 caracteres)"]
+        expect(customer.errors.messages[:address]).to eq ["é muito curto (mínimo: 10 caracteres)"]
+        expect(customer.errors.messages[:document]).to eq ["é muito curto (mínimo: 10 caracteres)"]
       end
 
       it "should verify the 'maximum'" do
@@ -107,14 +91,10 @@ RSpec.describe Customer, type: :model do
         customer.save
         expect(customer.errors.messages.count).to be 4
         expect(customer.errors.attribute_names).to eq %i[name phone address document]
-        expect(customer.errors.messages[:name]).to eq ['is too long (maximum is 100 characters)']
-        expect(customer.errors.messages[:phone]).to eq ['is too long (maximum is 15 characters)']
-        expect(customer.errors.messages[:address]).to eq [
-             'is too long (maximum is 150 characters)'
-           ]
-        expect(customer.errors.messages[:document]).to eq [
-             'is too long (maximum is 16 characters)'
-           ]
+        expect(customer.errors.messages[:name]).to eq ["é muito longo (máximo: 100 caracteres)"]
+        expect(customer.errors.messages[:phone]).to eq ["é muito longo (máximo: 15 caracteres)"]
+        expect(customer.errors.messages[:address]).to eq ["é muito longo (máximo: 150 caracteres)"]
+        expect(customer.errors.messages[:document]).to eq ["é muito longo (máximo: 16 caracteres)"]
       end
     end
   end

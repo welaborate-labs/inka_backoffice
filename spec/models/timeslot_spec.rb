@@ -29,10 +29,10 @@ RSpec.describe Timeslot, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[schedule starts_at ends_at status]
       expect(invalid.errors.messages.count).to eq 4
-      expect(invalid.errors.messages[:schedule]).to eq ['must exist']
-      expect(invalid.errors.messages[:starts_at]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:ends_at]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:status]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:schedule]).to eq ["é obrigatório(a)"]
+      expect(invalid.errors.messages[:starts_at]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:ends_at]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:status]).to eq ["não pode ficar em branco"]
     end
   end
 end

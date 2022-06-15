@@ -9,17 +9,17 @@ class SessionsController < ApplicationController
 
     if signed_in?
       if @user
-        flash[:notice] = 'You are already logged in.'
+        flash[:notice] = 'Você já está logado(a).'
       else
-        redirect_to root_path, alert: 'Something is wrong, please try again.' and return
+        redirect_to root_path, alert: 'Alguma coisa deu errado, por favor tente novamente.' and return
       end
     else
       if @user
         current_user = @user
         session[:user_id] = @user.id
-        flash[:notice] = 'Signed in!'
+        flash[:notice] = 'Logado(a)!'
       else
-        redirect_to root_path, alert: 'User already registered.' and return
+        redirect_to root_path, alert: 'Usuário já esta registrado.' and return
       end
     end
 
@@ -28,11 +28,11 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to login_url, notice: 'Signed out!'
+    redirect_to login_url, notice: 'Deslogado(a).'
   end
 
   def failure
-    redirect_to login_url, alert: 'Email or Password incorrect.'
+    redirect_to login_url, alert: 'Email ou Senha está incorreto.'
   end
 
   protected

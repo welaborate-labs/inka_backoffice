@@ -59,11 +59,11 @@ RSpec.describe ServiceBooking, type: :model do
            ]
       end
       it { expect(invalid_service_booking.errors.messages.count).to eq 4 }
-      it { expect(invalid_service_booking.errors.messages[:customer]).to eq ['must exist'] }
-      it { expect(invalid_service_booking.errors.messages[:service]).to eq ['must exist'] }
-      it { expect(invalid_service_booking.errors.messages[:status]).to eq ["can't be blank"] }
+      it { expect(invalid_service_booking.errors.messages[:customer]).to eq ["é obrigatório(a)"] }
+      it { expect(invalid_service_booking.errors.messages[:service]).to eq ["é obrigatório(a)"] }
+      it { expect(invalid_service_booking.errors.messages[:status]).to eq ["não pode ficar em branco"] }
       it do
-        expect(invalid_service_booking.errors.messages[:booking_datetime]).to eq ["can't be blank"]
+        expect(invalid_service_booking.errors.messages[:booking_datetime]).to eq ["não pode ficar em branco"]
       end
     end
 

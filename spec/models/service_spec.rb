@@ -47,13 +47,10 @@ RSpec.describe Service, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[professional title duration price]
       expect(invalid.errors.messages.count).to eq 4
-      expect(invalid.errors.messages[:professional]).to eq ['must exist']
-      expect(invalid.errors.messages[:title]).to eq [
-           "can't be blank",
-           'is too short (minimum is 3 characters)'
-         ]
-      expect(invalid.errors.messages[:duration]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:price]).to eq ["can't be blank"]
+      expect(invalid.errors.messages[:professional]).to eq ["é obrigatório(a)"]
+      expect(invalid.errors.messages[:title]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
+      expect(invalid.errors.messages[:duration]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:price]).to eq ["não pode ficar em branco"]
     end
 
     it "should verify the 'is_comissioned'" do
@@ -62,7 +59,7 @@ RSpec.describe Service, type: :model do
       expect(service.errors.empty?).to be false
       expect(service.errors.attribute_names).to eq %i[is_comissioned]
       expect(service.errors.messages.count).to eq 1
-      expect(service.errors.messages[:is_comissioned]).to eq ['is not included in the list']
+      expect(service.errors.messages[:is_comissioned]).to eq ["não está incluído na lista"]
     end
 
     describe "should verify the 'length'" do
@@ -71,7 +68,7 @@ RSpec.describe Service, type: :model do
         service.save
         expect(service.errors.messages.count).to be 1
         expect(service.errors.attribute_names).to eq %i[title]
-        expect(service.errors.messages[:title]).to eq ['is too short (minimum is 3 characters)']
+        expect(service.errors.messages[:title]).to eq ["é muito curto (mínimo: 3 caracteres)"]
       end
 
       it "should verify the 'maximum'" do
@@ -79,7 +76,7 @@ RSpec.describe Service, type: :model do
         service.save
         expect(service.errors.attribute_names).to eq %i[title]
         expect(service.errors.messages.count).to be 1
-        expect(service.errors.messages[:title]).to eq ['is too long (maximum is 50 characters)']
+        expect(service.errors.messages[:title]).to eq ["é muito longo (máximo: 50 caracteres)"]
       end
     end
   end

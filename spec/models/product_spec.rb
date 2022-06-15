@@ -12,9 +12,9 @@ RSpec.describe Product, type: :model do
       it { expect(invalid_product.errors).not_to be_empty }
       it { expect(invalid_product.errors.count).to eq 3 }
       it { expect(invalid_product.errors.attribute_names).to eq %i[name sku unit] }
-      it { expect(invalid_product.errors.messages[:name]).to eq ["can't be blank"] }
-      it { expect(invalid_product.errors.messages[:sku]).to eq ["can't be blank"] }
-      it { expect(invalid_product.errors.messages[:unit]).to eq ["can't be blank"] }
+      it { expect(invalid_product.errors.messages[:name]).to eq ["não pode ficar em branco"] }
+      it { expect(invalid_product.errors.messages[:sku]).to eq ["não pode ficar em branco"] }
+      it { expect(invalid_product.errors.messages[:unit]).to eq ["não pode ficar em branco"] }
     end
   end
 end

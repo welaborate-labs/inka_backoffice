@@ -1,6 +1,6 @@
 <tr>
   <td>
-    <%= f.select :weekday, Schedule.weekday_attributes_for_select %>
+    <%= f.select :weekday, Schedule.weekday_attributes_for_select, prompt: 'selecione...' %>
   </td>
   <td>
     <%= f.text_field :starts_at %>

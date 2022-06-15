@@ -39,7 +39,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:index) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -60,7 +60,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:new) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -81,7 +81,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:show) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -102,7 +102,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -136,7 +136,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
         it 'returns the successfull message' do
           post :create, params: { professional: valid_attributes }
-          expect(flash[:notice]).to eq 'Professional was successfully created.'
+          expect(flash[:notice]).to eq "Profissional criado com sucesso!"
         end
 
         it 'redirects to the #show professional' do
@@ -173,7 +173,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -195,7 +195,7 @@ RSpec.describe ProfessionalsController, type: :controller do
         end
 
         it 'returns a flash message' do
-          expect(flash[:notice]).to eq 'Professional was successfully updated.'
+          expect(flash[:notice]).to eq "Profissional atualizado com sucesso!"
         end
       end
 
@@ -221,7 +221,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 
@@ -236,7 +236,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
       it 'returns the flash message' do
         delete :destroy, params: { id: professional }
-        expect(flash[:notice]).to eq 'Professional was successfully destroyed.'
+        expect(flash[:notice]).to eq "Profissional removido com sucesso!"
       end
     end
 
@@ -248,7 +248,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       it { expect(response).not_to render_template(:edit) }
       it { expect(response).not_to be_successful }
       it { expect(response).to redirect_to login_path }
-      it { expect(flash[:alert]).to eq 'You are not logged in.' }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
 end

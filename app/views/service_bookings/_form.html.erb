@@ -1,6 +1,3 @@
-<div class="column is-1 mt-2">
-  <%= link_to "Voltar", service_bookings_path, class: "button is-link" %>
-</div>
 <div class="columns is-centered mt-4">
   <div class="column is-3">
     <%= form_with(model: service_booking, class: "box") do |form| %>
@@ -8,7 +5,7 @@
 
       <div class="field">
         <%= form.label :notas, style: "display: block", class: "label" %>
-        <%= form.text_area :notes, class: "textarea is-small" %>
+        <%= form.text_area :notes, class: "textarea is-medium" %>
       </div>
 
       <div class="field">
@@ -41,7 +38,7 @@
       <div class="field">
         <%= form.label :data_do_agendamento, style: "display: block", class: "label" %>
         <div class="control">
-          <div class="is-fullwidth is-medium">
+          <div class="is-fullwidth">
             <% if !service_booking.booking_datetime.nil? %>
               Data / Horário: <strong><%= service_booking.booking_datetime&.to_time.strftime("%d/%m/%Y, %H:%M:%S") %></strong><br />
               Selecione a data abaixo para alterar a data e horário de agendamento <br />
@@ -54,13 +51,9 @@
       </div>
 
       <div class="buttons is-centered">
-        <% if !service_booking.id.nil? %>
-          <% description = "Editar Reserva" %>
-        <% else %>
-          <% description = "Criar Reserva" %>
-        <% end %>
-        <%= form.submit description, class: "button is-primary" %>
+        <%= form.submit class: "button is-primary" %>
       </div>
-    </div>
-  <% end %>
+    <% end %> 
+    <%= link_to 'Voltar para reservas', service_bookings_path, class: "tag is-link is-medium" %> 
+  </div>
 </div>

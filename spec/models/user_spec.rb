@@ -32,24 +32,18 @@ RSpec.describe User, type: :model do
       expect(invalid.errors.empty?).to be false
       expect(invalid.errors.attribute_names).to eq %i[provider uid email name phone]
       expect(invalid.errors.messages.count).to eq 5
-      expect(invalid.errors.messages[:provider]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:uid]).to eq ["can't be blank"]
-      expect(invalid.errors.messages[:email]).to eq ["can't be blank", 'is invalid']
-      expect(invalid.errors.messages[:name]).to eq [
-           "can't be blank",
-           'is too short (minimum is 3 characters)'
-         ]
-      expect(invalid.errors.messages[:phone]).to eq [
-           "can't be blank",
-           'is too short (minimum is 8 characters)'
-         ]
+      expect(invalid.errors.messages[:provider]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:uid]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
+      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
+      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
     end
 
     it "should verify the 'email format'" do
       user = build(:user, email: 'john.doe')
       user.save
       expect(user.errors.attribute_names).to eq [:email]
-      expect(user.errors.messages[:email]).to eq ['is invalid']
+      expect(user.errors.messages[:email]).to eq ["não é válido"]
     end
 
     it 'should verify the uniqueness' do
@@ -59,7 +53,7 @@ RSpec.describe User, type: :model do
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq [:email]
       expect(invalid.errors.messages.count).to eq 1
-      expect(invalid.errors.messages[:email]).to eq ['has already been taken']
+      expect(invalid.errors.messages[:email]).to eq ["já está em uso"]
     end
 
     describe "should verify the 'length'" do
@@ -68,8 +62,8 @@ RSpec.describe User, type: :model do
         user.save
         expect(user.errors.messages.count).to be 2
         expect(user.errors.attribute_names).to eq %i[phone name]
-        expect(user.errors.messages[:phone]).to eq ['is too short (minimum is 8 characters)']
-        expect(user.errors.messages[:name]).to eq ['is too short (minimum is 3 characters)']
+        expect(user.errors.messages[:phone]).to eq ["é muito curto (mínimo: 8 caracteres)"]
+        expect(user.errors.messages[:name]).to eq ["é muito curto (mínimo: 3 caracteres)"]
       end
 
       it "should verify the 'maximum'" do
@@ -84,8 +78,8 @@ RSpec.describe User, type: :model do
         user.save
         expect(user.errors.messages.count).to be 2
         expect(user.errors.attribute_names).to eq %i[phone name]
-        expect(user.errors.messages[:phone]).to eq ['is too long (maximum is 15 characters)']
-        expect(user.errors.messages[:name]).to eq ['is too long (maximum is 100 characters)']
+        expect(user.errors.messages[:phone]).to eq ["é muito longo (máximo: 15 caracteres)"]
+        expect(user.errors.messages[:name]).to eq ["é muito longo (máximo: 100 caracteres)"]
       end
     end
   end

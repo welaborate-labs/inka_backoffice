@@ -20,9 +20,9 @@ RSpec.describe ProductUsage, type: :model do
         it { expect(invalid_product.errors).not_to be_empty }
         it { expect(invalid_product.errors.count).to eq 3 }
         it { expect(invalid_product.errors.attribute_names).to eq %i[product service quantity] }
-        it { expect(invalid_product.errors.messages[:product]).to eq ['must exist'] }
-        it { expect(invalid_product.errors.messages[:service]).to eq ['must exist'] }
-        it { expect(invalid_product.errors.messages[:quantity]).to eq ["can't be blank"] }
+        it { expect(invalid_product.errors.messages[:product]).to eq ["é obrigatório(a)"] }
+        it { expect(invalid_product.errors.messages[:service]).to eq ["é obrigatório(a)"] }
+        it { expect(invalid_product.errors.messages[:quantity]).to eq ["não pode ficar em branco"] }
       end
     end
   end

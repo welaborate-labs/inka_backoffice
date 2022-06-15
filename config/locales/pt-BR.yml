@@ -67,6 +67,13 @@ pt-BR:
         address: 'Endereço'
         document: 'Documento'
         user_id: 'ID do Usuário'
+      professional/schedules:
+        starts_at: 'Começa em'
+        ends_at: 'Termina em'
+        interval_starts_at: 'Intervalo começa em'
+        interval_ends_at: 'Intervalo termina em'
+        professional_id: 'ID do Profissional'
+
       schedule:
         starts_at: 'Começa em'
         ends_at: 'Termina em'
@@ -95,6 +102,9 @@ pt-BR:
         customer_id: 'ID do Cliente'
         service_id: 'ID do Serviço'
         free_time: 'Tempo Livre'
+        customer: 'Cliente'
+        service: 'Serviço'
+        booking_datetime: 'Data do Agendamento'
         statuses:
           requested: 'Requerido'
           accepted: 'Aceitado'
@@ -118,6 +128,7 @@ pt-BR:
         is_comisioned: 'É Comissionado'
         professional_id: 'ID do Profissional'
         service_id: 'ID do Serviço'
+        professional: 'Profissional'
       stock:
         product_id: 'ID do Produto'
         quantity: 'Quantidade'
@@ -135,9 +146,15 @@ pt-BR:
         schedule_id: 'ID da Agenda'
         service_booking_id: 'ID da Reserva'
         status:
-          free: 'Livre'
-          booked: 'Reservado'
-          absent: 'Ausente'
+          free:
+            one: 'Livre'
+            other: 'Livres'
+          booked:
+            one: 'Reservado'
+            other: 'Reservados'
+          absent:
+            one: 'Ausente'
+            other: 'Ausentes'
       user:
         provider: 'Provedor'
         uid: 'UID'
@@ -251,7 +268,7 @@ pt-BR:
       month: Mês
       year: Ano
   errors:
-    format: "%{attribute} %{message}"
+    format: "'%{attribute}' %{message}"
     messages:
       accepted: deve ser aceito
       blank: não pode ficar em branco

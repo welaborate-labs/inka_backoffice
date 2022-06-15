@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     rescue ActiveRecord::RecordNotFound => error
       session[:user_id] = nil
-      redirect_to root_path, alert: 'You are not logged in.'
+      redirect_to root_path, alert: 'Você não esta logado(a).'
     end
   end
 
@@ -26,6 +26,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    redirect_to login_path, alert: 'You are not logged in.' unless signed_in?
+    redirect_to login_path, alert: 'Você não esta logado(a).' unless signed_in?
   end
 end
