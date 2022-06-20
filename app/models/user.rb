@@ -28,16 +28,4 @@ class User < ApplicationRecord
       end
     user
   end
-
-  # before_create do
-  #   self.name = name.downcase.titleize
-  #   self.phone =
-  #     number_to_phone(phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
-  # end
-
-  # before_update do
-  #   self.name = name.downcase.titleize
-  #   self.phone =
-  #     number_to_phone(phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
-  # end
 end
