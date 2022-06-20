@@ -9,7 +9,7 @@ RSpec.describe ProductsController, type: :controller do
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
   let(:new_attributes) { { name: 'New name' } }
-  let(:valid_attributes) { { name: 'Some name', sku: 'SKUCode', unit: 'litro' } }
+  let(:valid_attributes) { { name: 'Some name', sku: 'SKUCode', unit: 'l' } }
   let(:invalid_attributes) { { name: nil } }
 
   describe 'GET /index' do

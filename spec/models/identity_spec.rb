@@ -24,12 +24,10 @@ RSpec.describe Identity, type: :model do
     it "should verify the 'presence'" do
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[password email name phone]
-      expect(invalid.errors.messages.count).to eq 4
+      expect(invalid.errors.attribute_names).to eq %i[password email name]
       expect(invalid.errors.messages[:password]).to eq ["não pode ficar em branco"]
       expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco"]
       expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco"]
-      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco"]
     end
 
     it 'should verify the uniqueness' do

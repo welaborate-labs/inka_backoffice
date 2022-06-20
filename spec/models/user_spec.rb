@@ -26,17 +26,14 @@ RSpec.describe User, type: :model do
     it { is_expected.to be_invalid }
   end
 
-  describe 'valitations' do
-    it "should verify the 'presence'" do
+  describe 'validations' do
+    it 'should verify presence' do
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[provider uid email name phone]
-      expect(invalid.errors.messages.count).to eq 5
       expect(invalid.errors.messages[:provider]).to eq ["não pode ficar em branco"]
       expect(invalid.errors.messages[:uid]).to eq ["não pode ficar em branco"]
       expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
       expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
-      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
     end
 
     it "should verify the 'email format'" do
@@ -81,21 +78,6 @@ RSpec.describe User, type: :model do
         expect(user.errors.messages[:phone]).to eq ["é muito longo (máximo: 15 caracteres)"]
         expect(user.errors.messages[:name]).to eq ["é muito longo (máximo: 100 caracteres)"]
       end
-    end
-  end
-
-  describe 'hooks' do
-    let(:user) { build(:user, name: 'joHn dOe') }
-    it 'should capitalize on create' do
-      user.save
-      expect(user.name).to eq 'John Doe'
-    end
-
-    it 'should capitalize on update' do
-      user.save
-      user.name = 'john doe'
-      user.save
-      expect(user.name).to eq 'John Doe'
     end
   end
 end
