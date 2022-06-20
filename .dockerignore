@@ -2,10 +2,6 @@
 Dockerfile
 docker-compose*.yml
 
-# Also don't put the env files in the images
-.env*
-*.env.default
-
 # No need for git working copy data in the image
 .git
 

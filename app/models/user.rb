@@ -3,10 +3,10 @@ class User < ApplicationRecord
   include ActionView::Helpers::NumberHelper
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 
-  validates :provider, :uid, :email, :name, :phone, presence: true
+  validates :provider, :uid, :email, :name, presence: true
   validates :email, format: { with: REGEX_FORMAT }
   validates :email, uniqueness: true
-  validates :phone, length: { within: 8..15 }
+  validates :phone, length: { within: 8..15 }, allow_blank: true
   validates :name, length: { within: 3..100 }
 
   def self.find_or_create_from_hash(auth_hash)
@@ -29,15 +29,15 @@ class User < ApplicationRecord
     user
   end
 
-  before_create do
-    self.name = name.downcase.titleize
-    self.phone =
-      number_to_phone(self.phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
-  end
+  # before_create do
+  #   self.name = name.downcase.titleize
+  #   self.phone =
+  #     number_to_phone(phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
+  # end
 
-  before_update do
-    self.name = name.downcase.titleize
-    self.phone =
-      number_to_phone(self.phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
-  end
+  # before_update do
+  #   self.name = name.downcase.titleize
+  #   self.phone =
+  #     number_to_phone(phone.gsub(/\D/, ''), pattern: /(\d{2})(\d{4})(\d{4})$/, delimeter: '-')
+  # end
 end
