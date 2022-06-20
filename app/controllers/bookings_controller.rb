@@ -2,6 +2,7 @@ class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show edit update destroy]
   before_action :set_customers, only: %i[new create edit update]
   before_action :set_services, only: %i[new create edit update]
+  before_action :set_professionals, only: %i[new create edit update]
 
   def index
     @bookings = Booking.all.order('updated_at DESC')
@@ -60,14 +61,18 @@ class BookingsController < ApplicationController
   def booking_params
     params
       .require(:booking)
-      .permit(:status, :notes, :service_id, :customer_id, :canceled_at, :booking_datetime)
+      .permit(:status, :notes, :service_id, :customer_id, :professional_id, :canceled_at, :booking_datetime)
   end
-  yarn config set prefix /usr/local/
+
   def set_customers
     @customers ||= Customer.all.select(:id, :name)
   end
 
   def set_services
     @services ||= Service.all.select(:id, :title)
+  end
+
+  def set_professionals
+    @professionals ||= Professional.all.select(:id, :name)
   end
 end

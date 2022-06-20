@@ -104,6 +104,7 @@ pt-BR:
         free_time: 'Tempo Livre'
         customer: 'Cliente'
         service: 'Serviço'
+        professional: 'Profissional'
         booking_datetime: 'Data do Agendamento'
         statuses:
           requested: 'Requerido'

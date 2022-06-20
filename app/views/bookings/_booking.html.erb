@@ -16,7 +16,23 @@
   </td>
 
   <td>
-    <%= booking.timeslots&.first.starts_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
+    <%= booking.professional.name %>
+  </td>
+
+  <td>
+    <%= booking.starts_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
+  </td>
+
+  <td>
+    <%= booking.ends_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
+  </td>
+
+  <td>
+    <%= booking.sum_duration %>
+  </td>
+
+  <td>
+    <%= booking.service.optional_services.count %>
   </td>
 
   <td>

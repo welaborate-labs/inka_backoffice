@@ -4,7 +4,7 @@ class Professional < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
   has_many :services, dependent: :destroy
   has_many :schedules, dependent: :destroy
-  has_many :occupations
+  has_many :occupations, dependent: :destroy
   belongs_to :user
 
   accepts_nested_attributes_for :schedules, allow_destroy: true, reject_if: :all_blank

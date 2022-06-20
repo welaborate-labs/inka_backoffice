@@ -4,7 +4,7 @@
       <%= render 'shared/error_messages', resource: booking %>
 
       <div class="field">
-        <%= form.label :notas, style: "display: block", class: "label" %>
+        <%= form.label 'Notas', style: "display: block", class: "label" %>
         <%= form.text_area :notes, class: "textarea is-medium" %>
       </div>
 
@@ -18,28 +18,37 @@
       </div>
 
       <div class="field">
-        <%= form.label :cliente_id, style: "display: block", class: "label" %>
+        <%= form.label 'Cliente', style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :customer_id, @customers, :id, :name, { include_blank: 'cliente...', include_hidden: false } %>
+            <%= form.collection_select :customer_id, @customers, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <%= form.label :serviço_id, style: "display: block", class: "label" %>
+        <%= form.label 'Serviço', style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'serviço...', include_hidden: false } %>
+            <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <%= form.label :data_do_agendamento, style: "display: block", class: "label" %>
+        <%= form.label 'Profissional', style: "display: block", class: "label" %>
+        <div class="control">
+          <div class="select is-fullwidth is-medium">
+            <%= form.collection_select :professional_id, @professionals, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= form.label :booking_datetime, style: "display: block", class: "label" %>
         <div class="control">
           <div class="is-fullwidth">
-            <%= form.datetime_select :booking_datetime, value: booking.booking_datetime %>
+            <%= form.datetime_select :booking_datetime, value: booking.booking_datetime || DateTime.now %>
           </div>
         </div>
       </div>
