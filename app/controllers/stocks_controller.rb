@@ -52,7 +52,7 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_to product_stocks_url(@stock), notice: 'Estoque removido com sucesso.'
+        redirect_to product_stocks_path(@stock.product), notice: 'Estoque removido com sucesso.'
       end
       format.json { head :no_content }
     end
