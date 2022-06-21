@@ -1,8 +1,5 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show edit update destroy]
-  before_action :set_customers, only: %i[new create edit update]
-  before_action :set_services, only: %i[new create edit update]
-  before_action :set_professional, only: %i[create edit update]
 
   def index
     @bookings = Booking.all.order("updated_at DESC")
@@ -12,16 +9,14 @@ class BookingsController < ApplicationController
   end
 
   def new
-    @booking ||= Booking.new
-    @booking.booking_datetime = params[:booking_date]&.to_datetime
+    @booking = Booking.new
   end
 
   def edit
   end
 
   def create
-    @booking ||= Booking.new(booking_params)
-    @booking.professional_id = @professional.id
+    @booking = Booking.new(booking_params)
 
     respond_to do |format|
       if @booking.save
@@ -69,21 +64,9 @@ class BookingsController < ApplicationController
       :notes,
       :service_id,
       :customer_id,
+      :professional_id,
       :canceled_at,
       :booking_datetime
     )
-  end
-
-  def set_customers
-    @customers ||= Customer.all.select(:id, :name)
-  end
-
-  def set_services
-    @services ||= Service.all.select(:id, :title)
-  end
-
-  def set_professional
-    service = Service.find(booking_params[:service_id])
-    @professional = Professional.find(service.professional_id)
   end
 end

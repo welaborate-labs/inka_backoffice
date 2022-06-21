@@ -12,7 +12,7 @@
         <%= form.label :status, style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.select :status, options_for_select(Booking.status_attributes_for_select) %>
+            <%= form.select :status, options_for_select(status_attributes_for_select) %>
           </div>
         </div>
       </div>
@@ -21,7 +21,7 @@
         <%= form.label 'Cliente', style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :customer_id, @customers, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
+            <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
           </div>
         </div>
       </div>
@@ -30,16 +30,16 @@
         <%= form.label 'Serviço', style: "display: block", class: "label" %>
         <div class="control">
           <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
+            <%= form.collection_select :service_id, Service.all, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
           </div>
         </div>
       </div>
 
       <div class="field">
-        <%= form.label :booking_datetime, style: "display: block", class: "label" %>
+        <%= form.label :starts_at, style: "display: block", class: "label" %>
         <div class="control">
           <div class="is-fullwidth">
-            <%= form.datetime_select :booking_datetime, value: booking.booking_datetime || DateTime.now %>
+            <%= form.datetime_select :starts_at %>
           </div>
         </div>
       </div>
