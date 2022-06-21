@@ -68,40 +68,121 @@ class Booking < ApplicationRecord
   def get_available_booking
     return if !booking_datetime || !service
 
-    occupation =
-      professional.occupations.where(
-        "professional_id = ? and ends_at >= ? and ends_at <= ?",
-        professional_id,
-        booking_datetime,
-        booking_datetime + sum_duration.minutes
-      )
+    if is_available_occupation? || !is_schedules_available?
+      return errors.add(:booking_datetime, "não disponível.")
+    end
 
-    schedules =
-      professional
-        .schedules
-        .where(
-          "weekday = ? and starts_at >= ? and interval_starts_at <= ?",
-          booking_datetime.wday,
-          booking_datetime.hour,
-          round_datetime_sum_hour
-        )
-        .or(
-          professional.schedules.where(
-            "weekday = ? and interval_ends_at >= ? and ends_at <= ?",
-            booking_datetime.wday,
-            booking_datetime.hour,
-            round_datetime_sum_hour
-          )
-        )
+    create_occupations
+  end
 
-    return errors.add(:booking_datetime, "não disponível.") if occupation.any? || !schedules.any?
+  def is_schedules_available?
+    professional = Professional.find(service.professional_id)
+
+    if professional
+         .schedules
+         .where(
+           "weekday = ? and starts_at >= ? and interval_starts_at <= ?",
+           booking_datetime.wday,
+           booking_datetime.hour,
+           round_datetime_sum_hour
+         )
+         .or(
+           professional.schedules.where(
+             "weekday = ? and interval_ends_at >= ? and ends_at <= ?",
+             booking_datetime.wday,
+             booking_datetime.hour,
+             round_datetime_sum_hour
+           )
+         )
+         .present?
+      return false
+    end
+
+    if service.optional_services.any?
+      service.optional_services.each do |optional|
+        opt_professional = Professional.find(optional.professional_id)
+
+        if opt_professional
+             .schedules
+             .where(
+               "weekday = ? and starts_at >= ? and interval_starts_at <= ?",
+               booking_datetime.wday,
+               booking_datetime.hour,
+               round_datetime_sum_hour
+             )
+             .or(
+               opt_professional.schedules.where(
+                 "weekday = ? and interval_ends_at >= ? and ends_at <= ?",
+                 booking_datetime.wday,
+                 booking_datetime.hour,
+                 round_datetime_sum_hour
+               )
+             )
+             .present?
+          return false
+        end
+      end
+    end
+    return true
+  end
+
+  def is_available_occupation?
+    professional = Professional.find(service.professional_id)
+
+    if professional
+         .occupations
+         .where(
+           "professional_id = ? and ends_at >= ? and ends_at <= ?",
+           service.professional_id,
+           booking_datetime,
+           booking_datetime + sum_duration.minutes
+         )
+         .present?
+      return true
+    end
+
+    if service.optional_services.any?
+      service.optional_services.each do |optional|
+        opt_professional = Professional.find(optional.professional_id)
+        if opt_professional
+             .occupations
+             .where(
+               "professional_id = ? and ends_at >= ? and ends_at <= ?",
+               optional.professional_id,
+               self.booking_datetime,
+               self.booking_datetime + sum_duration.minutes
+             )
+             .present?
+          return true
+        end
+      end
+    end
+
+    return false
+  end
+
+  def create_occupations
+    professional = Professional.find(service.professional_id)
 
     professional.occupations.create!(
-      professional_id: professional_id,
+      professional_id: professional,
       service_id: service_id,
       starts_at: starts_at,
       ends_at: ends_at
     )
+
+    if service.optional_services.any?
+      service.optional_services.each do |optional|
+        opt_professional = Professional.find(optional.professional_id)
+
+        opt_professional.occupations.create!(
+          professional_id: opt_professional,
+          service_id: service_id,
+          starts_at: starts_at,
+          ends_at: ends_at
+        )
+      end
+    end
   end
 
   def round_datetime_sum_hour

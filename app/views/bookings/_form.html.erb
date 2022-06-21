@@ -36,15 +36,6 @@
       </div>
 
       <div class="field">
-        <%= form.label 'Profissional', style: "display: block", class: "label" %>
-        <div class="control">
-          <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :professional_id, @professionals, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
-          </div>
-        </div>
-      </div>
-
-      <div class="field">
         <%= form.label :booking_datetime, style: "display: block", class: "label" %>
         <div class="control">
           <div class="is-fullwidth">
