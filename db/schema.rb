@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_143013) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_22_002428) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143013) do
   create_table "bookings", force: :cascade do |t|
     t.text "notes"
     t.integer "status"
-    t.datetime "canceledAt"
+    t.datetime "canceled_at"
     t.bigint "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -134,11 +134,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143013) do
     t.integer "duration"
     t.decimal "price", precision: 8, scale: 2
     t.boolean "is_comissioned", default: false
-    t.bigint "professional_id", null: false
     t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["professional_id"], name: "index_services_on_professional_id"
     t.index ["service_id"], name: "index_services_on_service_id"
   end
 
@@ -150,18 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143013) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_stocks_on_product_id"
-  end
-
-  create_table "timeslots", force: :cascade do |t|
-    t.datetime "starts_at"
-    t.datetime "ends_at"
-    t.bigint "schedule_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0
-    t.bigint "service_booking_id"
-    t.index ["schedule_id"], name: "index_timeslots_on_schedule_id"
-    t.index ["service_booking_id"], name: "index_timeslots_on_service_booking_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -185,9 +171,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_143013) do
   add_foreign_key "product_usages", "services"
   add_foreign_key "professionals", "users"
   add_foreign_key "schedules", "professionals"
-  add_foreign_key "services", "professionals"
   add_foreign_key "services", "services"
   add_foreign_key "stocks", "products"
-  add_foreign_key "timeslots", "bookings", column: "service_booking_id"
-  add_foreign_key "timeslots", "schedules"
 end
