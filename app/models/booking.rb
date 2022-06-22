@@ -8,8 +8,12 @@ class Booking < ApplicationRecord
   before_update :create_stock_decrement, if: -> { status == "completed" }
 
   validates :status, presence: true
+  validates :starts_at, presence: true
+  validates :ends_at, presence: true
 
   validate :professional_is_available
+
+  scope :active, -> { where.not(status: [:customer_canceled, :professional_canceled, :absent]) }
 
   enum status: %i[
     requested
@@ -30,7 +34,7 @@ class Booking < ApplicationRecord
   private
 
   def set_ends_at
-    self.ends_at = starts_at + sum_duration.minutes
+    self.ends_at = starts_at + sum_duration&.minutes if starts_at
   end
 
   def update_canceled_at
@@ -52,7 +56,7 @@ class Booking < ApplicationRecord
   end
 
   def professional_is_available
-    if professional.bookings.where("starts_at >= ? AND ends_at <= ?", starts_at, ends_at).present?
+    if professional&.bookings&.active&.where("starts_at <= ? AND ends_at >= ?", ends_at, starts_at).present?
       errors.add(:professional, "not available")
     end
   end
