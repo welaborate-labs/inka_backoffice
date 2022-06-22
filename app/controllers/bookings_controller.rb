@@ -65,7 +65,6 @@ class BookingsController < ApplicationController
       :service_id,
       :customer_id,
       :professional_id,
-      :canceled_at,
       :booking_datetime
     )
   end
