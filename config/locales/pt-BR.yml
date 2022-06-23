@@ -98,7 +98,6 @@ pt-BR:
         cancelet_at: 'Cancelado em'
         customer_id: 'ID do Cliente'
         service_id: 'ID do Serviço'
-        free_time: 'Tempo Livre'
         customer: 'Cliente'
         service: 'Serviço'
         professional: 'Profissional'
