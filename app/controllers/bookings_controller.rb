@@ -32,9 +32,7 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        format.html do
-          redirect_to booking_path(@booking), notice: "Reserva atualizada com sucesso!"
-        end
+        format.html { redirect_to booking_path(@booking), notice: "Reserva atualizada com sucesso!" }
         format.json { render :show, status: :ok, location: @booking }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,7 +45,7 @@ class BookingsController < ApplicationController
     @booking.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_url, notice: "Reserva removida com sucesso!" }
+      format.html { redirect_to bookings_url, notice: "Reserva removida com sucesso!" }
       format.json { head :no_content }
     end
   end
@@ -59,13 +57,6 @@ class BookingsController < ApplicationController
   end
 
   def booking_params
-    params.require(:booking).permit(
-      :status,
-      :notes,
-      :service_id,
-      :customer_id,
-      :professional_id,
-      :booking_datetime
-    )
+    params.require(:booking).permit(:status, :notes, :service_id, :customer_id, :professional_id, :booking_datetime, :starts_at, :ends_at)
   end
 end

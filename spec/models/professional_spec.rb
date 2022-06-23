@@ -5,7 +5,6 @@ RSpec.describe Professional, type: :model do
   let(:user) { build(:user, uid: identity.id) }
   let(:professional) { build(:professional, :with_avatar, user: user) }
   let(:schedule_2) { create(:schedule, professional: professional) }
-  let(:timeslots) { create_list(:timeslot, 15, schedule: schedule_2) }
   let(:invalid) { Professional.new }
 
   describe 'instances an empty professional' do
@@ -99,13 +98,6 @@ RSpec.describe Professional, type: :model do
         expect(professional.errors.messages[:phone]).to eq ["é muito longo (máximo: 15 caracteres)"]
         expect(professional.errors.messages[:address]).to eq ["é muito longo (máximo: 150 caracteres)"]
         expect(professional.errors.messages[:document]).to eq ["é muito longo (máximo: 16 caracteres)"]
-      end
-    end
-
-    describe 'should verify the timeslots through schedules' do
-      it 'should return all timeslots' do
-        expect(professional.timeslots).to eq timeslots
-        expect(professional.timeslots.count).to eq 15
       end
     end
   end

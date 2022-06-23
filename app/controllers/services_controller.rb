@@ -69,11 +69,9 @@ class ServicesController < ApplicationController
         :duration,
         :price,
         :is_comissioned,
-        :professional_id,
         :service_id,
         product_usages_attributes: %i[product_id quantity _destroy]
       )
-      .merge(professional: @professional)
   end
 
   def set_professional

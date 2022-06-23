@@ -5,17 +5,9 @@ RSpec.describe BookingsController, type: :controller do
   let!(:customer) { create(:customer, :with_avatar) }
   let(:professional) { create(:professional, :with_avatar, user: user) }
   let(:schedule_1) { create(:schedule, professional: professional) }
-  let!(:timeslot_1) do
-    create(
-      :timeslot,
-      schedule: schedule_1,
-      starts_at: "2022-05-10 09:00",
-      ends_at: "2022-05-10 09:30"
-    )
-  end
-  let!(:service) { create(:service, professional: professional) }
+  let!(:service) { create(:service) }
   let(:booking) do
-    build(:booking, customer: customer, service: service, booking_datetime: "2022-05-10 09:00")
+    create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00")
   end
 
   let(:new_attributes) { { notes: "new notes" } }
@@ -24,18 +16,16 @@ RSpec.describe BookingsController, type: :controller do
       status: "requested",
       customer_id: customer.id,
       service_id: service.id,
-      booking_datetime: "2022-05-10 09:00"
+      professional_id: professional.id,
+      starts_at: "2022-05-10 09:00"
     }
   end
-  let(:invalid_attributes) { { service_id: nil, customer_id: nil, booking_datetime: nil } }
+  let(:invalid_attributes) { { service_id: nil, customer_id: nil, professional_id: nil, starts_at: nil } }
 
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
   describe "GET /index" do
-    before do
-      booking.save!
-      get :index
-    end
+    before { get :index }
 
     it { expect(response).to render_template(:index) }
     it { expect(response).to be_successful }

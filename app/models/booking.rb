@@ -11,7 +11,8 @@ class Booking < ApplicationRecord
   validates :starts_at, presence: true
   validates :ends_at, presence: true
 
-  validate :professional_is_available
+  validate :professional_is_available, if: -> { starts_at_changed? }
+  validate :schedule_is_available
 
   scope :active, -> { where.not(status: [:customer_canceled, :professional_canceled, :absent]) }
 
@@ -34,7 +35,7 @@ class Booking < ApplicationRecord
   private
 
   def set_ends_at
-    self.ends_at = starts_at + sum_duration&.minutes if starts_at
+    self.ends_at = self.starts_at + sum_duration&.minutes if self.starts_at && sum_duration
   end
 
   def update_canceled_at
@@ -46,18 +47,26 @@ class Booking < ApplicationRecord
   end
 
   def create_stock_decrement
-    service.product_usages.each do |product_usage|
+    service.product_usages.each { |product_usage|
       StockDecrement.create(
-        product_id: product_usage.product_id,
-        quantity: product_usage.quantity,
-        integralized_at: DateTime.now
+        product_id: product_usage.product_id, quantity: product_usage.quantity, integralized_at: DateTime.now
       )
-    end
+    }
   end
 
   def professional_is_available
     if professional&.bookings&.active&.where("starts_at <= ? AND ends_at >= ?", ends_at, starts_at).present?
-      errors.add(:professional, "not available")
+      errors.add(:booking, "não disponível")
+    end
+  end
+
+  def schedule_is_available
+    return if !professional
+
+    schedule = professional&.schedules&.where("weekday = ? AND starts_at <= ? AND ends_at >= ?", ends_at.wday, starts_at.hour, ends_at.hour).first
+
+    if !schedule || (starts_at.hour >= schedule.interval_starts_at &&  ends_at.hour <= schedule.interval_ends_at)
+      errors.add(:professional, "não possui agenda para esse horário")
     end
   end
 end
