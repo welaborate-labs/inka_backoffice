@@ -3,9 +3,9 @@ require "rails_helper"
 RSpec.describe Booking, type: :model do
   let(:customer) { create(:customer, :with_avatar) }
   let(:professional) { create(:professional) }
-  let(:schedule_1) { create(:schedule, professional: professional) }
-  let(:schedule_2) { create(:schedule, professional: professional, weekday: 2) }
-  let(:schedule_3) { create(:schedule, professional: professional, weekday: 3) }
+  let!(:schedule_1) { create(:schedule, professional: professional) }
+  let!(:schedule_2) { create(:schedule, professional: professional, weekday: 2) }
+  let!(:schedule_3) { create(:schedule, professional: professional, weekday: 3) }
 
   let(:service) { create(:service) }
   let(:occupation) { create(:occupation, service: service, professional: professional) }
@@ -118,7 +118,7 @@ RSpec.describe Booking, type: :model do
           previous_booking.update(status: :customer_canceled)
         end
 
-        it { is_expected.not_to be_valid }
+        it { is_expected.to be_valid }
       end
     end
   end

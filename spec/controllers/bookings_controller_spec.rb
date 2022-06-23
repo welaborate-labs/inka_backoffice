@@ -1,11 +1,11 @@
 require "rails_helper"
 
 RSpec.describe BookingsController, type: :controller do
-  let!(:user) { create(:user) }
-  let!(:customer) { create(:customer, :with_avatar) }
+  let(:user) { create(:user) }
+  let(:customer) { create(:customer, :with_avatar) }
   let(:professional) { create(:professional, :with_avatar, user: user) }
-  let(:schedule_1) { create(:schedule, professional: professional) }
-  let!(:service) { create(:service) }
+  let!(:schedule_1) { create(:schedule, professional: professional, weekday: 2) }
+  let(:service) { create(:service) }
   let(:booking) do
     create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00")
   end
@@ -231,7 +231,7 @@ RSpec.describe BookingsController, type: :controller do
 
       it "redirects to the calendar view" do
         delete :destroy, params: { id: booking }
-        expect(response).to redirect_to(root_url)
+        expect(response).to redirect_to(bookings_url)
       end
     end
 
