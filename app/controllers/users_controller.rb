@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'Usuário removido com sucesso.' }
+      format.html { redirect_to users_url, status: :see_other, notice: 'Usuário removido com sucesso.' }
       format.json { head :no_content }
     end
   end

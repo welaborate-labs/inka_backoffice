@@ -1,0 +1,11 @@
+<%= form_with url: calendar_index_path, method: :get, class: 'mt-6 has-text-centered' do %>
+  <div class="field">
+    <%= label_tag 'Selecione a data', nil, class: "label" %>
+    <div class="control">
+      <div class="is-fullwidth">
+        <%= date_select nil, :start_date, selected: @start_date || Date.today %>
+      </div>
+    </div>
+  </div>
+  <%= submit_tag 'Pesquisar', class: 'button is-primary is-small is-hovered' %>
+<% end %>

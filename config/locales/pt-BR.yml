@@ -103,6 +103,7 @@ pt-BR:
         professional: 'Profissional'
         starts_at: 'Começa ás'
         ends_at: 'Termina ás'
+        booking: 'Agenda'
         statuses:
           requested: 'Solicitado  '
           accepted: 'Aceito'
@@ -152,6 +153,14 @@ pt-BR:
           has_one: Não é possível excluir o registro pois existe um %{record} dependente
           has_many: Não é possível excluir o registro pois existem %{record} dependentes
   date:
+    day_names_calendar:
+    - sunday
+    - monday
+    - tuesday
+    - wednesday
+    - thursday
+    - friday
+    - saturday
     abbr_day_names:
     - dom
     - seg
@@ -364,4 +373,5 @@ pt-BR:
       default: "%a, %d de %B de %Y, %H:%M:%S %z"
       long: "%d de %B de %Y, %H:%M"
       short: "%d de %B, %H:%M"
+      hour: "%H:%M"
     pm: ''

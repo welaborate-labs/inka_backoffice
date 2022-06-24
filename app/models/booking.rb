@@ -26,7 +26,17 @@ class Booking < ApplicationRecord
     completed
   ]
 
-  attr_accessor :booking_datetime
+  def customer_name
+    Customer.find(customer_id).name
+  end
+
+  def professional_name
+    Professional.find(professional_id).name
+  end
+
+  def calendar_names
+    "#{customer_name} - #{professional_name}"
+  end
 
   def sum_duration
     service.duration + service.optional_services&.sum(:duration) if service
@@ -65,7 +75,8 @@ class Booking < ApplicationRecord
 
     schedule = professional&.schedules&.where("weekday = ? AND starts_at <= ? AND ends_at >= ?", ends_at.wday, starts_at.hour, ends_at.hour).first
 
-    if !schedule || (starts_at.hour >= schedule.interval_starts_at &&  ends_at.hour <= schedule.interval_ends_at)
+    if !schedule || (starts_at.hour.between?(schedule.interval_starts_at, schedule.interval_ends_at) ||
+        ends_at.hour.between?(schedule.interval_starts_at, schedule.interval_ends_at))
       errors.add(:professional, "não possui agenda para esse horário")
     end
   end
