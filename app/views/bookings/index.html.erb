@@ -2,7 +2,7 @@
   <div class="column is-narrow">
       <h1 class="title has-text-centered">Reservas</h1>
       <div class="buttons is-centered">
-        <%= link_to "Nova Reserva", new_service_booking_path, class: "button is-small is-link" %>
+        <%= link_to "Nova Reserva", new_booking_path, class: "button is-small is-link" %>
       </div>
       <table class="table">
           <thead>
@@ -11,15 +11,19 @@
               <th>Status</th>
               <th>Cancelado em</th>
               <th>Cliente</th>
-              <th>Data - Horário</th>
+              <th>Profissional</th>
+              <th>Horário Inicial</th>
+              <th>Horário Final</th>
+              <th>Duração total</th>
+              <th>Serviços Opcionais</th>
               <th colspan="2"></th>
             </tr>
           </thead>
           <tbody>
-            <div id="service_bookings">
-              <% @service_bookings.each do |service_booking| %>
+            <div id="bookings">
+              <% @bookings.each do |booking| %>
               <tr>
-                <%= render service_booking %>
+                <%= render booking %>
               </tr>
               <% end %>
             </div>

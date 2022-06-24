@@ -1,5 +1,8 @@
 <div id="<%= dom_id schedule %>">
   <td>
+    <%= Professional.find(schedule.professional_id).name %>
+  </td>
+  <td>
     <%= Schedule.human_attribute_name("weekday.#{schedule.weekday}") %>
   </td>
   <td>

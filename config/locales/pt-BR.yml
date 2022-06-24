@@ -27,7 +27,7 @@ pt-BR:
       schedule:
         one: 'Agenda'
         other: 'Agendas'
-      service_booking:
+      booking:
         one: 'Reserva'
         other: 'Reservas'
       service:
@@ -36,9 +36,6 @@ pt-BR:
       stock:
         one: 'Estoque'
         other: 'Estoques'
-      timeslot:
-        one: 'Horário'
-        other: 'Horários'
       user:
         one: 'Usuário'
         other: 'Usuários'
@@ -96,26 +93,27 @@ pt-BR:
         thursday: 'Quinta-feira'
         friday: 'Sexta-feira'
         saturday: Sábado
-      service_booking:
+      booking:
         notes: 'Anotações'
         cancelet_at: 'Cancelado em'
         customer_id: 'ID do Cliente'
         service_id: 'ID do Serviço'
-        free_time: 'Tempo Livre'
         customer: 'Cliente'
         service: 'Serviço'
-        booking_datetime: 'Data do Agendamento'
+        professional: 'Profissional'
+        starts_at: 'Começa ás'
+        ends_at: 'Termina ás'
         statuses:
-          requested: 'Requerido'
-          accepted: 'Aceitado'
+          requested: 'Solicitado  '
+          accepted: 'Aceito'
           confirmed: 'Confirmado'
           customer_canceled: 'Cancelado pelo Cliente'
           professional_canceled: 'Cancelado pelo Profissional'
           absent: 'Ausente'
           completed: 'Completado'
-      service_booking/status:
-        requested: 'Requerido'
-        accepted: 'Aceitado'
+      booking/status:
+        requested: 'Solicitado'
+        accepted: 'Aceito'
         confirmed: 'Confirmado'
         customer_canceled: 'Cancelado pelo Cliente'
         professional_canceled: 'Cancelado pelo Profissional'
@@ -140,21 +138,6 @@ pt-BR:
           StockDecrement:
             one: 'Saída'
             other: 'Saídas'
-      timeslot:
-        starts_at: 'Começa em'
-        ends_at: 'Termina em'
-        schedule_id: 'ID da Agenda'
-        service_booking_id: 'ID da Reserva'
-        status:
-          free:
-            one: 'Livre'
-            other: 'Livres'
-          booked:
-            one: 'Reservado'
-            other: 'Reservados'
-          absent:
-            one: 'Ausente'
-            other: 'Ausentes'
       user:
         provider: 'Provedor'
         uid: 'UID'

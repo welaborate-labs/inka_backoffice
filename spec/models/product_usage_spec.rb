@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ProductUsage, type: :model do
   let(:user) { create(:user) }
   let(:professional) { create(:professional, :with_avatar, user: user) }
-  let(:service) { create(:service, professional: professional) }
+  let(:service) { create(:service) }
   let(:product) { create(:product) }
   let(:product_usage) { create(:product_usage, product: product, service: service) }
   let(:invalid_product) { ProductUsage.new }

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :stock_decrements, controller: :stocks, type: 'StockDecrement'
   end
   resources :calendar, only: %i[index]
-  resources :service_bookings
+  resources :bookings
   resources :schedules
   resources :services
   resources :professionals
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   match '/logout', to: 'sessions#destroy', via: %i[get post]
 
-  get '/service_bookings/:booking_date/new', to: 'service_bookings#new'
+  get '/bookings/:booking_date/new', to: 'bookings#new'
   get '/login', to: 'sessions#new'
   get '/auth/failure', to: 'sessions#failure'
 end

@@ -230,7 +230,7 @@ RSpec.describe ProfessionalsController, type: :controller do
       before { professional.save }
 
       it do
-        expect { delete :destroy, params: { id: professional } }.to change(Professional, :count)
+        expect { delete :destroy, params: { id: professional.id } }.to change(Professional, :count)
           .by(-1)
       end
 
