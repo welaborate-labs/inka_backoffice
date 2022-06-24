@@ -6,7 +6,6 @@ RSpec.describe Schedule, type: :model do
   let(:professional) { create(:professional, :with_avatar, user: user) }
   let(:schedule) { build(:schedule, professional: professional) }
   let(:schedule_2) { create(:schedule, professional: professional) }
-  let(:timeslots) { create_list(:timeslot, 15, schedule: schedule_2) }
   let(:invalid) { Schedule.new }
 
   describe 'instances an empty schedule' do
@@ -62,12 +61,6 @@ RSpec.describe Schedule, type: :model do
       expect(schedule.errors.messages[:ends_at]).to eq ["não está incluído na lista"]
       expect(schedule.errors.messages[:interval_starts_at]).to eq ["não está incluído na lista"]
       expect(schedule.errors.messages[:interval_ends_at]).to eq ["não está incluído na lista"]
-    end
-  end
-
-  describe 'should verify the relationship with timeslots' do
-    it 'should return all timeslots' do
-      expect(schedule_2.timeslots).to eq timeslots
     end
   end
 end

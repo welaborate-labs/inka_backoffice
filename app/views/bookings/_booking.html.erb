@@ -1,0 +1,42 @@
+<div id="<%= dom_id booking %>">
+  <td>
+    <%= booking.notes %>
+  </td>
+
+  <td>
+    <%= Booking.human_attribute_name("status.#{booking.status}") %>
+  </td>
+
+  <td>
+    <%= booking.canceled_at&.to_date %>
+  </td>
+
+  <td>
+    <%= booking.customer.name %>
+  </td>
+
+  <td>
+    <%= booking.professional.name %>
+  </td>
+
+  <td>
+    <%= booking.starts_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
+  </td>
+
+  <td>
+    <%= booking.ends_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
+  </td>
+
+  <td>
+    <%= booking.sum_duration %>
+  </td>
+
+  <td>
+    <%= booking.service.optional_services.count %>
+  </td>
+
+  <td>
+    <%= link_to "Editar", edit_booking_path(booking), class: 'button is-small is-primary' %>
+    <%= link_to "Deletar", booking, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
+  </td>
+</div>

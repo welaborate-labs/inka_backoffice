@@ -3,14 +3,13 @@ require 'rails_helper'
 RSpec.describe ServicesController, type: :controller do
   let(:identity) { create(:identity) }
   let(:user) { create(:user, uid: identity.id) }
-  let(:professional) { create(:professional, :with_avatar, user: user) }
-  let(:service) { build(:service, professional: professional) }
-  let(:main_service) { create(:service, professional: professional) }
+  let(:service) { build(:service) }
+  let(:main_service) { create(:service) }
   before { allow_any_instance_of(ApplicationController).to receive(:current_user) { user } }
 
   let(:new_attributes) { { title: 'New Title' } }
   let(:valid_attributes) do
-    { title: 'Title', duration: 30, price: 45.50, professional_id: professional.id }
+    { title: 'Title', duration: 30, price: 45.50 }
   end
   let(:invalid_attributes) { { title: nil } }
   let(:optional_service) do
@@ -18,8 +17,7 @@ RSpec.describe ServicesController, type: :controller do
       title: 'Title',
       duration: 30,
       price: 45.50,
-      service_id: main_service.id,
-      professional_id: professional.id
+      service_id: main_service.id
     }
   end
 

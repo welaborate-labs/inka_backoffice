@@ -3,11 +3,10 @@ require 'rails_helper'
 RSpec.describe Service, type: :model do
   let(:identity) { create(:identity) }
   let(:user) { create(:user, uid: identity.id) }
-  let(:professional) { create(:professional, :with_avatar, user: user) }
-  let(:service) { build(:service, professional: professional) }
-  let(:main_service) { create(:service, professional: professional) }
+  let(:service) { build(:service) }
+  let(:main_service) { create(:service) }
   let(:optional_service) do
-    build(:service, service_id: main_service.id, professional: professional)
+    build(:service, service_id: main_service.id)
   end
   let(:invalid) { Service.new }
 
@@ -45,9 +44,8 @@ RSpec.describe Service, type: :model do
     it "should verify the 'presence'" do
       invalid.save
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[professional title duration price]
-      expect(invalid.errors.messages.count).to eq 4
-      expect(invalid.errors.messages[:professional]).to eq ["é obrigatório(a)"]
+      expect(invalid.errors.attribute_names).to eq %i[title duration price]
+      expect(invalid.errors.messages.count).to eq 3
       expect(invalid.errors.messages[:title]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
       expect(invalid.errors.messages[:duration]).to eq ["não pode ficar em branco"]
       expect(invalid.errors.messages[:price]).to eq ["não pode ficar em branco"]

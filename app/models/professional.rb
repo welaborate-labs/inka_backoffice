@@ -2,9 +2,9 @@ class Professional < ApplicationRecord
   REGEX_FORMAT = /\A[\w+-.]+@[a-z\d-]+(.[a-z]+)*.[a-z]+\z/i
 
   has_one_attached :avatar, dependent: :destroy
-  has_many :services, dependent: :destroy
   has_many :schedules, dependent: :destroy
-  has_many :timeslots, through: :schedules, dependent: :destroy
+  has_many :occupations, dependent: :destroy
+  has_many :bookings, dependent: :destroy
   belongs_to :user
 
   accepts_nested_attributes_for :schedules, allow_destroy: true, reject_if: :all_blank

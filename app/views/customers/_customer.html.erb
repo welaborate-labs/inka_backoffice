@@ -2,7 +2,7 @@
   <td>
     <%= customer.name %>
   </td>
-    
+
   <td>
     <%= customer.email %>
   </td>
@@ -24,7 +24,7 @@
   </td>
 
   <td>
-  <%= link_to "Editar", edit_customer_path(@customer), class: "button is-primary is-small" %>
-  <%= link_to "Deletar", @customer, method: :delete, class: "button is-danger is-small" %>
+    <%= link_to "Editar", edit_customer_path(customer), class: "button is-primary is-small" %>
+    <%= link_to "Deletar", customer, method: :delete, class: "button is-danger is-small" %>
   </td>
 </div>
