@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   match '/logout', to: 'sessions#destroy', via: %i[get post]
 
-  get '/bookings/:booking_date/new', to: 'bookings#new'
+  get '/bookings/:starts_at/new', to: 'bookings#new'
   get '/login', to: 'sessions#new'
   get '/auth/failure', to: 'sessions#failure'
+  get '/calendar:start_date', to: 'calendar#index'
 end

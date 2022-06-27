@@ -50,7 +50,7 @@ class ServicesController < ApplicationController
     @service.destroy
 
     respond_to do |format|
-      format.html { redirect_to services_url, notice: 'Serviço removido com sucesso.' }
+      format.html { redirect_to services_url, status: :see_other, notice: 'Serviço removido com sucesso.' }
       format.json { head :no_content }
     end
   end

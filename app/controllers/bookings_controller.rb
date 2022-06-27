@@ -5,15 +5,13 @@ class BookingsController < ApplicationController
     @bookings = Booking.all.order("updated_at DESC")
   end
 
-  def show
-  end
+  def show; end
 
   def new
-    @booking = Booking.new
+    @booking = Booking.new(starts_at: params[:starts_at])
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @booking = Booking.new(booking_params)
@@ -45,7 +43,7 @@ class BookingsController < ApplicationController
     @booking.destroy
 
     respond_to do |format|
-      format.html { redirect_to bookings_url, notice: "Reserva removida com sucesso!" }
+      format.html { redirect_to bookings_path, status: :see_other, notice: "Reserva removida com sucesso!" }
       format.json { head :no_content }
     end
   end

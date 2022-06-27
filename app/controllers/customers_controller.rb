@@ -54,7 +54,7 @@ class CustomersController < ApplicationController
     @customer.destroy
 
     respond_to do |format|
-      format.html { redirect_to customers_url, notice: 'Cliente removido com sucesso!' }
+      format.html { redirect_to customers_url, status: :see_other, notice: 'Cliente removido com sucesso!' }
       format.json { head :no_content }
     end
   end
