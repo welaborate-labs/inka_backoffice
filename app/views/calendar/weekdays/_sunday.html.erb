@@ -1,7 +1,0 @@
-<% @bookings.each do |booking| %>
-  <% if booking.starts_at.sunday? && booking.starts_at.to_date == @date_range[6] && booking.starts_at.hour == hour %>
-    <h1 class="tag px-4 mb-2">
-      <%= link_to "#{booking.calendar_names}", booking_path(booking) %>
-    </h1>
-  <% end %>
-<% end %>

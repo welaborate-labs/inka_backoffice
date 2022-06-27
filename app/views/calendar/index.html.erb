@@ -1,27 +1,2 @@
-<%= render 'date_select' %>
-
-<div class="columns mt-6 has-text-centered">
-  <div class="column is-1 is-offset-1"><%= link_to "<<", calendar_index_path(start_date: @start_date - 1.week) %></div>
-  <% @date_range.slice(0, 7).each do |day| %>
-    <% if day == @start_date %>
-      <div class="column is-1 has-background-link-light">
-        <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
-        <p class="subtitle"><%= day.day %></p>
-        <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
-      </div>
-    <% else %>
-      <div class="column is-1">
-        <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
-        <p class="subtitle"><%= day.day %></p>
-        <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
-      </div>
-    <% end %>
-  <% end %>
-  <div class="column is-1"><%= link_to ">>", calendar_index_path(start_date: @start_date + 1.week) %></div>
-</div>
-
-<% @time_range.each do |hour| %>
-  <div class="columns mt-6 has-text-centered">
-    <%= render 'calendar/times', hour: hour %>
-  </div>
-<% end %>
+<%= link_to 'Professional Calendar', calendar_professional_path %> |
+<%= link_to 'Adm Calendar', calendar_adm_path %>
