@@ -44,9 +44,7 @@ class ProfessionalsController < ApplicationController
     @professional.destroy
 
     respond_to do |format|
-      format.html do
-        redirect_to professionals_url, notice: 'Profissional removido com sucesso!'
-      end
+      format.html { redirect_to professionals_url, status: :see_other, notice: 'Profissional removido com sucesso!' }
       format.json { head :no_content }
     end
   end

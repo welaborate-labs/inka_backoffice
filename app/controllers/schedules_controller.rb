@@ -54,7 +54,7 @@ class SchedulesController < ApplicationController
     @schedule.destroy
 
     respond_to do |format|
-      format.html { redirect_to schedules_url, notice: 'Agenda removida com sucesso!' }
+      format.html { redirect_to schedules_url, status: :see_other, notice: 'Agenda removida com sucesso!' }
       format.json { head :no_content }
     end
   end

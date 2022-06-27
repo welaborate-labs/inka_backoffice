@@ -1,0 +1,32 @@
+<div class="column is-1 is-flex is-flex-direction-column is-offset-1 is-justify-content-center">
+  <%= "#{hour}:00h" %>
+</div>
+
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/monday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at: @date_range[0] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/tuesday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[1] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/wednesday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[2] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/thursday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[3] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/friday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[4] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/saturday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[5] + hour.hour) %></h1>
+</div>
+<div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+  <%= render "calendar/weekdays/sunday", bookings: @bookings, hour: hour %>
+  <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at:  @date_range[0] + hour.hour) %></h1>
+</div>

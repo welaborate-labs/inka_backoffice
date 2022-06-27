@@ -49,7 +49,7 @@ class ProductsController < ApplicationController
     @product.destroy
 
     respond_to do |format|
-      format.html { redirect_to products_url, notice: 'Produto removido com sucesso!' }
+      format.html { redirect_to products_url, status: :see_other, notice: 'Produto removido com sucesso!' }
       format.json { head :no_content }
     end
   end
