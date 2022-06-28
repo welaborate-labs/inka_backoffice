@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   get '/auth/failure', to: 'sessions#failure'
   get '/calendar:calendar_date', to: 'calendar#index'
-  get '/calendar/professional', to:'calendar#professional'
+  get '/calendar/professional_daily', to:'calendar#professional_daily'
+  get '/calendar/professional_weekly', to:'calendar#professional_weekly'
   get '/calendar/adm', to:'calendar#adm'
 end

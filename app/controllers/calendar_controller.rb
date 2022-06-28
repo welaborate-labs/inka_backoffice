@@ -1,7 +1,7 @@
 class CalendarController < ApplicationController
   before_action :set_calendar_date
   before_action :set_time_range, only: %i[adm]
-  before_action :set_professional_time_range, only: %i[professional]
+  before_action :set_professional_time_range, only: %i[professional_daily professional_weekly]
 
   def index; end
 
@@ -10,7 +10,9 @@ class CalendarController < ApplicationController
     @professionals = Professional.all.order('name ASC')
   end
 
-  def professional; end
+  def professional_daily; end
+
+  def professional_weekly; end
 
   private
 

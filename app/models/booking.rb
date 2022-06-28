@@ -42,6 +42,10 @@ class Booking < ApplicationRecord
     service.duration + service.optional_services&.sum(:duration) if service
   end
 
+  def is_inactive?
+    %w(customer_canceled professional_canceled absent).include? status
+  end
+
   private
 
   def set_ends_at
