@@ -1,5 +1,9 @@
 <%= render 'calendar/professional/date_select_daily', date_select: @date_select %>
 
+<div class="mt-6 has-text-centered">
+  <%= link_to 'Reservas Semanais', calendar_professional_weekly_path, class: "button is-small is-link" %>
+</div>
+
 <div class="columns mt-6 has-text-centered is-justify-content-center">
   <div class="column is-3 is-offset-1"><%= link_to "<<", calendar_professional_daily_path(calendar_date: @calendar_date - 1) %></div>
   <% if @calendar_date == Date.today %>
@@ -12,11 +16,10 @@
   <div class="column is-3"><%= link_to ">>", calendar_professional_daily_path(calendar_date: @calendar_date + 1) %></div>
 </div>
 
-
 <% @time_range.each do |hour| %>
   <div class="columns mt-6 has-text-centered">
     <div class="column is-1 is-flex is-flex-direction-column">
-      <p class="is-size-4"><%= "#{hour}:00h" %></p>
+      <p class=""><%= "#{hour}:00h" %></p>
     </div>
 
     <% current_user.professional.bookings.each do |booking| %>

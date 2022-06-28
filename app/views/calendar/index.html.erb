@@ -1,4 +1,13 @@
-<h1>Calendários</h1>
-<%= link_to 'Profissional Diário', calendar_professional_daily_path %><br />
-<%= link_to 'Profissional Semanal', calendar_professional_weekly_path %><br />
-<%= link_to 'Administrativo', calendar_adm_path %>
+<h1 class="mt-5 title has-text-centered">Calendários</h1>
+
+<div class="mt-6 has-text-centered">
+  <h1>Profissional</h1>
+  <%= link_to 'Reservas Diárias', calendar_professional_daily_path, class: "button is-small is-link" %>
+
+  <%= link_to 'Reservas Semanais', calendar_professional_weekly_path, class: "button is-small is-link" %>
+</div>
+
+<div class="mt-6 has-text-centered">
+  <h1>Administrativo</h1>
+  <%= link_to 'Administrativo', calendar_adm_path, class: "button is-small is-link" %><br />
+</div>

@@ -29,7 +29,11 @@
       <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
         <% professional.bookings.each do |booking| %>
           <% if @calendar_date == booking.starts_at.to_date && booking.starts_at.hour == hour %>
-            <h1 class="tag px-4 mb-2">
+            <% if booking.is_inactive? %>
+              <h1 class="tag px-4 mb-2 has-background-danger-light">
+            <% else %>
+              <h1 class="tag px-4 mb-2 has-background-light">
+            <% end %>
               <%= link_to "#{booking.customer_name}", booking_path(booking) %>
             </h1>
           <% end %>
