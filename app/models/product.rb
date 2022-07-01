@@ -9,4 +9,8 @@ class Product < ApplicationRecord
   def stock_balance
     stocks.reduce(0) { |sum, stock| sum + stock.balance_change }
   end
+
+  def name_and_unit
+    "#{name} (#{unit})"
+  end
 end
