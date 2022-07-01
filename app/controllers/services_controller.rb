@@ -70,7 +70,7 @@ class ServicesController < ApplicationController
         :price,
         :is_comissioned,
         :service_id,
-        product_usages_attributes: %i[product_id quantity _destroy]
+        product_usages_attributes: %i[id product_id quantity _destroy]
       )
   end
 
