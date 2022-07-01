@@ -1,0 +1,52 @@
+<%= render 'calendar/professional/date_select_weekly', date_select: @date_select %>
+
+<div class="mt-6 has-text-centered">
+  <%= link_to 'Reservas Diárias', calendar_professional_daily_path, class: "button is-small is-link" %>
+</div>
+
+<div class="columns mt-6 has-text-centered">
+  <div class="column is-1 is-offset-1"><%= link_to "<<", calendar_professional_weekly_path(calendar_date: @calendar_date - 1.week) %></div>
+  <% @date_range.slice(0, 7).each do |day| %>
+    <% if day == Date.today %>
+      <div class="column is-1 has-background-link-light">
+        <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
+        <p class="subtitle"><%= day.day %></p>
+        <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
+      </div>
+    <% else %>
+      <div class="column is-1">
+        <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
+        <p class="subtitle"><%= day.day %></p>
+        <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
+      </div>
+    <% end %>
+  <% end %>
+  <div class="column is-1"><%= link_to ">>", calendar_professional_weekly_path(calendar_date: @calendar_date + 1.week) %></div>
+</div>
+
+<% @time_range.each do |hour| %>
+  <div class="columns mt-6 has-text-centered">
+    <div class="column is-1 is-flex is-flex-direction-column is-offset-1 is-justify-content-center">
+      <%= "#{hour}:00h" %>
+    </div>
+
+    <% @date_range.slice(0, 7).each do |day| %>
+      <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
+        <% current_user.professional.bookings.each do |booking| %>
+          <% if day == booking.starts_at.to_date %>
+            <% if booking.starts_at.hour == hour  %>
+              <% if booking.is_inactive? %>
+                <h1 class="tag px-4 mb-2 has-background-danger-light">
+              <% else %>
+                <h1 class="tag px-4 mb-2 has-background-light">
+              <% end %>
+                <%= link_to "#{booking.calendar_names}", booking_path(booking) %>
+              </h1>
+            <% end %>
+          <% end %>
+        <% end %>
+        <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at: day + hour.hour) %></h1>
+      </div>
+    <% end %>
+  </div>
+<% end %>
