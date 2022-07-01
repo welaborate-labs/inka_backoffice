@@ -21,5 +21,8 @@ Rails.application.routes.draw do
   get '/bookings/:starts_at/new', to: 'bookings#new'
   get '/login', to: 'sessions#new'
   get '/auth/failure', to: 'sessions#failure'
-  get '/calendar:start_date', to: 'calendar#index'
+  get '/calendar:calendar_date', to: 'calendar#index'
+  get '/calendar/professional_daily', to:'calendar#professional_daily'
+  get '/calendar/professional_weekly', to:'calendar#professional_weekly'
+  get '/calendar/adm', to:'calendar#adm'
 end
