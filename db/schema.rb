@@ -42,6 +42,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_07_201043) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "anamnesis_sheets", force: :cascade do |t|
+    t.text "title"
+    t.bigint "customer_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["customer_id"], name: "index_anamnesis_sheets_on_customer_id"
+  end
+
   create_table "bookings", force: :cascade do |t|
     t.text "notes"
     t.integer "status"
@@ -66,6 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_07_201043) do
     t.string "document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -161,9 +171,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_07_201043) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "anamnesis_sheets", "customers"
   add_foreign_key "bookings", "customers"
   add_foreign_key "bookings", "professionals"
   add_foreign_key "bookings", "services"
+  add_foreign_key "customers", "users"
   add_foreign_key "occupations", "professionals"
   add_foreign_key "occupations", "services"
   add_foreign_key "product_usages", "products"

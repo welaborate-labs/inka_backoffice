@@ -1,0 +1,12 @@
+<%= form_with(model: anamnesis_sheet) do |form| %>
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_area :title %>
+  </div>
+
+  <%= hidden_field_tag :token, @token %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
