@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_one :professional, dependent: :destroy
+  has_many :professional, dependent: :destroy
   include ActionView::Helpers::NumberHelper
   REGEX_FORMAT = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
 

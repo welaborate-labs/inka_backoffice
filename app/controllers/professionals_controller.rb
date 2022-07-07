@@ -1,6 +1,5 @@
 class ProfessionalsController < ApplicationController
   before_action :set_professional, only: %i[show edit update destroy]
-  before_action :check_existing_professional, only: %i[new create]
 
   def index
     @professionals = Professional.all
@@ -9,13 +8,13 @@ class ProfessionalsController < ApplicationController
   def show; end
 
   def new
-    @professional = current_user.build_professional
+    @professional = Professional.new
   end
 
   def edit; end
 
   def create
-    @professional = current_user.build_professional(professional_params)
+    @professional = Professional.new(professional_params)
 
     respond_to do |format|
       if @professional.save
@@ -51,18 +50,8 @@ class ProfessionalsController < ApplicationController
 
   private
 
-  def check_existing_professional
-    if current_user.professional
-      return redirect_to professionals_url, alert: 'Esta conta já possui um profissional cadastrado.'
-    end
-  end
-
   def set_professional
-    professional = Professional.find(params[:id])
-    @professional = current_user.professional
-    if professional != @professional
-      return redirect_to professionals_url, alert: 'Profissional não encontrado para o usuário atual!'
-    end
+    @professional = Professional.find(params[:id])
   end
 
   def professional_params
@@ -75,6 +64,7 @@ class ProfessionalsController < ApplicationController
         :address,
         :document,
         :avatar,
+        :user_id,
         schedules_attributes: %i[
           weekday
           starts_at

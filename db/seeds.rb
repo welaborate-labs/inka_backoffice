@@ -139,8 +139,8 @@ year = DateTime.now.year
 month = DateTime.now.month
 day = DateTime.now.day
 hour = 8
-starts_at = DateTime.new(year, month, day, hour) - 5.day
-ends_at = DateTime.new(year, month, day, hour) + 10.hours
+starts_at = DateTime.new(year, month, day, hour) + 5.day
+ends_at = starts_at + 1.hour
 
 puts "creating Service Bookings..."
 Booking.create!(
@@ -149,36 +149,46 @@ Booking.create!(
       notes: "some note",
       status: 0,
       service_id: Service.second.id,
+      professional_id: Service.third.professionals.first.id,
       customer_id: Customer.first.id,
-      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 1.day
+      starts_at: starts_at - 1.day,
+      ends_at: ends_at - 1.day
     },
     {
       notes: "some note_2",
       status: 1,
       service_id: Service.second.id,
+      professional_id: Service.third.professionals.first.id,
       customer_id: Customer.first.id,
-      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 2.day
+      starts_at: starts_at - 2.days,
+      ends_at: ends_at - 2.days
     },
     {
       notes: "some note_3",
       status: 2,
       service_id: Service.third.id,
+      professional_id: Service.third.professionals.first.id,
       customer_id: Customer.first.id,
-      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 3.day
+      starts_at: starts_at - 3.days,
+      ends_at: ends_at - 3.days
     },
     {
       notes: "some note_3",
       status: 5,
       service_id: Service.third.id,
+      professional_id: Service.third.professionals.first.id,
       customer_id: Customer.first.id,
-      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 4.day
+      starts_at: starts_at - 4.days,
+      ends_at: ends_at - 4.days
     },
     {
       notes: "some note_4",
       status: 6,
       service_id: Service.second.id,
+      professional_id: Service.third.professionals.first.id,
       customer_id: Customer.first.id,
-      booking_datetime: starts_at = DateTime.new(year, month, day, hour) - 5.day
+      starts_at: starts_at - 5.days,
+      ends_at: ends_at - 5.days
     }
   ]
 )
