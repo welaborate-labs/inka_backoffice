@@ -1,65 +1,63 @@
 <div class="columns mt-6 is-centered">
-  <div class="column is-3">
+  <div class="column is-12">
     <%= form_for @service, class: "box" do |form| %>
     <%= render 'shared/error_messages', resource: @service %>
       <div class="field">
         <label class="label">Título</label>
         <%= form.text_field :title, class: "input" %>
       </div>
-      <div class="field">
-        <label class="label">Duração</label>
-          <%= form.number_field :duration, class: "input" %>
-      </div>
-      <div class="field">
-        <label class="label">Preço</label>
-        <%= form.number_field :price, step: 0.01, class: "input" %>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label has-text-justified">
-          <label class="label">Comissionado</label>
-          <%= form.check_box :is_comissioned, class: "checkbox" %>
+      <div class="columns">
+        <div class="column is-6 field">
+          <label class="label">Duração</label>
+            <%= form.number_field :duration, class: "input" %>
+        </div>
+        <div class="column is-6 field">
+          <label class="label">Preço</label>
+          <%= form.number_field :price, step: 0.01, class: "input" %>
         </div>
       </div>
-      <div class="field">
-        <label class="label">Opcional</label>
-        <div class="control">
-          <div class="select is-fullwidth">
-            <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
+      <div class="columns">
+        <div class="column is-6 field">
+          <label class="label">Opcional</label>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <%= form.collection_select :service_id, @services, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
+            </div>
           </div>
         </div>
-
+        <div class="column is-6 field is-horizontal">
+          <div class="field-label has-text-justified">
+            <label class="label">Comissionado</label>
+            <%= form.check_box :is_comissioned, class: "checkbox" %>
+          </div>
+        </div>
       </div>
-      <h1 class="title is-size-5 has-text-centered">Produtos Utilizados</h1>
 
-      <table>
-        <thead>
-          <th>Produto</th>
-          <th>Quantidade</th>
-          <th></th>
-        </thead>
-        <tbody>
-          <%= render 'empty_product_usage' %>
+      <div class="has-text-centered">
+        <h1 class="title is-size-5">Produtos Utilizados</h1>
+        <%= link_to_add_fields "Adicionar Novo", form, :product_usages, 'button is-link mt-2' %>
+        <div class="columns">
+          <div class="column is-8 has-text-centered">Produto</div>
+          <div class="column is-2 has-text-centered">Quantidade</div>
+          <div class="column is-2"></div>
+        </div>
+        <div class="has-text-centered" id="service-product-usages">
           <%= form.fields_for :product_usages do |product_usages_form| %>
-
-
             <%= render "product_usage_fields", f: product_usages_form %>
           <% end %>
+        </div>
+      </div>
 
-        </tbody>
-      </table>
-
-      <%= link_to_add_fields "Adicionar Novo", form, :product_usages, 'button is-link is-small mt-2' %>
-
-      <div class="buttons is-centered">
-        <%= form.submit  class: 'button is-primary' %>
+      <div class="buttons is-centered mt-5">
+        <%= form.submit class: 'button is-primary' %>
       </div>
     <% end %>
 
     <script>
       $('form').on('click', '.remove_fields', function(event) {
-        $(this).prev('input[type=hidden]').val('1');
-        $(this).closest('tr').removeClass();
-        $(this).closest('tr').hide();
+        var elem = $(this).closest('.product-usages-fields');
+        $(elem).find('input[type=hidden]').val('1');
+        $(elem).hide();
         return event.preventDefault();
       });
 
@@ -67,7 +65,7 @@
         var regexp, time;
         time = new Date().getTime();
         regexp = new RegExp($(this).data('id'), 'g');
-        $(this).before($(this).data('fields').replace(regexp, time));
+        $("#service-product-usages").prepend($(this).data('fields').replace(regexp, time));
         return event.preventDefault();
       });
     </script>
