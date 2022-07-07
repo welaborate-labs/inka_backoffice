@@ -2,8 +2,6 @@ require "rqrcode"
 
 class Qrcode
   class << self
-    include Rails.application.routes.url_helpers
-
     def create_anemnesis_sheet(token)
       qrcode = RQRCode::QRCode.new("http://localhost:3000/anamnesis_sheets/new?token=#{token}")
 
