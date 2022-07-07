@@ -1,14 +1,21 @@
-<tr class="is-flex">
-  <td>
-    <%= f.collection_select :product_id, @products, :id, :name, { include_blank: 'selecione...', include_hidden: false }, class: "select" %>
-  </td>
+<div class="columns product-usages-fields">
+  <div class="column is-8">
+    <div class="select is-fullwidth">
+      <%= f.collection_select :product_id,
+          @products,
+          :id,
+          :name_and_unit,
+          { include_blank: 'selecione...', include_hidden: false }
+      %>
+    </div>
+  </div>
 
-  <td>
+  <div class="column is-2">
     <%= f.text_field :quantity, class: "input" %>
-  </td>
+  </div>
 
-  <td>
+  <div class="column is-2">
     <%= f.hidden_field :_destroy %>
-    <%= link_to "Deletar", '#', class: "remove_fields button is-small is-danger" %>
-  </td>
-</tr>
+    <%= link_to "Deletar", '#', class: "remove_fields button is-danger is-fullwidth" %>
+  </div>
+</div>
