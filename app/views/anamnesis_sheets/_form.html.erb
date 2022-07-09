@@ -1,12 +1,312 @@
-<%= form_with(model: anamnesis_sheet) do |form| %>
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_area :title %>
-  </div>
+<div class="columns mt-6 is-centered">
+  <div class="column is-12">
+    <%= form_with(model: anamnesis_sheet) do |form| %>
+      <%= render 'shared/error_messages', resource: anamnesis_sheet %>
 
-  <%= hidden_field_tag :token, @token %>
+      <div class="field">
+        <%= form.label :name, 'Nome Completo', class: "label" %>
+        <%= form.text_field :name, class: "input" %>
+      </div>
 
-  <div>
-    <%= form.submit %>
+      <div class="field">
+        <%= form.label :birth_date, 'Data de Nascimento', class: "label" %>
+        <%= form.date_field :birth_date, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :gender, style: "display: block", class: "label" %>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Feminino' %>
+            Feminino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Masculino' %>
+            Masculino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Outro' %>
+            Outro
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :recent_cirurgy, {}, class: "input" %>
+          Teve alguma cirurgia recente?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :recent_cirurgy_details, 'Se sim, detalhe aqui sobre estas cirurgias recentes', class: "label" %>
+        <%= form.text_area :recent_cirurgy_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :cronic_diseases, {}, true, class: "input" %>
+          Tem alguma doença crônica?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :cronic_diseases_details, 'Se sim, detalhe aqui sobre estas doenças crônicas', class: "label" %>
+        <%= form.text_area :cronic_diseases_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <div class="label">Antecedentes Alérgicos</div>
+        <label class="label">
+          <%= form.check_box :psoriasis, {}, true, class: "input" %>
+          Apresenta Psoríase?
+        </label>
+        <label class="label">
+          <%= form.check_box :dandruff, {}, true, class: "input" %>
+          Apresenta Caspa?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :cosmetic_allergies, {}, true, class: "input" %>
+          Possui alergia a algum tipo de cosmético?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :cosmetic_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+        <%= form.text_area :cosmetic_allergies_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :chemical_allergies, {}, true, class: "input" %>
+          Possui alergia a algum componente químico?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :chemical_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+        <%= form.text_area :chemical_allergies_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :food_allergies, {}, true, class: "input" %>
+          Possui alergia a algum alimento?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :food_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+        <%= form.text_area :food_allergies_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :medicine_usage, 'Liste abaixo medicamentos que você está utilizando no momento, com a dosagem', class: "label" %>
+        <%= form.text_area :medicine_usage, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :pregnant, {}, class: "input" %>
+          Está grávida?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :lactating, {}, class: "input" %>
+          Está amamentando?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :skin_type, 'Tipo de Pele', style: "display: block", class: "label" %>
+        <div>
+          <label class="label">
+            <%= form.radio_button :skin_type, 'Oleosa' %>
+            Oleosa
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :skin_type, 'Mista' %>
+            Mista
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :skin_type, 'Seca' %>
+            Seca
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :skin_type, 'Normal' %>
+            Normal
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <p class="label">Características da Pele</p>
+        <label class="label">
+          <%= form.check_box :skin_acne, {}, class: "input" %>
+          Acne
+        </label>
+        <label class="label">
+          <%= form.check_box :skin_scars, {}, class: "input" %>
+          Cicatriz
+        </label>
+        <label class="label">
+          <%= form.check_box :skin_spots, {}, class: "input" %>
+          Manchas
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :skin_acne, {}, class: "input" %>
+          Está usando ácido ou produtos de descamação da pele?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :skin_peeling, 'Se sim, qual?', class: "label" %>
+        <%= form.text_area :skin_peeling_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :food_allergies, {}, true, class: "input" %>
+          Possui alergia a algum alimento?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :alcohol, {}, true, class: "input" %>
+          Faz uso de álcool?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :tobacco, {}, true, class: "input" %>
+          É fumante?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :coffee, {}, true, class: "input" %>
+          Toma café?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :other_drugs, {}, true, class: "input" %>
+          Faz uso de alguma outra substância?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :other_drugs_details, 'Se sim, quais?', class: "label" %>
+        <%= form.text_area :other_drugs_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :sleep_details, 'Como está seu sono ultimamente?', class: "label" %>
+        <%= form.text_area :sleep_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :has_period, {}, true, class: "input" %>
+          Você menstrua?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :period_details, 'Se sim, compartilhe um pouco como é o seu ciclo e em que momento você está', class: "label" %>
+        <%= form.text_area :period_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :had_therapy_before, {}, true, class: "input" %>
+          Você já fez algum tipo de massagem ou terapia holística ou integrativa antes?
+        </label>
+      </div>
+
+      <div class="field">
+        <%= form.label :therapy_details, 'Se sim, quais?', class: "label" %>
+        <%= form.text_area :therapy_details, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :current_main_concern, 'Qual sua queixa principal no momento?', class: "label" %>
+        <%= form.text_area :current_main_concern, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :change_motivations, 'O que te motiva a buscar uma mudança, transformação?', class: "label" %>
+        <%= form.text_area :change_motivations, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :emotion, 'Você se identifica com alguma emoção no momento?', class: "label" %>
+        <%= form.text_area :emotion, class: "input" %>
+      </div>
+
+      <div class="field">
+        <p class="label">Você concorda e está ciente de que as informações compartilhadas neste formulário são confidenciais?</p>
+        <label class="label">
+          <%= form.radio_button :confidentiality_aggreement, 1 %>
+          Sim
+        </label>
+        <label class="label">
+          <%= form.radio_button :confidentiality_aggreement, 0 %>
+          Não
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :image_usage_aggreement, {}, true, class: "input" %>
+          Concordo e está ciente de que as informações compartilhadas neste formulário são confidenciais?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :image_usage_aggreement, {}, true, class: "input" %>
+          Concordo com a divulgação total ou parcial de sua imagem e depoimentos para futuras divulgações do terapeuta
+          quanto às técnicas de massagens e depoimentos, se assim for consentido por meio de documento assinado
+          (reforçando que as informações pessoais e mesmo as imagens e depoimentos somente serão divulgadas com sua aprovação)?
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          <%= form.check_box :image_usage_aggreement, {}, true, class: "input" %>
+          Declaro que as informações prestadas acima são verdadeiras e de inteira responsabilidade do cliente,
+          não podendo o(a) profissional ser responsabilizado (a) por quaisquer ocorrências alérgicas.
+        </label>
+      </div>
+
+      <%= hidden_field_tag :token, @token %>
+
+      <div>
+        <%= form.submit 'Enviar' %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

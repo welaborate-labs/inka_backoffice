@@ -1,6 +1,11 @@
-<h1>New anamnesis sheet</h1>
+<h1 class="title mt-3 has-text-centered">Ficha de Anamnese</h1>
 
-<%= render "form", anamnesis_sheet: @anamnesis_sheet %>
+<% if @qrcode %>
+  <div><%= @qrcode.as_svg.html_safe %></div>
+  <div><%= new_anamnesis_sheet_url(token: @token) %></div>
+<% else %>
+  <%= render "form", anamnesis_sheet: @anamnesis_sheet %>
+<% end %>
 
 <br>
 

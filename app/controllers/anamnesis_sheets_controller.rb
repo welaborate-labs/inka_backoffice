@@ -1,24 +1,29 @@
 class AnamnesisSheetsController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[new]
   before_action :set_anamnesis_sheet, only: %i[show edit update destroy]
   before_action :set_jwt_token, only: %i[new]
-  before_action :verify_token, only: %i[new create]
+  before_action :verify_token_or_authenticated, only: %i[new create]
+  before_action :set_new_path_qr_code, only: %i[new]
 
   def index
-    @anamnesis_sheets = current_user.customer.anamnesis_sheets
+    @anamnesis_sheets = AnamnesisSheet.all
   end
 
   def show
   end
 
   def new
-    @anamnesis_sheet = current_user.customer.anamnesis_sheets.build
+    if params[:token]
+      @anamnesis_sheet = AnamnesisSheet.new
+    end
   end
 
   def edit
   end
 
   def create
-    @anamnesis_sheet = current_user.customer.anamnesis_sheets.build(anamnesis_sheet_params)
+    @customer = Customer.new(customer_params)
+    @anamnesis_sheet = @customer.anamnesis_sheets.build(anamnesis_sheet_params)
 
     respond_to do |format|
       if @anamnesis_sheet.save
@@ -54,7 +59,7 @@ class AnamnesisSheetsController < ApplicationController
 
   def qrcode_link_generate
     @token = JsonWebToken.encode
-    qrcode = Qrcode.create_anemnesis_sheet(@token)
+    qrcode = Qrcode.create_anemnesis_sheet(link)
 
     respond_to do |format|
       if @token && qrcode
@@ -73,15 +78,49 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheet = AnamnesisSheet.find(params[:id])
   end
 
+  def customer_sheet_params
+    params.require(:customer).permit(:address, :birth_date, :document, :email, :gender, :phone)
+  end
+
   def anamnesis_sheet_params
-    params.require(:anamnesis_sheet).permit(:title, :customer_id)
+    params.require(:anamnesis_sheet).permit(
+      :recent_cirurgy,
+      :recent_cirurgy_details,
+      :cronic_diseases,
+      :cronic_diseases_details,
+      :pregnant,
+      :lactating,
+      :medicine_usage,
+      :skin_type,
+      :skin_acne,
+      :skin_scars,
+      :skin_spots,
+      :skin_normal,
+      :psoriasis,
+      :dandruff,
+      :skin_peeling,
+      :cosmetic_allergies,
+      :cosmetic_allergies_details,
+      :food_allergies,
+      :food_allergies_details,
+      :has_period,
+      :period_details,
+      :had_therapy_before,
+      :made_therapy_details,
+      :current_main_concern,
+      :change_motivations,
+      :emotion,
+      :confidentiality_aggreement,
+      :image_usage_aggreement,
+      :responsibility_aggreement,
+    )
   end
 
   def set_jwt_token
     @token ||= params[:token]
   end
 
-  def verify_token
+  def verify_token_or_authenticated
     if params[:token]
       respond_to do |format|
         if JsonWebToken.decode(params[:token])
@@ -92,7 +131,14 @@ class AnamnesisSheetsController < ApplicationController
         end
       end
     else
-      redirect_to anamnesis_sheets_path, alert: "Token não encontrado."
+      authenticate_user!
+    end
+  end
+
+  def set_new_path_qr_code
+    unless params[:token]
+      @token = JsonWebToken.encode
+      @qrcode = RQRCode::QRCode.new(new_anamnesis_sheet_url(token: @token))
     end
   end
 end
