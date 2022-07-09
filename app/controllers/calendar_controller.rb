@@ -1,12 +1,10 @@
 class CalendarController < ApplicationController
   before_action :set_calendar_date
-  before_action :set_time_range, only: %i[adm]
+  before_action :set_time_range, only: %i[index]
   before_action :set_professional_time_range, only: %i[professional_daily professional_weekly]
   before_action :set_date_range, only: %i[professional_weekly]
 
-  def index; end
-
-  def adm
+  def index
     @bookings = Booking.active
     @professionals = Professional.all.order('name ASC')
   end
