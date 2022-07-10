@@ -20,7 +20,7 @@ User.create!(
     {
       provider: "identity",
       uid: Identity.first.id,
-      name: "Jhon Doe",
+      name: "John Doe",
       email: "john.doe@example.com",
       phone: "1199998888"
     },
@@ -83,33 +83,21 @@ Professional.create!(
 puts "#{Professional.count} professionals created successfully!"
 
 puts "creating Services..."
-5.times do |i|
-  m = Service.new
-  m.title = "title#{i}"
-  m.duration = 30
-  m.price = 20 + i
-  m.is_comissioned = false
-  m.save!
-end
-# with service ID
-5.times do |i|
-  m = Service.new
-  m.title = "title#{i}#{i}#{i}#{i}"
-  m.duration = 60
-  m.price = 80 + i
-  m.is_comissioned = true
-  m.service_id = Service.last.id
-  m.save!
-end
+Service.create!(
+  [
+    { title: "service_5min", duration: 5, price: 15, is_comissioned: false, professionals: [Professional.first] },
+    { title: "service_15min", duration: 15, price: 25, is_comissioned: false, professionals: [Professional.first] },
+    { title: "service_25min", duration: 25, price: 35, is_comissioned: false, professionals: [Professional.last] },
+    { title: "service_30min_c", duration: 30, price: 45, is_comissioned: true, professionals: [Professional.last] }
+  ]
+)
 
-5.times do |i|
-  m = Service.new
-  m.title = "title#{i}#{i}#{i}#{i}#{i}"
-  m.duration = 45
-  m.price = 90 + i
-  m.is_comissioned = false
-  m.save!
-end
+Service.create!(
+  [
+    { title: "service_45min_o", duration: 45, price: 55, is_comissioned: false, service_id: Service.first.id, professionals: [Professional.first] },
+    { title: "service_55min_o", duration: 55, price: 69, is_comissioned: false, service_id: Service.second.id, professionals: [Professional.first] }
+  ]
+)
 puts "#{Service.count} services created successfully!"
 
 puts "creating Schedules..."

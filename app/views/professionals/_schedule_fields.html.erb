@@ -1,21 +1,23 @@
-<tr>
-  <td>
-    <%= f.select :weekday, Schedule.weekday_attributes_for_select, prompt: 'selecione...' %>
-  </td>
-  <td>
-    <%= f.text_field :starts_at %>
-  </td>
-  <td>
-    <%= f.text_field :ends_at %>
-  </td>
-  <td>
-    <%= f.text_field :interval_starts_at %>
-  </td>
-  <td>
-    <%= f.text_field :interval_ends_at %>
-  </td>
-  <td>
+<div class="fields columns">
+  <div class="column is-2">
+    <div class="select">
+      <%= f.select :weekday, Schedule.weekday_attributes_for_select, prompt: 'selecione...' %>
+    </div>
+  </div>
+  <div class="column is-2">
+    <%= f.text_field :starts_at, class: 'input' %>
+  </div>
+  <div class="column is-2">
+    <%= f.text_field :ends_at, class: 'input' %>
+  </div>
+  <div class="column is-2">
+    <%= f.text_field :interval_starts_at, class: 'input' %>
+  </div>
+  <div class="column is-2">
+    <%= f.text_field :interval_ends_at, class: 'input' %>
+  </div>
+  <div class="column is-2">
     <%= f.hidden_field :_destroy %>
-    <%= link_to "Remover", '#', class: "remove_fields bg-red-500 hover:bg-red-700 text-white font-bold px-4 rounded" %>
-  </td>
-</tr>
+    <%= link_to "Remover", '#', class: "remove_fields button is-danger" %>
+  </div>
+</div>
