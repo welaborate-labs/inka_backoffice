@@ -18,7 +18,7 @@ class ProfessionalsController < ApplicationController
 
     respond_to do |format|
       if @professional.save
-        format.html { redirect_to @professional, notice: 'Profissional criado com sucesso!' }
+        format.html { redirect_to professionals_path, notice: 'Profissional criado com sucesso!' }
         format.json { render :show, status: :created, location: @professional }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -30,7 +30,7 @@ class ProfessionalsController < ApplicationController
   def update
     respond_to do |format|
       if @professional.update(professional_params)
-        format.html { redirect_to @professional, notice: 'Profissional atualizado com sucesso!' }
+        format.html { redirect_to professionals_path, notice: 'Profissional atualizado com sucesso!' }
         format.json { render :show, status: :ok, location: @professional }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,7 @@ class ProfessionalsController < ApplicationController
         :document,
         :avatar,
         :user_id,
+        service_ids: [],
         schedules_attributes: %i[
           weekday
           starts_at

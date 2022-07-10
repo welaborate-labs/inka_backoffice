@@ -1,6 +1,6 @@
-<div class="columns is-centered mt-6">
-  <div class="column is-3">
-    <%= form_with(model: customer, class: "box")do |form| %>
+<div class="columns is-centered">
+  <div class="column is-6">
+    <%= form_with(model: customer)do |form| %>
       <%= render 'shared/error_messages', resource: customer %>
 
       <div class="field">
@@ -33,10 +33,9 @@
         <%= form.file_field :avatar, class: "input" %>
       </div>
 
-      <div class="buttons is-centered">
+      <div class="actions has-text-centered my-6">
         <%= form.submit class: "button is-primary" %>
       </div>
     <% end %>
-    <%= link_to "Voltar para clientes", customers_path, class: "tag is-link is-medium" %>
   </div>
 </div>

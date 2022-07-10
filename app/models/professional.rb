@@ -4,6 +4,7 @@ class Professional < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
   has_many :schedules, dependent: :destroy
   has_many :occupations, dependent: :destroy
+  has_many :services, through: :occupations
   has_many :bookings, dependent: :destroy
   belongs_to :user, optional: true
 

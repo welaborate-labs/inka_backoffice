@@ -1,5 +1,7 @@
-<div>
-  <h1 class="title mt-6 has-text-centered">Editar Serviço</h1>
+<h1 class="title mt-6 has-text-centered">Editar Serviço</h1>
 
-  <%= render "form", service: @service %>
+<div class="has-text-centered my-4">
+  <%= link_to "Voltar para serviços", services_path, class: "button is-link is-small" %>
 </div>
+
+<%= render "form", service: @service %>

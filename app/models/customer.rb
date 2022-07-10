@@ -4,11 +4,11 @@ class Customer < ApplicationRecord
 
   has_many :bookings, dependent: :destroy
 
-  validates :name, :email, :phone, :address, :document, :avatar, presence: true
-  validates :email, format: { with: REGEX_FORMAT }
-  validates :email, :document, uniqueness: true
-  validates :name, length: { within: 3..100 }
-  validates :phone, length: { within: 8..15 }
-  validates :address, length: { within: 10..150 }
-  validates :document, length: { within: 10..16 }
+  validates :name, :phone, presence: true
+  validates :email, format: { with: REGEX_FORMAT }, allow_blank: true
+  validates :email, :document, uniqueness: true, allow_blank: true
+  validates :name, length: { within: 3..100 }, allow_blank: true
+  validates :phone, length: { within: 8..15 }, allow_blank: true
+  validates :address, length: { within: 10..150 }, allow_blank: true
+  validates :document, length: { within: 10..16 }, allow_blank: true
 end

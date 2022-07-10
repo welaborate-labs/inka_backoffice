@@ -2,7 +2,7 @@ class Service < ApplicationRecord
   belongs_to :service, class_name: 'Service', optional: true
 
   has_many :occupations, dependent: :destroy
-  has_many :professionals, through: :occupations, dependent: :destroy
+  has_many :professionals, through: :occupations
   has_many :bookings, dependent: :destroy
   has_many :optional_services,
            class_name: 'Service',

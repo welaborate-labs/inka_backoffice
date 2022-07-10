@@ -22,7 +22,7 @@ class ServicesController < ApplicationController
     respond_to do |format|
       if @service.save
         format.html do
-          redirect_to service_url(@service), notice: 'Serviço criado com sucesso.'
+          redirect_to services_path, notice: 'Serviço criado com sucesso.'
         end
         format.json { render :show, status: :created, location: @service }
       else
@@ -36,7 +36,7 @@ class ServicesController < ApplicationController
     respond_to do |format|
       if @service.update(service_params)
         format.html do
-          redirect_to service_url(@service), notice: 'Serviço atualizado com sucesso.'
+          redirect_to services_path, notice: 'Serviço atualizado com sucesso.'
         end
         format.json { render :show, status: :ok, location: @service }
       else
@@ -70,6 +70,7 @@ class ServicesController < ApplicationController
         :price,
         :is_comissioned,
         :service_id,
+        professional_ids: [],
         product_usages_attributes: %i[id product_id quantity _destroy]
       )
   end
