@@ -1,5 +1,6 @@
 class AnamnesisSheetsController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[new]
+  skip_before_action :authenticate_user!, only: %i[new create]
+  before_action :set_customer
   before_action :set_anamnesis_sheet, only: %i[show edit update destroy]
   before_action :set_jwt_token, only: %i[new]
   before_action :verify_token_or_authenticated, only: %i[new create]
@@ -14,7 +15,7 @@ class AnamnesisSheetsController < ApplicationController
 
   def new
     if params[:token]
-      @anamnesis_sheet = AnamnesisSheet.new
+      @anamnesis_sheet = @customer.anamnesis_sheets.build
     end
   end
 
@@ -22,12 +23,11 @@ class AnamnesisSheetsController < ApplicationController
   end
 
   def create
-    @customer = Customer.new(customer_params)
     @anamnesis_sheet = @customer.anamnesis_sheets.build(anamnesis_sheet_params)
 
     respond_to do |format|
       if @anamnesis_sheet.save
-        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Anamnesis sheet was successfully created." }
+        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Ficha de Anamnese criada com sucesso" }
         format.json { render :show, status: :created, location: @anamnesis_sheet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class AnamnesisSheetsController < ApplicationController
   def update
     respond_to do |format|
       if @anamnesis_sheet.update(anamnesis_sheet_params)
-        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Anamnesis sheet was successfully updated." }
+        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Ficha de Anamnese alterada com sucesso" }
         format.json { render :show, status: :ok, location: @anamnesis_sheet }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to anamnesis_sheets_url, notice: "Anamnesis sheet was successfully destroyed." }
+      format.html { redirect_to anamnesis_sheets_url, notice: "Ficha de Anamnese removida." }
       format.json { head :no_content }
     end
   end
@@ -78,12 +78,22 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheet = AnamnesisSheet.find(params[:id])
   end
 
+  def set_customer
+    @customer = Customer.find(params[:customer_id])
+  end
+
   def customer_sheet_params
     params.require(:customer).permit(:address, :birth_date, :document, :email, :gender, :phone)
   end
 
   def anamnesis_sheet_params
     params.require(:anamnesis_sheet).permit(
+      :address,
+      :birth_date,
+      :document,
+      :email,
+      :gender,
+      :phone,
       :recent_cirurgy,
       :recent_cirurgy_details,
       :cronic_diseases,
@@ -138,7 +148,7 @@ class AnamnesisSheetsController < ApplicationController
   def set_new_path_qr_code
     unless params[:token]
       @token = JsonWebToken.encode
-      @qrcode = RQRCode::QRCode.new(new_anamnesis_sheet_url(token: @token))
+      @qrcode = RQRCode::QRCode.new(new_customer_anamnesis_sheet_url(@customer, token: @token))
     end
   end
 end

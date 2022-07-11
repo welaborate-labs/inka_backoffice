@@ -1,7 +1,7 @@
 require "jwt"
 
 class JsonWebToken
-  HMAC_SECRET = ENV["HMAC_SECRET"]
+  HMAC_SECRET = Rails.application.credentials.hmac_secret || ENV["HMAC_SECRET"]
 
   class << self
     def encode

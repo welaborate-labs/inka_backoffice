@@ -6,13 +6,14 @@ Rails.application.routes.draw do
     resources :stock_decrements, controller: :stocks, type: "StockDecrement"
   end
 
-  resources :anamnesis_sheets, except: %i[edit update]
   resources :calendar, only: %i[index]
   resources :bookings
   resources :schedules
   resources :services
   resources :professionals
-  resources :customers
+  resources :customers do
+    resources :anamnesis_sheets, except: %i[index edit update]
+  end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]
   root "calendar#index"

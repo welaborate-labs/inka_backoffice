@@ -1,24 +1,53 @@
 <div class="columns is-centered mt-6">
   <div class="column is-narrow">
-    <h1 class="title is-size-3 has-text-centered">Novo Cliente</h1>
+    <%= link_to "Voltar para clientes", customers_path, class: "tag is-link is-small" %>
+    <h1 class="title is-size-3 has-text-centered">Cliente</h1>
+    <div class="columns is-centered">
+      <div class="column is-2">
+        <%= image_tag(@customer.avatar) if @customer.avatar.attached? %>
+      </div>
+    </div>
+    <div class="columns is-multiline">
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Nome:</span> <%= @customer.name %>
+      </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">E-mail:</span> <%= @customer.email %>
+      </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Tel:</span> <%= @customer.phone %>
+      </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Endereço:</span> <%= @customer.address %>
+      </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Documento:</span> <%= @customer.document %>
+      </div>
+    </div>
+
+    <h1 class="title is-size-3 has-text-centered">Fichas de Anamnese</h1>
+    <div class="has-text-centered">
+      <%= link_to 'Nova Ficha de Anamnese', new_customer_anamnesis_sheet_path(@customer), class: 'button is-link' %>
+    </div>
     <table class="table">
       <thead>
         <tr>
-          <th>Nome</th>
-          <th>Email</th>
-          <th>Telefone</th>
-          <th>Endereço</th>
-          <th>Documento</th>
-          <th>Avatar</th>
-          <th><%= link_to "Voltar para clientes", customers_path, class: "tag is-link is-medium" %></th>
-          <th colspan=""></th>
+          <th>Preechida em</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <%= render @customer %>
-        </tr>
+        <% @customer.anamnesis_sheets.each do |anamnesis_sheet| %>
+          <tr>
+            <td><%= anamnesis_sheet.created_at %></td>
+            <td><%= link_to 'Ver ficha', [@customer, anamnesis_sheet], class: 'button is-primary' %></td>
+          </tr>
+        <% end %>
       </tbody>
-      </table>
+    </table>
   </div>
 </div>
