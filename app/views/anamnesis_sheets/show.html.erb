@@ -1,10 +1,1 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @anamnesis_sheet %>
-
-<div>
-  <%= link_to "Edit this anamnesis sheet", edit_anamnesis_sheet_path(@anamnesis_sheet) %> |
-  <%= link_to "Back to anamnesis sheets", anamnesis_sheets_path %>
-
-  <%= button_to "Destroy this anamnesis sheet", @anamnesis_sheet, method: :delete %>
-</div>
+<%= render @anamnesis_sheet, anamnesis_sheet: @anamnesis_sheet, customer: @customer %>

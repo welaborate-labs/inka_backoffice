@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
-  resources :anamnesis_sheets
   resources :products do
     resources :stocks, type: "Stock"
     resources :stock_increments, controller: :stocks, type: "StockIncrement"
     resources :stock_decrements, controller: :stocks, type: "StockDecrement"
   end
-
   resources :calendar, only: %i[index]
   resources :bookings
   resources :schedules
@@ -29,5 +27,4 @@ Rails.application.routes.draw do
   get "/calendar/professional_daily", to: "calendar#professional_daily"
   get "/calendar/professional_weekly", to: "calendar#professional_weekly"
   get "/calendar/adm", to: "calendar#adm"
-  get "/anemnesis_sheets/link", to: "anamnesis_sheets#qrcode_link_generate"
 end

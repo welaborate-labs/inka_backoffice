@@ -26,15 +26,9 @@ RSpec.describe Customer, type: :model do
       invalid.valid?
 
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[user name email phone address document avatar]
-      expect(invalid.errors.messages.count).to eq 7
-      expect(invalid.errors.messages[:user]).to eq ["é obrigatório(a)"]
-      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
-      expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
-      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
-      expect(invalid.errors.messages[:address]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
-      expect(invalid.errors.messages[:document]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
-      expect(invalid.errors.messages[:avatar]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.attribute_names).to eq %i[name]
+      expect(invalid.errors.messages.count).to eq 1
+      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco"]
     end
 
     it "should verify the 'email format'" do

@@ -29,6 +29,33 @@
       </div>
 
       <div class="field">
+        <%= form.label :birth_date, 'Data de Nascimento', class: "label" %>
+        <%= form.date_field :birth_date, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :gender, style: "display: block", class: "label" %>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Feminino' %>
+            Feminino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Masculino' %>
+            Masculino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Outro' %>
+            Outro
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
         <%= form.label :avatar, style: "display: block", class: "label" %>
         <%= form.file_field :avatar, class: "input" %>
       </div>

@@ -10,8 +10,7 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheets = AnamnesisSheet.all
   end
 
-  def show
-  end
+  def show; end
 
   def new
     if params[:token]
@@ -19,15 +18,14 @@ class AnamnesisSheetsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @anamnesis_sheet = @customer.anamnesis_sheets.build(anamnesis_sheet_params)
 
     respond_to do |format|
       if @anamnesis_sheet.save
-        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Ficha de Anamnese criada com sucesso" }
+        format.html { redirect_to customer_path(@customer), notice: "Ficha de Anamnese criada com sucesso" }
         format.json { render :show, status: :created, location: @anamnesis_sheet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -52,7 +50,7 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to anamnesis_sheets_url, notice: "Ficha de Anamnese removida." }
+      format.html { redirect_to customer_path(@customer), notice: "Ficha de Anamnese removida cmo sucesso." }
       format.json { head :no_content }
     end
   end
@@ -123,6 +121,17 @@ class AnamnesisSheetsController < ApplicationController
       :confidentiality_aggreement,
       :image_usage_aggreement,
       :responsibility_aggreement,
+      :name,
+      :chemical_allergies,
+      :chemical_allergies_details,
+      :skin_peeling_details,
+      :alcohol,
+      :tobacco,
+      :coffee,
+      :other_drugs,
+      :other_drugs_details,
+      :sleep_details,
+      :therapy_details
     )
   end
 
@@ -133,11 +142,16 @@ class AnamnesisSheetsController < ApplicationController
   def verify_token_or_authenticated
     if params[:token]
       respond_to do |format|
-        if JsonWebToken.decode(params[:token])
-          return
+        decoded = JsonWebToken.decode(params[:token])
+
+        if decoded
+          if decoded.first["customer_id"] == params[:customer_id].to_i
+            return
+          else
+            format.html { redirect_to @customer, alert: "Token inválido para este cliente." }
+          end
         else
-          format.html { redirect_to anamnesis_sheets_path, alert: "Token inválido ou expirado." }
-          format.json { render json: { error: "Token inválido ou expirado." }, status: :unprocessable_entity }
+          format.html { redirect_to @customer, alert: "Token inválido ou expirado." }
         end
       end
     else
@@ -147,7 +161,7 @@ class AnamnesisSheetsController < ApplicationController
 
   def set_new_path_qr_code
     unless params[:token]
-      @token = JsonWebToken.encode
+      @token = JsonWebToken.encode(@customer.id)
       @qrcode = RQRCode::QRCode.new(new_customer_anamnesis_sheet_url(@customer, token: @token))
     end
   end

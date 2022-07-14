@@ -27,6 +27,14 @@
       <div class="column is-6">
         <span class="has-text-weight-bold">Documento:</span> <%= @customer.document %>
       </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Data de nascimento:</span> <%= @customer.birth_date %>
+      </div>
+
+      <div class="column is-6">
+        <span class="has-text-weight-bold">Sexo:</span> <%= @customer.gender %>
+      </div>
     </div>
 
     <h1 class="title is-size-3 has-text-centered">Fichas de Anamnese</h1>
@@ -43,7 +51,7 @@
       <tbody>
         <% @customer.anamnesis_sheets.each do |anamnesis_sheet| %>
           <tr>
-            <td><%= anamnesis_sheet.created_at %></td>
+            <td><%= anamnesis_sheet.created_at.strftime("%d/%m/%Y, %H:%M:%S") %></td>
             <td><%= link_to 'Ver ficha', [@customer, anamnesis_sheet], class: 'button is-primary' %></td>
           </tr>
         <% end %>
