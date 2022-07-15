@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :services
   resources :professionals
   resources :customers do
-    resources :anamnesis_sheets, except: %i[index edit update]
+    resources :anamnesis_sheets, except: %i[index edit]
   end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]

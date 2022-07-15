@@ -36,8 +36,8 @@ class AnamnesisSheetsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @anamnesis_sheet.update(anamnesis_sheet_params)
-        format.html { redirect_to anamnesis_sheet_url(@anamnesis_sheet), notice: "Ficha de Anamnese alterada com sucesso" }
+      if @anamnesis_sheet.update(signedes_params)
+        format.html { redirect_to @customer, notice: "Ficha de Anamnese alterada com sucesso" }
         format.json { render :show, status: :ok, location: @anamnesis_sheet }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,23 +50,8 @@ class AnamnesisSheetsController < ApplicationController
     @anamnesis_sheet.destroy
 
     respond_to do |format|
-      format.html { redirect_to customer_path(@customer), notice: "Ficha de Anamnese removida cmo sucesso." }
+      format.html { redirect_to customer_path(@customer), notice: "Ficha de Anamnese removida com sucesso." }
       format.json { head :no_content }
-    end
-  end
-
-  def qrcode_link_generate
-    @token = JsonWebToken.encode
-    qrcode = Qrcode.create_anemnesis_sheet(link)
-
-    respond_to do |format|
-      if @token && qrcode
-        format.html { redirect_to anamnesis_sheets_path, notice: "Link e Qrcode criados com sucesso." }
-        format.json { render :index, token: @token, status: :ok }
-      else
-        format.html { render :index, status: :unprocessable_entity }
-        format.json { render error: "algo deu errado.", status: :unprocessable_entity }
-      end
     end
   end
 
@@ -131,8 +116,13 @@ class AnamnesisSheetsController < ApplicationController
       :other_drugs,
       :other_drugs_details,
       :sleep_details,
-      :therapy_details
+      :therapy_details,
+      :file
     )
+  end
+
+  def signedes_params
+    params.require(:anamnesis_sheet).permit(:file)
   end
 
   def set_jwt_token

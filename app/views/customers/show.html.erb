@@ -29,7 +29,7 @@
       </div>
 
       <div class="column is-6">
-        <span class="has-text-weight-bold">Data de nascimento:</span> <%= @customer.birth_date %>
+        <span class="has-text-weight-bold">Data de nascimento:</span> <%= @customer.birth_date.strftime("%d/%m/%Y") %>
       </div>
 
       <div class="column is-6">
@@ -39,12 +39,14 @@
 
     <h1 class="title is-size-3 has-text-centered">Fichas de Anamnese</h1>
     <div class="has-text-centered">
-      <%= link_to 'Nova Ficha de Anamnese', new_customer_anamnesis_sheet_path(@customer), class: 'button is-link' %>
+      <%= link_to "Nova Ficha de Anamnese", new_customer_anamnesis_sheet_path(@customer), class: "button is-link" %>
     </div>
     <table class="table">
       <thead>
         <tr>
           <th>Preechida em</th>
+          <th></th>
+          <th>Assinada em</th>
           <th></th>
         </tr>
       </thead>
@@ -52,7 +54,16 @@
         <% @customer.anamnesis_sheets.each do |anamnesis_sheet| %>
           <tr>
             <td><%= anamnesis_sheet.created_at.strftime("%d/%m/%Y, %H:%M:%S") %></td>
-            <td><%= link_to 'Ver ficha', [@customer, anamnesis_sheet], class: 'button is-primary' %></td>
+            <td><%= link_to "Ver ficha", [@customer, anamnesis_sheet], class: "button is-primary" %></td>
+            <% if anamnesis_sheet.file.attached? %>
+              <td><%= anamnesis_sheet.updated_at.strftime("%d/%m/%Y, %H:%M:%S") %></td>
+              <td colspan="2"><%= link_to "Ver ficha", anamnesis_sheet.file, class: "button is-primary is-fullwidth" %></td>
+            <% else %>
+              <%= form_with(model: [@customer, anamnesis_sheet]) do |f| %>
+                <td><%= f.file_field :file, class: "select is-primary" %></td>
+                <td><%= f.submit "Anexar", class: "button is-primary is-fullwidth" %></td>
+              <% end %>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

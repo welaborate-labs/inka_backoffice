@@ -3,7 +3,9 @@ class AnamnesisSheet < ApplicationRecord
 
   before_save :set_customer_attributes
 
-  attr_writer :address, :birth_date, :document, :email, :gender, :phone
+  has_one_attached :file
+
+  attr_writer :name, :address, :birth_date, :document, :email, :gender, :phone
 
   delegate :name, to: :customer
   delegate :address, to: :customer
@@ -14,6 +16,7 @@ class AnamnesisSheet < ApplicationRecord
   delegate :phone, to: :customer
 
   def set_customer_attributes
+    customer.name = self.name if self.name
     customer.address = self.address if self.address
     customer.birth_date = self.birth_date if self.birth_date
     customer.document = self.document if self.document
