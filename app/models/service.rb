@@ -15,4 +15,8 @@ class Service < ApplicationRecord
   validates :is_comissioned, inclusion: { in: [true, false] }
 
   accepts_nested_attributes_for :product_usages, allow_destroy: true, reject_if: :all_blank
+
+  def total_value
+    price + optional_services&.sum(:price)
+  end
 end

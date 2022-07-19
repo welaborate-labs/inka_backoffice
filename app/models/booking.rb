@@ -15,11 +15,13 @@ class Booking < ApplicationRecord
   validate :schedule_is_available
 
   scope :active, -> { where.not(status: [:customer_canceled, :professional_canceled, :absent]) }
+  scope :in_progress, -> { where(status: :in_progress) }
 
   enum status: %i[
     requested
     accepted
     confirmed
+    in_progress
     customer_canceled
     professional_canceled
     absent

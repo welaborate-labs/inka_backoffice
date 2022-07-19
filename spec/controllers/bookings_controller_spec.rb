@@ -234,4 +234,31 @@ RSpec.describe BookingsController, type: :controller do
       it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
     end
   end
+
+  describe "GET /bookings_in_progress" do
+    describe "when authenticated" do
+      before do
+        booking.status = 'in_progress'
+        booking.save
+        get :in_progress
+      end
+
+      it { expect(response).to render_template(:in_progress) }
+      it { expect(response).to be_successful }
+      it { expect(assigns(:bookings)).to include booking }
+    end
+
+    context "when does not authenticated" do
+      before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
+
+      before do
+        booking.save
+        get :in_progress
+      end
+
+      it { expect(response).not_to be_successful }
+      it { expect(response).to redirect_to login_url }
+      it { expect(flash[:alert]).to eq "Você não esta logado(a)." }
+    end
+  end
 end
