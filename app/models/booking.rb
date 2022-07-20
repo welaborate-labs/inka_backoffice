@@ -69,7 +69,7 @@ class Booking < ApplicationRecord
   end
 
   def professional_is_available
-    if professional&.bookings&.active&.where("starts_at <= ? AND ends_at >= ?", ends_at, starts_at).present?
+    if professional&.bookings&.active&.where("starts_at < ? AND ends_at > ?", ends_at, starts_at).present?
       errors.add(:booking, "não disponível")
     end
   end
