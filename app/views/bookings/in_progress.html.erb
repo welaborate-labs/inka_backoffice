@@ -8,6 +8,9 @@
     <h1 class="has-text-weight-bold">Cliente</h1>
   </div>
   <div class="column">
+    <h1 class="has-text-weight-bold">Profissional</h1>
+  </div>
+  <div class="column">
     <h1 class="has-text-weight-bold">Informações do agendamento</h1>
   </div>
   <div class="column">
@@ -26,7 +29,10 @@
       <%= booking.ends_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
     </div>
     <div class="column">
-      <%= link_to booking.professional_name, booking.customer %>
+      <%= link_to booking.customer_name, booking.customer %>
+    </div>
+    <div class="column">
+      <%= link_to booking.professional_name, booking.professional %>
     </div>
     <div class="column">
       <%= booking.notes %>

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :professionals
   resources :customers do
     resources :anamnesis_sheets, except: %i[index edit]
+    get '/bookings/in_progress', to: 'bookings#in_progress'
   end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]
@@ -27,5 +28,4 @@ Rails.application.routes.draw do
   get "/calendar/professional_daily", to: "calendar#professional_daily"
   get "/calendar/professional_weekly", to: "calendar#professional_weekly"
   get "/calendar/adm", to: "calendar#adm"
-  get '/bookings_in_progress', to: 'bookings#in_progress'
 end

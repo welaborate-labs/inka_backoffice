@@ -27,5 +27,6 @@
     <%= link_to "Ver", customer, class: "button is-link is-small" %>
     <%= link_to "Editar", edit_customer_path(customer), class: "button is-primary is-small" %>
     <%= link_to "Deletar", customer, method: :delete, class: "button is-danger is-small" %>
+    <%= link_to "Reservas em Progresso", customer_bookings_in_progress_path(customer.id), class: "button is-primary is-small" %>
   </td>
 </tr>
