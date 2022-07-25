@@ -78,7 +78,7 @@ RSpec.describe ServicesController, type: :controller do
 
         it "redirects to the service index" do
           post :create, params: { service: valid_attributes }
-          expect(response).to redirect_to(service_url(Service.last))
+          expect(response).to redirect_to(services_url)
         end
       end
 
@@ -214,7 +214,7 @@ RSpec.describe ServicesController, type: :controller do
         end
 
         it "redirects to the service" do
-          expect(service.reload).to redirect_to(service_url(service.id))
+          expect(service.reload).to redirect_to(services_url)
         end
 
         it "returns a flash message" do

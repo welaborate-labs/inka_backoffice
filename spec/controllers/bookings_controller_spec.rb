@@ -2,23 +2,15 @@ require "rails_helper"
 
 RSpec.describe BookingsController, type: :controller do
   let(:user) { create(:user) }
-  let(:customer) { create(:customer, :with_avatar) }
+  let(:customer) { create(:customer, :with_avatar, user_id: user.id) }
   let(:professional) { create(:professional, :with_avatar, user: user) }
   let!(:schedule_1) { create(:schedule, professional: professional, weekday: 2) }
   let(:service) { create(:service) }
-  let(:booking) do
-    create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00")
-  end
+  let(:booking) { create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00") }
 
   let(:new_attributes) { { notes: "new notes" } }
   let(:valid_attributes) do
-    {
-      status: "requested",
-      customer_id: customer.id,
-      service_id: service.id,
-      professional_id: professional.id,
-      starts_at: "2022-05-10 09:00"
-    }
+    { status: "requested", customer_id: customer.id, service_id: service.id, professional_id: professional.id, starts_at: "2022-05-10 09:00" }
   end
   let(:invalid_attributes) { { service_id: nil, customer_id: nil, professional_id: nil, starts_at: nil } }
 
@@ -111,10 +103,7 @@ RSpec.describe BookingsController, type: :controller do
     context "when authenticated" do
       context "with valid parameters" do
         it "creates a new service booking" do
-          expect { post :create, params: { booking: valid_attributes } }.to change(
-            Booking,
-            :count
-          ).by(01)
+          expect { post :create, params: { booking: valid_attributes } }.to change(Booking, :count).by(01)
         end
 
         it "returns the successfull message" do
@@ -131,10 +120,7 @@ RSpec.describe BookingsController, type: :controller do
       context "with invalid parameters" do
         before { post :create, params: { booking: invalid_attributes } }
         it "does not create a new service booking" do
-          expect { post :create, params: { booking: invalid_attributes } }.not_to change(
-            Booking,
-            :count
-          )
+          expect { post :create, params: { booking: invalid_attributes } }.not_to change(Booking, :count)
         end
 
         it "should return :unprocessable_entity 422" do

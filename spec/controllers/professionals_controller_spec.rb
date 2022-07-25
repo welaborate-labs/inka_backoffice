@@ -5,7 +5,7 @@ RSpec.describe ProfessionalsController, type: :controller do
   let(:user) { create(:user, uid: identity.id) }
   let(:customer) { build(:customer, :with_avatar) }
 
-  let(:professional) { create(:professional, :with_avatar, user: user) }
+  let!(:professional) { create(:professional, :with_avatar, user: user) }
   let(:avatar) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'model.png')) }
   let(:new_attributes) { { address: 'Some New Address For Testing' } }
   let(:invalid_attributes) { { name: nil } }
@@ -141,7 +141,7 @@ RSpec.describe ProfessionalsController, type: :controller do
 
         it 'redirects to the #show professional' do
           post :create, params: { professional: valid_attributes }
-          expect(response).to redirect_to(professional_url(Professional.last))
+          expect(response).to redirect_to(professionals_url)
         end
       end
 
@@ -180,18 +180,18 @@ RSpec.describe ProfessionalsController, type: :controller do
   describe 'PUT /update' do
     context 'when authenticate' do
       context 'with valid parameters' do
-        before { patch :update, params: { id: professional, professional: new_attributes } }
+        before { patch :update, params: { id: professional.id, professional: new_attributes } }
 
         it 'should assigns the professional' do
           expect(assigns(:professional)).to eq professional
         end
 
         it 'updates the requested professional' do
-          expect(professional.address).to eq 'Some New Address For Testing'
+          expect { professional.reload }.to change { professional.address }.from('Some Address').to('Some New Address For Testing')
         end
 
         it 'redirects to the professional' do
-          expect(professional.reload).to redirect_to(professional_url(professional))
+          expect(professional.reload).to redirect_to(professionals_url)
         end
 
         it 'returns a flash message' do

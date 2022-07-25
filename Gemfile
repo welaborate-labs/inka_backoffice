@@ -18,6 +18,8 @@ gem "bcrypt", "~> 3.1.7"
 gem 'omniauth-identity'
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
+gem 'jwt', '~> 2.4', '>= 2.4.1'
+gem 'rqrcode', '~> 2.1', '>= 2.1.1'
 
 # Use Sass to process CSS
 # gem "sassc-rails"

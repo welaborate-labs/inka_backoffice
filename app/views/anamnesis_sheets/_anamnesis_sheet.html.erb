@@ -1,0 +1,347 @@
+<div class="columns mt-6 is-centered">
+  <%= link_to 'Voltar', customer, class: 'button is-primary' %>
+</div>
+
+<div class="columns mt-6 is-centered">
+  <div class="column is-12">
+    <div class="field">
+      <%= label :name, 'Nome Completo', class: "label" %>
+      <%= text_field_tag :name, anamnesis_sheet.name, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label :birth_date, 'Data de Nascimento', class: "label" %>
+      <%= text_field_tag :birth_date, anamnesis_sheet.birth_date, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :gender, nil, style: "display: block", class: "label" %>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.gender == 'Feminino' %>
+            <%= radio_button_tag :gender, 'Feminino', checked: true %>
+          <% else %>
+            <%= radio_button_tag :gender, 'Feminino' %>
+          <% end %>
+          Feminino
+        </label>
+      </div>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.gender == 'Masculino' %>
+            <%= radio_button_tag :gender, 'Masculino', checked: true %>
+          <% else %>
+            <%= radio_button_tag :gender, 'Masculino' %>
+          <% end %>
+          Masculino
+        </label>
+      </div>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.gender == 'Outro' %>
+            <%= radio_button_tag :gender, 'Outro', checked: true %>
+          <% else %>
+            <%= radio_button_tag :gender, 'Outro' %>
+          <% end %>
+          Outro
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :recent_cirurgy, {}, checked: anamnesis_sheet.recent_cirurgy, class: "input" %>
+        Teve alguma cirurgia recente?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label :recent_cirurgy_details, 'Se sim, detalhe aqui sobre estas cirurgias recentes', class: "label" %>
+      <%= text_area_tag :recent_cirurgy_details, anamnesis_sheet.recent_cirurgy_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :cronic_diseases, {}, checked: anamnesis_sheet.cronic_diseases, class: "input" %>
+        Tem alguma doença crônica?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :cronic_diseases_details, 'Se sim, detalhe aqui sobre estas doenças crônicas', class: "label" %>
+      <%= text_area_tag :cronic_diseases_details, anamnesis_sheet.cronic_diseases_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <div class="label">Antecedentes Alérgicos</div>
+      <label class="label">
+        <%= check_box_tag :psoriasis, {}, checked: anamnesis_sheet.psoriasis, class: "input" %>
+        Apresenta Psoríase?
+      </label>
+      <label class="label">
+        <%= check_box_tag :dandruff, {}, checked: anamnesis_sheet.dandruff, class: "input" %>
+        Apresenta Caspa?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :cosmetic_allergies, {}, checked: anamnesis_sheet.cosmetic_allergies, class: "input" %>
+        Possui alergia a algum tipo de cosmético?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :cosmetic_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+      <%= text_area_tag :cosmetic_allergies_details, anamnesis_sheet.cosmetic_allergies_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :chemical_allergies, {}, checked: anamnesis_sheet.chemical_allergies, class: "input" %>
+        Possui alergia a algum componente químico?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :chemical_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+      <%= text_area_tag :chemical_allergies_details, anamnesis_sheet.chemical_allergies_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :food_allergies, {}, checked: anamnesis_sheet.food_allergies, class: "input" %>
+        Possui alergia a algum alimento?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :food_allergies_details, 'Se sim, detalhe aqui sobre estas alergias', class: "label" %>
+      <%= text_area_tag :food_allergies_details, anamnesis_sheet.food_allergies_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :medicine_usage, 'Liste abaixo medicamentos que você está utilizando no momento, com a dosagem', class: "label" %>
+      <%= text_area_tag :medicine_usage, anamnesis_sheet.medicine_usage, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :pregnant, {}, checked: anamnesis_sheet.pregnant, class: "input" %>
+        Está grávida?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :lactating, {}, checked: anamnesis_sheet.lactating, class: "input" %>
+        Está amamentando?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :skin_type, 'Tipo de Pele', style: "display: block", class: "label" %>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.skin_type == 'Oleosa' %>
+            <%= radio_button_tag :skin_type, 'Oleosa', checked: true %>
+          <% else %>
+            <%= radio_button_tag :skin_type, 'Oleosa' %>
+          <% end %>
+          Oleosa
+        </label>
+      </div>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.skin_type == 'Mista' %>
+            <%= radio_button_tag :skin_type, 'Mista', checked: true %>
+          <% else %>
+            <%= radio_button_tag :skin_type, 'Mista' %>
+          <% end %>
+          Mista
+        </label>
+      </div>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.skin_type == 'Seca' %>
+            <%= radio_button_tag :skin_type, 'Seca', checked: true %>
+          <% else %>
+            <%= radio_button_tag :skin_type, 'Seca' %>
+          <% end %>
+          Seca
+        </label>
+      </div>
+      <div>
+        <label class="label">
+          <% if anamnesis_sheet.skin_type == 'Normal' %>
+            <%= radio_button_tag :skin_type, 'Normal', checked: true %>
+          <% else %>
+            <%= radio_button_tag :skin_type, 'Normal' %>
+          <% end %>
+          Normal
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <p class="label">Características da Pele</p>
+      <label class="label">
+        <%= check_box_tag :skin_acne, {}, checked: anamnesis_sheet.skin_acne, class: "input" %>
+        Acne
+      </label>
+      <label class="label">
+        <%= check_box_tag :skin_scars, {}, checked: anamnesis_sheet.skin_scars, class: "input" %>
+        Cicatriz
+      </label>
+      <label class="label">
+        <%= check_box_tag :skin_spots, {}, checked: anamnesis_sheet.skin_spots, class: "input" %>
+        Manchas
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :skin_acne, {}, checked: anamnesis_sheet.skin_acne, class: "input" %>
+        Está usando ácido ou produtos de descamação da pele?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :skin_peeling, 'Se sim, qual?', class: "label" %>
+      <%= text_area_tag :skin_peeling_details, anamnesis_sheet.skin_peeling_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :food_allergies, {}, checked: anamnesis_sheet.food_allergies, class: "input" %>
+        Possui alergia a algum alimento?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :alcohol, {}, checked: anamnesis_sheet.alcohol, class: "input" %>
+        Faz uso de álcool?
+      </label>
+    </div>
+
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :tobacco, {}, checked: anamnesis_sheet.tobacco, class: "input" %>
+        É fumante?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :coffee, {}, checked: anamnesis_sheet.coffee, class: "input" %>
+        Toma café?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :other_drugs, {}, checked: anamnesis_sheet.other_drugs, class: "input" %>
+        Faz uso de alguma outra substância?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :other_drugs_details, 'Se sim, quais?', class: "label" %>
+      <%= text_area_tag :other_drugs_details, anamnesis_sheet.other_drugs_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :sleep_details, 'Como está seu sono ultimamente?', class: "label" %>
+      <%= text_area_tag :sleep_details, anamnesis_sheet.sleep_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :has_period, {}, checked: anamnesis_sheet.has_period, class: "input" %>
+        Você menstrua?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :period_details, 'Se sim, compartilhe um pouco como é o seu ciclo e em que momento você está', class: "label" %>
+      <%= text_area_tag :period_details, anamnesis_sheet.period_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :had_therapy_before, {}, checked: anamnesis_sheet.had_therapy_before, class: "input" %>
+        Você já fez algum tipo de massagem ou terapia holística ou integrativa antes?
+      </label>
+    </div>
+
+    <div class="field">
+      <%= label_tag :therapy_details, 'Se sim, quais?', class: "label" %>
+      <%= text_area_tag :therapy_details, anamnesis_sheet.therapy_details, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :current_main_concern, 'Qual sua queixa principal no momento?', class: "label" %>
+      <%= text_area_tag :current_main_concern, anamnesis_sheet.current_main_concern, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :change_motivations, 'O que te motiva a buscar uma mudança, transformação?', class: "label" %>
+      <%= text_area_tag :change_motivations, anamnesis_sheet.change_motivations, class: "input" %>
+    </div>
+
+    <div class="field">
+      <%= label_tag :emotion, 'Você se identifica com alguma emoção no momento?', class: "label" %>
+      <%= text_area_tag :emotion, anamnesis_sheet.emotion, class: "input" %>
+    </div>
+
+    <div class="field">
+      <p class="label">Você concorda e está ciente de que as informações compartilhadas neste formulário são confidenciais?</p>
+      <label class="label">
+        <% if anamnesis_sheet.confidentiality_aggreement %>
+          <%= radio_button_tag :confidentiality_aggreement, 1, checked: true %>
+        <% else %>
+          <%= radio_button_tag :confidentiality_aggreement, 1 %>
+        <% end %>
+        Sim
+      </label>
+      <label class="label">
+        <% if !anamnesis_sheet.confidentiality_aggreement %>
+          <%= radio_button_tag :confidentiality_aggreement, 0, checked: true %>
+        <% else %>
+          <%= radio_button_tag :confidentiality_aggreement, 0 %>
+        <% end %>
+        Não
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :confidentiality_aggreement, {}, checked: anamnesis_sheet.confidentiality_aggreement, class: "input" %>
+        Concordo e está ciente de que as informações compartilhadas neste formulário são confidenciais?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :image_usage_aggreement, {}, checked: anamnesis_sheet.image_usage_aggreement, class: "input" %>
+        Concordo com a divulgação total ou parcial de sua imagem e depoimentos para futuras divulgações do terapeuta
+        quanto às técnicas de massagens e depoimentos, se assim for consentido por meio de documento assinado
+        (reforçando que as informações pessoais e mesmo as imagens e depoimentos somente serão divulgadas com sua aprovação)?
+      </label>
+    </div>
+
+    <div class="field">
+      <label class="label">
+        <%= check_box_tag :responsibility_aggreement, {}, checked: anamnesis_sheet.responsibility_aggreement, class: "input" %>
+        Declaro que as informações prestadas acima são verdadeiras e de inteira responsabilidade do cliente,
+        não podendo o(a) profissional ser responsabilizado (a) por quaisquer ocorrências alérgicas.
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="columns mt-6 is-centered">
+  <%= link_to 'Voltar', customer, class: 'button is-primary' %>
+</div>

@@ -1,51 +1,48 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Customer, type: :model do
   let(:identity) { create(:identity) }
-  let(:user) { build(:user, uid: identity.id) }
-  let(:customer) { build(:customer, :with_avatar) }
+  let(:user) { create(:user, uid: identity.id) }
+  let(:customer) { create(:customer, :with_avatar, user_id: user.id) }
   let(:invalid) { Customer.new }
 
-  describe 'instances an empty customer' do
+  describe "instances an empty customer" do
     subject { Customer.new }
     it { is_expected.to be_a_new Customer }
   end
 
-  describe 'with valid attributes' do
+  describe "with valid attributes" do
     subject { customer }
     it { is_expected.to be_valid }
   end
 
-  describe 'with invalid attributes' do
+  describe "with invalid attributes" do
     subject { invalid }
     it { is_expected.to be_invalid }
   end
 
-  describe 'valitations' do
+  describe "valitations" do
     it "should verify the 'presence'" do
-      invalid.save
+      invalid.valid?
+
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[name email phone address document avatar]
-      expect(invalid.errors.messages.count).to eq 6
-      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
-      expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
-      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
-      expect(invalid.errors.messages[:address]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
-      expect(invalid.errors.messages[:document]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
-      expect(invalid.errors.messages[:avatar]).to eq ["não pode ficar em branco"]
+      expect(invalid.errors.attribute_names).to eq %i[name]
+      expect(invalid.errors.messages.count).to eq 1
+      expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco"]
     end
 
     it "should verify the 'email format'" do
-      customer = build(:customer, :with_avatar, email: 'john.doe')
-      customer.save
+      customer.email = "john.doe"
+      customer.valid?
+
       expect(customer.errors.attribute_names).to eq [:email]
       expect(customer.errors.messages[:email]).to eq ["não é válido"]
     end
 
-    it 'should verify the uniqueness' do
-      customer = create(:customer, :with_avatar)
-      invalid = build(:customer, :with_avatar)
-      invalid.save
+    it "should verify the uniqueness" do
+      invalid = build(:customer, :with_avatar, email: customer.email, document: customer.document, user_id: user.id)
+      invalid.valid?
+
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq %i[email document]
       expect(invalid.errors.messages.count).to eq 2
@@ -54,17 +51,10 @@ RSpec.describe Customer, type: :model do
     end
 
     describe "should verify the 'length'" do
-      it 'should verify the mimimum' do
-        customer =
-          build(
-            :customer,
-            :with_avatar,
-            name: 'ab',
-            phone: '1234567',
-            address: '123456789',
-            document: '123456789'
-          )
-        customer.save
+      it "should verify the mimimum" do
+        customer = build(:customer, :with_avatar, user_id: user.id, name: "ab", phone: "1234567", address: "123456789", document: "123456789")
+        customer.valid?
+
         expect(customer.errors.messages.count).to be 4
         expect(customer.errors.attribute_names).to eq %i[name phone address document]
         expect(customer.errors.messages[:name]).to eq ["é muito curto (mínimo: 3 caracteres)"]
@@ -78,15 +68,16 @@ RSpec.describe Customer, type: :model do
           build(
             :customer,
             :with_avatar,
+            user_id: user.id,
             name:
-              'abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde',
-            phone: '1234567890123456',
+              "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
+               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
+            phone: "1234567890123456",
             address:
-              'abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
+              "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
                abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde',
-            document: '123456789012345678'
+               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
+            document: "123456789012345678"
           )
         customer.save
         expect(customer.errors.messages.count).to be 4

@@ -1,0 +1,2 @@
+module AnamnesisSheetsHelper
+end

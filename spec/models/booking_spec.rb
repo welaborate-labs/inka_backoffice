@@ -1,8 +1,9 @@
 require "rails_helper"
 
 RSpec.describe Booking, type: :model do
-  let(:customer) { create(:customer, :with_avatar) }
-  let(:professional) { create(:professional) }
+  let(:user) { create(:user) }
+  let(:customer) { create(:customer, :with_avatar, user_id: user.id) }
+  let(:professional) { create(:professional, user_id: user.id) }
   let!(:schedule_1) { create(:schedule, professional: professional) }
   let!(:schedule_2) { create(:schedule, professional: professional, weekday: 2) }
   let!(:schedule_3) { create(:schedule, professional: professional, weekday: 3) }
@@ -10,9 +11,7 @@ RSpec.describe Booking, type: :model do
   let(:service) { create(:service) }
   let(:occupation) { create(:occupation, service: service, professional: professional) }
 
-  let(:booking) do
-    build(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00")
-  end
+  let(:booking) { build(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00") }
 
   let(:invalid_booking) { Booking.new }
 
@@ -61,62 +60,52 @@ RSpec.describe Booking, type: :model do
       end
     end
 
-    describe 'professional_is_available' do
+    describe "professional_is_available" do
       let(:other_service) { create(:service, duration: service_duration) }
-      let!(:previous_booking) do
-        create(
-          :booking,
-          customer: customer,
-          service: other_service,
-          professional: professional,
-          starts_at: starts_at
-        )
-      end
+      let!(:previous_booking) { create(:booking, customer: customer, service: other_service, professional: professional, starts_at: starts_at) }
 
       subject { booking }
 
-      context 'with available professional' do
+      context "with available professional" do
         let(:service_duration) { 60 }
         let(:starts_at) { "2022-05-10 15:00" }
 
         it { is_expected.to be_valid }
       end
 
-      context 'with booked professional before booking starts and after booking ends' do
+      context "with booked professional before booking starts and after booking ends" do
         let(:service_duration) { 120 }
         let(:starts_at) { "2022-05-10 08:30" }
 
         it { is_expected.not_to be_valid }
       end
 
-      context 'with booked professional before booking starts and before booking ends' do
+      context "with booked professional before booking starts and before booking ends" do
         let(:service_duration) { 60 }
         let(:starts_at) { "2022-05-10 08:30" }
 
         it { is_expected.not_to be_valid }
       end
 
-      context 'with booked professional after booking starts and after booking ends' do
+      context "with booked professional after booking starts and after booking ends" do
         let(:service_duration) { 60 }
         let(:starts_at) { "2022-05-10 09:30" }
 
         it { is_expected.not_to be_valid }
       end
 
-      context 'with booked professional after booking starts and before booking ends' do
+      context "with booked professional after booking starts and before booking ends" do
         let(:service_duration) { 15 }
         let(:starts_at) { "2022-05-10 09:30" }
 
         it { is_expected.not_to be_valid }
       end
 
-      context 'with canceled booked professional before booking starts and after booking ends' do
+      context "with canceled booked professional before booking starts and after booking ends" do
         let(:service_duration) { 120 }
         let(:starts_at) { "2022-05-10 08:30" }
 
-        before do
-          previous_booking.update(status: :customer_canceled)
-        end
+        before { previous_booking.update(status: :customer_canceled) }
 
         it { is_expected.to be_valid }
       end
