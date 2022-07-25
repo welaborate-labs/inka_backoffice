@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Fichas de Anamnese</h1>
+
+<div id="anamnesis_sheets">
+  <% @anamnesis_sheets.each do |anamnesis_sheet| %>
+    <p>
+      <%= anamnesis_sheet.customer.name %>
+      <%= link_to "Ver", anamnesis_sheet %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "Nova Ficha de Anamnese", new_anamnesis_sheet_path %>

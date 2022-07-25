@@ -16,14 +16,10 @@
           <th colspan="2"></th>
         </tr>
       </thead>
-      <tbody>
-        <div id="customers">
-          <% @customers.each do |customer| %>
-            <tr>
-            <%= render customer %>
-            </tr>
-          <% end %>
-        </div>
+      <tbody id="customers">
+        <% @customers.each do |customer| %>
+          <%= render customer %>
+        <% end %>
       </tbody>
       </table>
   </div>

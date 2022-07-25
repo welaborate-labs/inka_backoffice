@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Professional, type: :model do
   let(:identity) { create(:identity) }
-  let(:user) { build(:user, uid: identity.id) }
-  let(:professional) { build(:professional, :with_avatar, user: user) }
+  let(:user) { create(:user, uid: identity.id) }
+  let(:professional) { create(:professional, :with_avatar, user_id: user.id) }
   let(:schedule_2) { create(:schedule, professional: professional) }
   let(:invalid) { Professional.new }
 
@@ -24,29 +24,24 @@ RSpec.describe Professional, type: :model do
 
   describe 'valitations' do
     it "should verify the 'presence'" do
-      invalid.save
+      invalid.valid?
       expect(invalid.errors.empty?).to be false
-      expect(invalid.errors.attribute_names).to eq %i[user name email phone address document]
-      expect(invalid.errors.messages.count).to eq 6
-      expect(invalid.errors.messages[:user]).to eq ["é obrigatório(a)"]
+      expect(invalid.errors.attribute_names).to eq %i[name email]
+      expect(invalid.errors.messages.count).to eq 2
       expect(invalid.errors.messages[:name]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 3 caracteres)"]
       expect(invalid.errors.messages[:email]).to eq ["não pode ficar em branco", "não é válido"]
-      expect(invalid.errors.messages[:phone]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 8 caracteres)"]
-      expect(invalid.errors.messages[:address]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
-      expect(invalid.errors.messages[:document]).to eq ["não pode ficar em branco", "é muito curto (mínimo: 10 caracteres)"]
     end
 
     it "should verify the 'email format'" do
-      professional = build(:professional, :with_avatar, user: user, email: 'john.doe')
-      professional.save
+      professional.email = 'john.doe'
+      professional.valid?
       expect(professional.errors.attribute_names).to eq [:email]
       expect(professional.errors.messages[:email]).to eq ["não é válido"]
     end
 
     it 'should verify the uniqueness' do
-      professional = create(:professional, :with_avatar, user: user)
-      invalid = build(:professional, :with_avatar, user: user)
-      invalid.save
+      invalid = build(:professional, :with_avatar, user_id: user.id, email: professional.email)
+      invalid.valid?
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq %i[email document]
       expect(invalid.errors.messages.count).to eq 2
@@ -66,7 +61,7 @@ RSpec.describe Professional, type: :model do
             address: '123456789',
             document: '123456789'
           )
-        professional.save
+        professional.valid?
         expect(professional.errors.messages.count).to be 4
         expect(professional.errors.attribute_names).to eq %i[name phone address document]
         expect(professional.errors.messages[:name]).to eq ["é muito curto (mínimo: 3 caracteres)"]
@@ -91,7 +86,7 @@ RSpec.describe Professional, type: :model do
                abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde',
             document: '123456789012345678'
           )
-        professional.save
+        professional.valid?
         expect(professional.errors.messages.count).to be 4
         expect(professional.errors.attribute_names).to eq %i[name phone address document]
         expect(professional.errors.messages[:name]).to eq ["é muito longo (máximo: 100 caracteres)"]

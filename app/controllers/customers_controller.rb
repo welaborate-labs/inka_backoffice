@@ -7,7 +7,8 @@ class CustomersController < ApplicationController
   end
 
   # GET /customers/1 or /customers/1.json
-  def show; end
+  def show
+  end
 
   # GET /customers/new
   def new
@@ -15,7 +16,8 @@ class CustomersController < ApplicationController
   end
 
   # GET /customers/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /customers or /customers.json
   def create
@@ -23,9 +25,7 @@ class CustomersController < ApplicationController
 
     respond_to do |format|
       if @customer.save
-        format.html do
-          redirect_to customer_path(@customer), notice: 'Cliente criado com sucesso!'
-        end
+        format.html { redirect_to customer_path(@customer), notice: "Cliente criado com sucesso!" }
         format.json { render :show, status: :created, location: @customer }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,9 +38,7 @@ class CustomersController < ApplicationController
   def update
     respond_to do |format|
       if @customer.update(customer_params)
-        format.html do
-          redirect_to customer_path(@customer), notice: 'Cliente atualizado com sucesso!'
-        end
+        format.html { redirect_to customer_path(@customer), notice: "Cliente atualizado com sucesso!" }
         format.json { render :show, status: :ok, location: @customer }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +52,7 @@ class CustomersController < ApplicationController
     @customer.destroy
 
     respond_to do |format|
-      format.html { redirect_to customers_url, status: :see_other, notice: 'Cliente removido com sucesso!' }
+      format.html { redirect_to customers_url, status: :see_other, notice: "Cliente removido com sucesso!" }
       format.json { head :no_content }
     end
   end
@@ -68,6 +66,6 @@ class CustomersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def customer_params
-    params.require(:customer).permit(:name, :email, :phone, :address, :document, :avatar)
+    params.require(:customer).permit(:name, :email, :phone, :address, :document, :avatar, :user_id)
   end
 end

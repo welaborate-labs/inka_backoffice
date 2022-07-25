@@ -1,6 +1,6 @@
 <div class="columns is-centered">
   <div class="column is-6">
-    <%= form_with(model: customer)do |form| %>
+    <%= form_with(model: customer) do |form| %>
       <%= render 'shared/error_messages', resource: customer %>
 
       <div class="field">
@@ -26,6 +26,33 @@
       <div class="field">
         <%= form.label :document, style: "display: block", class: "label" %>
         <%= form.text_field :document, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :birth_date, 'Data de Nascimento', class: "label" %>
+        <%= form.date_field :birth_date, class: "input" %>
+      </div>
+
+      <div class="field">
+        <%= form.label :gender, style: "display: block", class: "label" %>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Feminino' %>
+            Feminino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Masculino' %>
+            Masculino
+          </label>
+        </div>
+        <div>
+          <label class="label">
+            <%= form.radio_button :gender, 'Outro' %>
+            Outro
+          </label>
+        </div>
       </div>
 
       <div class="field">

@@ -47,6 +47,8 @@ pt-BR:
         phone: 'Telefone'
         address: 'Endereço'
         document: 'Documento'
+        gender: 'Sexo'
+        birth_date: 'Data de Nascimento'
       product_usage:
         product_id: 'ID do Produto'
         sercice_id: 'ID do Serviço'
