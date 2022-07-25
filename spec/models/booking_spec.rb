@@ -109,6 +109,20 @@ RSpec.describe Booking, type: :model do
 
         it { is_expected.to be_valid }
       end
+
+      context 'with booked professional after booking ends and the same last minute' do
+        let(:service_duration) { 30 }
+        let(:starts_at) { "2022-05-10 08:30" }
+
+        it { is_expected.to be_valid }
+      end
+
+      context 'with booked professional after booking ends and more one minute' do
+        let(:service_duration) { 30 }
+        let(:starts_at) { "2022-05-10 08:31" }
+
+        it { is_expected.not_to be_valid }
+      end
     end
   end
 end
