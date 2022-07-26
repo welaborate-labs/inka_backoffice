@@ -1,7 +1,5 @@
 class BookingsController < ApplicationController
   before_action :set_booking, only: %i[show edit update destroy]
-  before_action :set_bookings, only: %i[in_progress_all in_progress]
-
 
   def index
     @bookings = Booking.all.order("booking_datetime DESC")
@@ -50,9 +48,16 @@ class BookingsController < ApplicationController
     end
   end
 
-  def in_progress_all; end
+  def in_progress_all
+    @customers = Customer
+      .joins(:bookings)
+      .includes(:bookings)
+      .where(bookings: { status: 'in_progress' })
+  end
 
-  def in_progress; end
+  def in_progress
+    @bookings = Booking.where(customer_id: params[:customer_id], status: 'in_progress')
+  end
 
   private
 
@@ -62,13 +67,5 @@ class BookingsController < ApplicationController
 
   def booking_params
     params.require(:booking).permit(:status, :notes, :service_id, :customer_id, :professional_id, :booking_datetime, :starts_at, :ends_at)
-  end
-
-  def set_bookings
-    if params[:customer_id]
-      @bookings = Booking.where(customer_id: params[:customer_id]).in_progress.order('starts_at asc')
-    else
-      @bookings = Booking.all.in_progress.order('starts_at asc')
-    end
   end
 end

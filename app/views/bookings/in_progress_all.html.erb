@@ -1,0 +1,44 @@
+<h1 class="title is-size-3 mt-5 has-text-centered">Serviços em Andamento</h1>
+
+<div class="columns mt-5 has-text-centered">
+  <div class="column">
+    <h1 class="has-text-weight-bold">Cliente</h1>
+  </div>
+  <div class="column">
+    <h1 class="has-text-weight-bold">E-mail</h1>
+  </div>
+  <div class="column">
+    <h1 class="has-text-weight-bold">Telefone</h1>
+  </div>
+  <div class="column">
+    <h1 class="has-text-weight-bold">Documento</h1>
+  </div>
+  <div class="column">
+    <h1 class="has-text-weight-bold">Endereço</h1>
+  </div>
+  <div class="column"></div>
+</div>
+
+<% @customers.each do |customer| %>
+  <div class="columns is-vcentered has-text-centered">
+    <div class="column">
+      <%= customer.name %>
+    </div>
+    <div class="column">
+      <%= customer.email %>
+    </div>
+    <div class="column">
+      <%= customer.phone %>
+    </div>
+    <div class="column">
+      <%= customer.document %>
+    </div>
+    <div class="column">
+      <%= customer.address %>
+    </div>
+
+    <div class="column">
+      <%= link_to "Visualizar", customer_bookings_in_progress_path(customer.id), class: "button is-primary is-fullwidth" %>
+    </div>
+  </div>
+<% end %>

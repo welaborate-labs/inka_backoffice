@@ -1,59 +1,63 @@
-<h1 class="title is-size-3 mt-5 has-text-centered">Reservas em progresso</h1>
+<h1 class="title is-size-3 mt-5 has-text-centered">Serviços em Andamento</h1>
 
-<div class="columns mt-5 has-text-centered">
-  <div class="column">
-    <h1 class="has-text-weight-bold">Começa/Termina em</h1>
-  </div>
-  <div class="column">
-    <h1 class="has-text-weight-bold">Cliente</h1>
-  </div>
-  <div class="column">
-    <h1 class="has-text-weight-bold">Profissional</h1>
-  </div>
-  <div class="column">
-    <h1 class="has-text-weight-bold">Informações do agendamento</h1>
-  </div>
-  <div class="column">
-    <h1 class="has-text-weight-bold">Valor Total</h1>
-  </div>
-  <div class="column">
-    <h1 class="has-text-weight-bold">Nome do(s) Serviço(s)</h1>
-  </div>
-  <div class="column"></div>
+<div class="buttons is-centered">
+  <%= link_to "Voltar", customers_bookings_in_progress_path, class: "button is-link" %>
 </div>
 
+<div class="box has-background-light">
+
+  <div class="columns has-text-centered">
+    <div class="column">
+      <h1 class="has-text-weight-bold">Nome do(s) Serviço(s)</h1>
+    </div>
+    <div class="column">
+      <h1 class="has-text-weight-bold">Duração</h1>
+    </div>
+    <div class="column">
+      <h1 class="has-text-weight-bold">Preço</h1>
+    </div>
+    <div class="column"></div>
+  </div>
+
+</div>
 <% @bookings.each do |booking| %>
-  <div class="columns is-vcentered has-text-centered">
-    <div class="column">
-      <%= booking.starts_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %><br />
-      <%= booking.ends_at.to_time.strftime("%d/%m/%Y, %H:%M:%S") %>
-    </div>
-    <div class="column">
-      <%= link_to booking.customer_name, booking.customer %>
-    </div>
-    <div class="column">
-      <%= link_to booking.professional_name, booking.professional %>
-    </div>
-    <div class="column">
-      <%= booking.notes %>
-    </div>
-    <div class="column">
-      <%= format_currency(booking.service.total_value) %>
-    </div>
-    <div class="column">
-      <%= booking.service.title %><br />
-      <% if booking.service.optional_services.present? %>
-        <% booking.service.optional_services.each do |optional| %>
-          <%= optional.title %><br />
+  <div class="box">
+    <div class="columns is-vcentered has-text-centered">
+      <div class="column">
+        <%= booking.service.title %><br />
+      </div>
+      <div class="column">
+        <%= booking.service.duration %>
+      </div>
+      <div class="column">
+        <%= format_currency(booking.service.price) %>
+      </div>
+
+      <div class="column">
+        <%= form_with(model: booking) do |f| %>
+          <%= f.label :status, "Completado", class: 'checkbox' %>
+          <%= f.check_box :status, {}, 'completed', class: 'checkbox' %>
+          <%= f.submit "Atualizar", class: "button is-primary is-fullwidth" %>
         <% end %>
-      <% end %>
+      </div>
     </div>
-    <div class="column">
-      <%= form_with(model: booking) do |f| %>
-        <%= f.label :status, "Completado", class: 'checkbox' %>
-        <%= f.check_box :status, {}, 'completed', class: 'checkbox' %>
-        <%= f.submit "Atualizar", class: "button is-primary is-fullwidth" %>
+
+    <% if booking.service.optional_services %>
+      <% booking.service.optional_services.each do |optional_service| %>
+        <div class="columns is-vcentered has-text-centered">
+          <div class="column"><%= optional_service.title %></div>
+          <div class="column"><%= optional_service.duration %></div>
+          <div class="column"><%= format_currency(optional_service.price) %></div>
+          <div class="column"></div>
+        </div>
       <% end %>
+    <% end %>
+    <br>
+    <div class="columns is-vcentered has-text-centered">
+      <div class="column"><h1 class="has-text-weight-bold">TOTAL</h1></div>
+      <div class="column"><h1 class="has-text-weight-bold"><%= booking.sum_duration %> MINUTO(S)</h1></div>
+      <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(booking.service.total_value) %></h1></div>
+      <div class="column"></div>
     </div>
   </div>
 <% end %>
