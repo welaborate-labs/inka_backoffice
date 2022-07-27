@@ -19,4 +19,8 @@ class Service < ApplicationRecord
   def total_value
     price + optional_services&.sum(:price)
   end
+
+  def total_duration
+    duration + optional_services&.sum(:duration)
+  end
 end

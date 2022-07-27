@@ -40,7 +40,11 @@ class Booking < ApplicationRecord
   end
 
   def sum_duration
-    service.duration + service.optional_services&.sum(:duration) if service
+    service.duration + service.optional_services&.sum(:duration)
+  end
+
+  def sum_price
+    service.price + service.optional_services&.sum(:price)
   end
 
   def is_inactive?
