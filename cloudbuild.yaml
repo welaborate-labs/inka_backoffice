@@ -2,8 +2,12 @@
 steps:
   - id: "build image"
     name: "gcr.io/cloud-builders/docker"
-    entrypoint: 'bash'
-    args: ["-c", "docker build --build-arg MASTER_KEY=$$RAILS_KEY -t gcr.io/${PROJECT_ID}/${_SERVICE_NAME} -f Dockerfile.production . "]
+    entrypoint: "bash"
+    args:
+      [
+        "-c",
+        "docker build --build-arg MASTER_KEY=$$RAILS_KEY -t gcr.io/${PROJECT_ID}/${_SERVICE_NAME} -f Dockerfile.production . ",
+      ]
     secretEnv: ["RAILS_KEY"]
 
   - id: "push image"
@@ -16,22 +20,21 @@ steps:
     args:
       [
         "-c",
-        "/buildstep/execute.sh -i gcr.io/${PROJECT_ID}/${_SERVICE_NAME} -s ${PROJECT_ID}:${_REGION}:${_INSTANCE_NAME} -e RAILS_MASTER_KEY=$$RAILS_KEY -- bundle exec rails db:migrate:with_data"
+        "/buildstep/execute.sh -i gcr.io/${PROJECT_ID}/${_SERVICE_NAME} -s ${PROJECT_ID}:${_REGION}:${_INSTANCE_NAME} -e RAILS_MASTER_KEY=$$RAILS_KEY -- bundle exec rails db:migrate:with_data",
       ]
     secretEnv: ["RAILS_KEY"]
 
 substitutions:
-  _REGION: southamerica-east1
+  _REGION: us-central1
   _SERVICE_NAME: inka-backoffice
-  _INSTANCE_NAME: inka-backoffice-production
-  _SECRET_NAME: rails-master-key
+  _INSTANCE_NAME: inka-backoffice-prod
+  _SECRET_NAME: inka-backoffice-prod
 
 availableSecrets:
   secretManager:
-  - versionName: projects/${PROJECT_ID}/secrets/${_SECRET_NAME}/versions/latest
-    env: RAILS_KEY
+    - versionName: projects/${PROJECT_ID}/secrets/${_SECRET_NAME}/versions/latest
+      env: RAILS_KEY
 
 images:
   - "gcr.io/${PROJECT_ID}/${_SERVICE_NAME}"
 # [END cloudrun_rails_cloudbuild]
-
