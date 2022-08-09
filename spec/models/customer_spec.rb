@@ -52,14 +52,13 @@ RSpec.describe Customer, type: :model do
 
     describe "should verify the 'length'" do
       it "should verify the mimimum" do
-        customer = build(:customer, :with_avatar, user_id: user.id, name: "ab", phone: "1234567", address: "123456789", document: "123456789")
+        customer = build(:customer, :with_avatar, user_id: user.id, name: "ab", phone: "1234567", document: "123456789")
         customer.valid?
 
-        expect(customer.errors.messages.count).to be 4
-        expect(customer.errors.attribute_names).to eq %i[name phone address document]
+        expect(customer.errors.messages.count).to be 3
+        expect(customer.errors.attribute_names).to eq %i[name phone document]
         expect(customer.errors.messages[:name]).to eq ["é muito curto (mínimo: 3 caracteres)"]
         expect(customer.errors.messages[:phone]).to eq ["é muito curto (mínimo: 8 caracteres)"]
-        expect(customer.errors.messages[:address]).to eq ["é muito curto (mínimo: 10 caracteres)"]
         expect(customer.errors.messages[:document]).to eq ["é muito curto (mínimo: 10 caracteres)"]
       end
 
@@ -73,18 +72,13 @@ RSpec.describe Customer, type: :model do
               "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
                abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
             phone: "1234567890123456",
-            address:
-              "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
             document: "123456789012345678"
           )
         customer.save
-        expect(customer.errors.messages.count).to be 4
-        expect(customer.errors.attribute_names).to eq %i[name phone address document]
+        expect(customer.errors.messages.count).to be 3
+        expect(customer.errors.attribute_names).to eq %i[name phone document]
         expect(customer.errors.messages[:name]).to eq ["é muito longo (máximo: 100 caracteres)"]
         expect(customer.errors.messages[:phone]).to eq ["é muito longo (máximo: 15 caracteres)"]
-        expect(customer.errors.messages[:address]).to eq ["é muito longo (máximo: 150 caracteres)"]
         expect(customer.errors.messages[:document]).to eq ["é muito longo (máximo: 16 caracteres)"]
       end
     end

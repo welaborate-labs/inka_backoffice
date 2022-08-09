@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe AnamnesisSheetsController, type: :controller do
   render_views
   let(:user) { create(:user) }
-  let(:customer) { create(:customer, :with_avatar, user_id: user.id) }
+  let!(:customer) { create(:customer, :with_avatar, user_id: user.id) }
   let!(:anamnesis_sheet) { create(:anamnesis_sheet, customer_id: customer.id) }
 
   describe "when logged in" do
@@ -23,7 +23,7 @@ RSpec.describe AnamnesisSheetsController, type: :controller do
 
       context "returns flash message" do
         before { delete :destroy, params: { id: anamnesis_sheet.id, customer_id: customer.id } }
-        it { expect(flash[:notice]).to eq "Ficha de Anamnese removida cmo sucesso." }
+        it { expect(flash[:notice]).to eq "Ficha de Anamnese removida com sucesso." }
       end
     end
 
@@ -31,6 +31,7 @@ RSpec.describe AnamnesisSheetsController, type: :controller do
       let(:token) { JsonWebToken.encode(customer.id) }
 
       context "with jwt token" do
+
         before { get :new, params: { customer_id: customer.id, token: token } }
 
         it { expect(response).to be_successful }
