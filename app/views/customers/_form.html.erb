@@ -2,62 +2,99 @@
   <div class="column is-6">
     <%= form_with(model: customer) do |form| %>
       <%= render 'shared/error_messages', resource: customer %>
-
-      <div class="field">
-        <%= form.label :name, style: "display: block", class: "label" %>
-        <%= form.text_field :name, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :email, style: "display: block", class: "label" %>
-        <%= form.text_field :email, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :phone, style: "display: block", class: "label" %>
-        <%= form.text_field :phone, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :address, style: "display: block", class: "label" %>
-        <%= form.text_field :address, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :document, style: "display: block", class: "label" %>
-        <%= form.text_field :document, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :birth_date, 'Data de Nascimento', class: "label" %>
-        <%= form.date_field :birth_date, class: "input" %>
-      </div>
-
-      <div class="field">
-        <%= form.label :gender, style: "display: block", class: "label" %>
-        <div>
-          <label class="label">
-            <%= form.radio_button :gender, 'Feminino' %>
-            Feminino
-          </label>
+      <div class="box">
+        <div class="field">
+          <%= form.label :name, style: "display: block", class: "label" %>
+          <%= form.text_field :name, class: "input" %>
         </div>
-        <div>
-          <label class="label">
-            <%= form.radio_button :gender, 'Masculino' %>
-            Masculino
-          </label>
+
+        <div class="field">
+          <%= form.label :email, style: "display: block", class: "label" %>
+          <%= form.text_field :email, class: "input" %>
         </div>
-        <div>
-          <label class="label">
-            <%= form.radio_button :gender, 'Outro' %>
-            Outro
-          </label>
+
+        <div class="field">
+          <%= form.label :phone, style: "display: block", class: "label" %>
+          <%= form.text_field :phone, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :document, style: "display: block", class: "label" %>
+          <%= form.text_field :document, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :birth_date, 'Data de Nascimento', class: "label" %>
+          <%= form.date_field :birth_date, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :gender, style: "display: block", class: "label" %>
+          <div>
+            <label class="label">
+              <%= form.radio_button :gender, 'Feminino' %>
+              Feminino
+            </label>
+          </div>
+          <div>
+            <label class="label">
+              <%= form.radio_button :gender, 'Masculino' %>
+              Masculino
+            </label>
+          </div>
+          <div>
+            <label class="label">
+              <%= form.radio_button :gender, 'Outro' %>
+              Outro
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :avatar, style: "display: block", class: "label" %>
+          <%= form.file_field :avatar, class: "input" %>
         </div>
       </div>
 
-      <div class="field">
-        <%= form.label :avatar, style: "display: block", class: "label" %>
-        <%= form.file_field :avatar, class: "input" %>
+      <div class="box">
+        <div class="field">
+          <%= form.label :street_address, style: "display: block", class: "label" %>
+          <%= form.text_field :street_address, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :number, style: "display: block", class: "label" %>
+          <%= form.number_field :number, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :complement, style: "display: block", class: "label" %>
+          <%= form.text_field :complement, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :district, style: "display: block", class: "label" %>
+          <%= form.text_field :district, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :city, style: "display: block", class: "label" %>
+          <%= form.text_field :city, class: "input" %>
+        </div>
+
+        <div class="field">
+          <%= form.label :state, style: "display: block", class: "label" %>
+          <div class="select is-fullwidth">
+            <%= form.select :state, [ "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+                                      "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                                      "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"], prompt: 'SP' %>
+          </div>
+        </div>
+
+        <div class="field">
+          <%= form.label :zip_code, style: "display: block", class: "label" %>
+          <%= form.number_field :zip_code, class: "input" %>
+        </div>
       </div>
 
       <div class="actions has-text-centered my-6">

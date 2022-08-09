@@ -12,15 +12,35 @@
   </td>
 
   <td>
-    <%= customer.address %>
-  </td>
-
-  <td>
     <%= customer.document %>
   </td>
 
   <td>
     <%= link_to customer.avatar.filename, customer.avatar if customer.avatar.attached? %>
+  </td>
+
+  <td>
+    <%= customer.street_address %>
+  </td>
+
+  <td>
+    <%= customer.number %>
+  </td>
+
+  <td>
+    <%= customer.district %>
+  </td>
+
+  <td>
+    <%= customer.city %>
+  </td>
+
+  <td>
+    <%= customer.state %>
+  </td>
+
+  <td>
+    <%= customer.zip_code %>
   </td>
 
   <td>

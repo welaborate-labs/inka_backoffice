@@ -34,32 +34,42 @@ puts "creating customers..."
 Customer.create!(
   [
     {
-      name: "John",
+      name: "John Doe",
       birth_date: Date.new(1988, 6, 7),
       gender: 'Masculino',
       email: "john.customer@example.com",
       phone: "1111112222",
-      address: "Some random Address",
       document: "12312312311",
       user_id: User.first.id,
       avatar: {
         io: File.open(File.join(Rails.root, "spec/fixtures/files/model.png")),
         filename: "model.png"
-      }
+      },
+      street_address: "Some random Address",
+      number: 1988,
+      district: "Jardim dos John's",
+      state: "SP",
+      city: "Mogi das Cruzes",
+      zip_code: 12345678,
     },
     {
-      name: "Jane",
+      name: "Jane Doe",
       birth_date: Date.new(2020, 1, 1),
       gender: 'Feminino',
       email: "jane.customer@example.com",
       phone: "1111112222",
-      address: "Some random Address",
       document: "12312312322",
       user_id: User.second.id,
       avatar: {
         io: File.open(File.join(Rails.root, "spec/fixtures/files/model.png")),
         filename: "model.png"
-      }
+      },
+      street_address: "Some random Address_2",
+      number: 2020,
+      district: "Jardim das Jane's",
+      state: "SP",
+      city: "Mogi das Cruzes",
+      zip_code: 87654321,
     }
   ]
 )
