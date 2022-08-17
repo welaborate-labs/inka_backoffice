@@ -3,10 +3,15 @@ FactoryBot.define do
     name { "John Doe" }
     email { "john.doe@example.com" }
     phone { "1199998888" }
-    address { "John Doe of Jane Doe Adrress" }
     document { "12345678909" }
     user { nil }
     avatar { nil }
+    street_address { "John Doe's Address" }
+    number { 1988 }
+    complement { "House B" }
+    district { "Doe's District" }
+    city { "Mogi das Cruzes" }
+    state { "SP" }
   end
 
   trait :with_avatar do

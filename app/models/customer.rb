@@ -12,6 +12,5 @@ class Customer < ApplicationRecord
   validates :email, :document, uniqueness: true, allow_blank: true
   validates :name, length: { within: 3..100 }, allow_blank: true
   validates :phone, length: { within: 8..15 }, allow_blank: true
-  validates :address, length: { within: 10..150 }, allow_blank: true
   validates :document, length: { within: 10..16 }, allow_blank: true
 end
