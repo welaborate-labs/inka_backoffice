@@ -3,7 +3,7 @@ class BookingsController < ApplicationController
   before_action :set_bookings, only: %i[in_progress to_completed]
 
   def index
-    @bookings = Booking.all.order("booking_datetime DESC")
+    @bookings = Booking.all.order("starts_at DESC, professional_id ASC")
   end
 
   def show; end
