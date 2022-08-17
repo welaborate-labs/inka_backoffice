@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :professionals
   resources :customers do
     resources :anamnesis_sheets, except: %i[index edit]
+    get '/bookings/in_progress', to: 'bookings#in_progress'
+    post '/bookings/in_progress/to_completed', to: 'bookings#to_completed'
   end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]
@@ -20,11 +22,12 @@ Rails.application.routes.draw do
   match "/logout", to: "sessions#destroy", via: %i[get post]
 
   get "/search", to: "products#search"
-  get "/bookings/:starts_at/new", to: "bookings#new"
-  get "/login", to: "sessions#new"
-  get "/auth/failure", to: "sessions#failure"
-  get "/calendar:calendar_date", to: "calendar#index"
-  get "/calendar/professional_daily", to: "calendar#professional_daily"
-  get "/calendar/professional_weekly", to: "calendar#professional_weekly"
-  get "/calendar/adm", to: "calendar#adm"
+  get '/bookings/:starts_at/new', to: 'bookings#new'
+  get '/login', to: 'sessions#new'
+  get '/auth/failure', to: 'sessions#failure'
+  get '/calendar:calendar_date', to: 'calendar#index'
+  get '/calendar/professional_daily', to:'calendar#professional_daily'
+  get '/calendar/professional_weekly', to:'calendar#professional_weekly'
+  get '/calendar/adm', to:'calendar#adm'
+  get '/customers/bookings/in_progress_all', to: 'bookings#in_progress_all'
 end
