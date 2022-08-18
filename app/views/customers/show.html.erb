@@ -45,7 +45,7 @@
       </div>
 
       <div class="column is-6 has-text-centered">
-        <span class="has-text-weight-bold">Data de nascimento:</span> <%= @customer.birth_date.strftime("%d/%m/%Y") %>
+        <span class="has-text-weight-bold">Data de nascimento:</span> <%= @customer.birth_date&.strftime("%d/%m/%Y") %>
       </div>
 
       <div class="column is-6 has-text-centered">
