@@ -65,13 +65,15 @@ class AnamnesisSheetsController < ApplicationController
     @customer = Customer.find(params[:customer_id])
   end
 
-  def customer_sheet_params
-    params.require(:customer).permit(:address, :birth_date, :document, :email, :gender, :phone)
-  end
-
   def anamnesis_sheet_params
     params.require(:anamnesis_sheet).permit(
-      :address,
+      :street_address,
+      :number,
+      :complement,
+      :district,
+      :state,
+      :city,
+      :zip_code,
       :birth_date,
       :document,
       :email,
