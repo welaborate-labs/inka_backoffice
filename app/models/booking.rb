@@ -2,6 +2,7 @@ class Booking < ApplicationRecord
   belongs_to :customer
   belongs_to :service
   belongs_to :professional
+  belongs_to :bill, optional: :true
 
   before_validation :set_ends_at
   before_save :update_canceled_at, if: -> { status_changed? }
@@ -11,8 +12,8 @@ class Booking < ApplicationRecord
   validates :starts_at, presence: true
   validates :ends_at, presence: true
 
-  validate :professional_is_available, if: -> { starts_at_changed? }
-  validate :schedule_is_available
+  validate :professional_is_available, if: -> { starts_at_changed? && status != "completed" }
+  validate :schedule_is_available, if: -> { status != "completed" }
 
   scope :active, -> { where.not(status: [:customer_canceled, :professional_canceled, :absent]) }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_08_132435) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_10_121538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -87,6 +87,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_132435) do
     t.index ["customer_id"], name: "index_anamnesis_sheets_on_customer_id"
   end
 
+  create_table "bills", force: :cascade do |t|
+    t.decimal "amount"
+    t.boolean "is_gift"
+    t.decimal "discount"
+    t.decimal "discounted_value"
+    t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "bookings", force: :cascade do |t|
     t.text "notes"
     t.integer "status"
@@ -98,6 +108,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_132435) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.bigint "professional_id", null: false
+    t.bigint "bill_id"
+    t.index ["bill_id"], name: "index_bookings_on_bill_id"
     t.index ["customer_id"], name: "index_bookings_on_customer_id"
     t.index ["professional_id"], name: "index_bookings_on_professional_id"
     t.index ["service_id"], name: "index_bookings_on_service_id"
@@ -217,6 +229,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_08_132435) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "anamnesis_sheets", "customers"
+  add_foreign_key "bookings", "bills"
   add_foreign_key "bookings", "customers"
   add_foreign_key "bookings", "professionals"
   add_foreign_key "bookings", "services"
