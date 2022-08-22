@@ -11,6 +11,7 @@ class FocusNfeApi
 
   def create
     url = URI(URL_API + "v2/nfse?ref=" + @bill.to_sgid(expires_in: nil).to_s)
+    puts "url: #{url}"
 
     https = Net::HTTP.new(url.hostname, url.port)
     https.use_ssl = true
@@ -53,11 +54,13 @@ class FocusNfeApi
     })
 
     response = https.request(request)
+    puts "created: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
   end
 
   def get
     url = URI(URL_API + "v2/nfse/" + @bill.to_sgid(expires_in: nil).to_s)
+    puts "url: #{url}"
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
@@ -67,11 +70,13 @@ class FocusNfeApi
     request["Authorization"] = "Basic " + Base64.encode64(TOKEN).strip
 
     response = https.request(request)
+    puts "get: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
   end
 
   def cancel(justification)
     url = URI(URL_API + "v2/nfse/" + @bill.to_sgid(expires_in: nil).to_s)
+    puts "url: #{url}"
 
     canceled_justification = {
       justificativa: justification.to_s
@@ -87,6 +92,17 @@ class FocusNfeApi
     request.body = canceled_justification.to_json
 
     response = https.request(request)
+    puts "cancel/get: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
+  end
+
+  def get_url(field)
+    json_response = get
+
+    if json_response["status"] == "autorizado" || json_response["status"] == "cancelado"
+      return json_response[field]
+    else
+      return json_response["mensagem"]
+    end
   end
 end

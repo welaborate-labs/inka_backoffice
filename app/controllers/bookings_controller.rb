@@ -70,18 +70,6 @@ class BookingsController < ApplicationController
     end
   end
 
-  def to_completed
-    @bill = Bill.new(bill_params)
-
-    respond_to do |format|
-      if @bill.save && @bookings.update_all(status: 'completed', bill_id: @bill.id)
-        format.html { redirect_to customers_bookings_in_progress_all_path, notice: "Serviços atualizados com sucesso!" }
-      else
-        format.html { redirect_to customers_bookings_in_progress_all_path, status: :see_other, alert: "Não foi possível atualizar os Serviços." }
-      end
-    end
-  end
-
   private
 
   def set_booking
@@ -92,18 +80,10 @@ class BookingsController < ApplicationController
     params.require(:booking).permit(:status, :notes, :service_id, :customer_id, :professional_id, :booking_datetime, :starts_at, :ends_at)
   end
 
-  def bill_params
-    params.require(:bill).permit(:bookings, :discount)
-  end
-
   def set_bookings
     @bookings = Booking
       .where(customer_id: params[:customer_id])
       .where(status: 'in_progress')
       .where(starts_at: Date.today.beginning_of_day..Date.today.end_of_day)
-  end
-
-  def set_bookings_to_complete
-    @bookings = Booking.where(id: params["bill"]["bookings"])
   end
 end

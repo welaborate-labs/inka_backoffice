@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :bills, only: %i[create index edit] do
+    delete '/cancel_nfse', to: 'bills#destroy'
+  end
   resources :products do
     resources :stocks, type: "Stock"
     resources :stock_increments, controller: :stocks, type: "StockIncrement"
@@ -12,7 +15,6 @@ Rails.application.routes.draw do
   resources :customers do
     resources :anamnesis_sheets, except: %i[index edit]
     get '/bookings/in_progress', to: 'bookings#in_progress'
-    post '/bookings/in_progress/to_completed', to: 'bookings#to_completed'
   end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]

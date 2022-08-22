@@ -16,9 +16,11 @@
 
       <%= link_to "Reservas", bookings_path, class: "navbar-item" %>
 
-      <%= link_to "Serviço(s)", customers_bookings_in_progress_all_path, class: "navbar-item" %>
+      <%= link_to "Serviço(s) Progresso", customers_bookings_in_progress_all_path, class: "navbar-item" %>
 
       <%= link_to "Produtos" , products_path, class: "navbar-item" %>
+
+      <%= link_to "NFEs" , bills_path, class: "navbar-item" %>
     </div>
     <div class="navbar-end">
       <strong><%= link_to "Logout", logout_path, class: "button is-light navbar-item" %></strong>
