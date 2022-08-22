@@ -3,7 +3,7 @@ require "services/focus_nfe_api"
 class Bill < ApplicationRecord
   has_many :bookings
 
-  validate :booking_validation, on: :save
+  validate :booking_validation
   validates :justification, length: { within: 2..150 }, on: :destroy
 
   before_save :calculate_amount

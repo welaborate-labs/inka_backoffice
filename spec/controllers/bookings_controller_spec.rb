@@ -235,12 +235,15 @@ RSpec.describe BookingsController, type: :controller do
     end
   end
 
-  describe "GET /bookings_in_progress" do
+  describe "GET /bookings/in_progress" do
+    let!(:schedule_2) { create(:schedule, professional: professional, weekday: DateTime.now.wday) }
+
     describe "when authenticated" do
       before do
         booking.status = 'in_progress'
-        booking.save
-        get :in_progress
+        booking.starts_at = DateTime.now.beginning_of_day + 16.hours
+        booking.save!
+        get :in_progress, params: { customer_id: customer.id }
       end
 
       it { expect(response).to render_template(:in_progress) }
@@ -248,12 +251,12 @@ RSpec.describe BookingsController, type: :controller do
       it { expect(assigns(:bookings)).to include booking }
     end
 
-    context "when does not authenticated" do
+    describe "when does not authenticated" do
       before { allow_any_instance_of(ApplicationController).to receive(:current_user) { nil } }
 
       before do
         booking.save
-        get :in_progress
+        get :in_progress, params: { customer_id: customer.id }
       end
 
       it { expect(response).not_to be_successful }
