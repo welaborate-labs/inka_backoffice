@@ -2,8 +2,6 @@ class BookingsController < ApplicationController
   include Pagination
 
   before_action :set_booking, only: %i[show edit update destroy]
-  before_action :set_bookings, only: %i[in_progress]
-  before_action :set_bookings_to_complete, only: %i[to_completed]
 
   def index
     @pagination, @bookings = paginate(Booking.all.order("starts_at DESC, professional_id ASC"), page: params[:page])
@@ -56,18 +54,14 @@ class BookingsController < ApplicationController
     @pagination, @customers = paginate(Customer
       .joins(:bookings)
       .includes(:bookings)
-      .where(bookings: { status: 'in_progress' })
-      .where(bookings: { starts_at: Date.today.beginning_of_day..Date.today.end_of_day } )
-    )
+      .where(bookings: { status: ['in_progress', 'completed'] })
   end
 
   def in_progress
-    @total_price = 0
-    @total_duration = 0
-    @bookings.each do |booking|
-      @total_price += booking.sum_price
-      @total_duration += booking.sum_duration
-    end
+    @bookings = Booking
+      .where(customer_id: params[:customer_id])
+      .where(status: ['in_progress', 'completed'])
+      .where(starts_at: Date.today.beginning_of_day..Date.today.end_of_day)
   end
 
   private
@@ -78,12 +72,5 @@ class BookingsController < ApplicationController
 
   def booking_params
     params.require(:booking).permit(:status, :notes, :service_id, :customer_id, :professional_id, :booking_datetime, :starts_at, :ends_at)
-  end
-
-  def set_bookings
-    @bookings = Booking
-      .where(customer_id: params[:customer_id])
-      .where(status: 'in_progress')
-      .where(starts_at: Date.today.beginning_of_day..Date.today.end_of_day)
   end
 end

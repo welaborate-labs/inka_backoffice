@@ -50,8 +50,8 @@
   <div class="columns is-vcentered has-text-centered has-background-light">
     <div class="column"></div>
     <div class="column"><h1 class="has-text-weight-bold">TOTAL</h1></div>
-    <div class="column"><h1 class="has-text-weight-bold"><%= @total_duration %> Minuto(s)</h1></div>
-    <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(@total_price) %></h1></div>
+    <div class="column"><h1 class="has-text-weight-bold"><%= bookings_total_price(@bookings) %> Minuto(s)</h1></div>
+    <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(bookings_total_price(@bookings)) %></h1></div>
     <div class="column"></div>
   </div>
 

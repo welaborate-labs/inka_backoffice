@@ -26,6 +26,9 @@ class Booking < ApplicationRecord
     professional_canceled
     absent
     completed
+    billing
+    billed
+    billing_failed
   ]
 
   def customer_name
