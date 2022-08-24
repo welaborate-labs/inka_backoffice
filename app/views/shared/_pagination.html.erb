@@ -1,0 +1,17 @@
+<nav class="pagination is-centered" role="pagination" aria-label="pagination">
+  <%= link_to url_for({ :page => pagination.previous_page }), class: 'pagination-previous', disabled: pagination.first_page? do %>
+    Anterior
+  <% end %>
+  <ul class="pagination-list">
+    <% 1.upto(pagination.total_pages) do |page| %>
+      <li>
+        <%= link_to url_for({ :page => page }), class: "pagination-link is-current" do %>
+          <%= page %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <%= link_to url_for({ :page => pagination.next_page }), class: 'pagination-next', disabled: pagination.last_page? do %>
+    Próxima
+  <% end %>
+</nav>
