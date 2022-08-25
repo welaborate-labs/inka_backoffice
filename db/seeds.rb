@@ -158,8 +158,8 @@ puts "creating Service Bookings..."
 Booking.create!(
   [
     {
-      notes: "some note",
-      status: 0,
+      notes: "some note 1",
+      status: 3,
       service_id: Service.second.id,
       customer_id: Customer.first.id,
       starts_at: starts_at - 1.day,
@@ -167,8 +167,8 @@ Booking.create!(
       professional_id: Professional.first.id
     },
     {
-      notes: "some note_2",
-      status: 1,
+      notes: "some note 2",
+      status: 3,
       service_id: Service.second.id,
       customer_id: Customer.first.id,
       starts_at: starts_at - 2.days,
@@ -176,8 +176,8 @@ Booking.create!(
       professional_id: Professional.first.id
     },
     {
-      notes: "some note_3",
-      status: 2,
+      notes: "some note 3",
+      status: 3,
       service_id: Service.third.id,
       customer_id: Customer.first.id,
       starts_at: starts_at - 3.days,
@@ -185,8 +185,8 @@ Booking.create!(
       professional_id: Professional.first.id
     },
     {
-      notes: "some note_3",
-      status: 5,
+      notes: "some note 4",
+      status: 3,
       service_id: Service.third.id,
       customer_id: Customer.first.id,
       starts_at: starts_at - 4.days,
@@ -194,12 +194,57 @@ Booking.create!(
       professional_id: Professional.first.id
     },
     {
-      notes: "some note_4",
-      status: 6,
+      notes: "some note 5",
+      status: 3,
       service_id: Service.second.id,
       customer_id: Customer.first.id,
       starts_at: starts_at - 5.days,
       ends_at: ends_at - 5.days,
+      professional_id: Professional.second.id
+    },
+    {
+      notes: "some note 6",
+      status: 3,
+      service_id: Service.second.id,
+      customer_id: Customer.first.id,
+      starts_at: starts_at - 1.day + 1.hour,
+      ends_at: ends_at - 1.day + 1.hour,
+      professional_id: Professional.first.id
+    },
+    {
+      notes: "some note 7",
+      status: 3,
+      service_id: Service.second.id,
+      customer_id: Customer.first.id,
+      starts_at: starts_at - 2.days + 1.hour,
+      ends_at: ends_at - 2.days + 1.hour,
+      professional_id: Professional.first.id
+    },
+    {
+      notes: "some note 8",
+      status: 3,
+      service_id: Service.third.id,
+      customer_id: Customer.first.id,
+      starts_at: starts_at - 3.days + 1.hour,
+      ends_at: ends_at - 3.days + 1.hour,
+      professional_id: Professional.first.id
+    },
+    {
+      notes: "some note 9",
+      status: 3,
+      service_id: Service.third.id,
+      customer_id: Customer.first.id,
+      starts_at: starts_at - 4.days + 1.hour,
+      ends_at: ends_at - 4.days + 1.hour,
+      professional_id: Professional.first.id
+    },
+    {
+      notes: "some note 10",
+      status: 3,
+      service_id: Service.second.id,
+      customer_id: Customer.first.id,
+      starts_at: starts_at - 5.days + 1.hour,
+      ends_at: ends_at - 5.days + 1.hour,
       professional_id: Professional.second.id
     }
   ]

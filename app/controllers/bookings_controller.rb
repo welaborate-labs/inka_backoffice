@@ -1,9 +1,11 @@
 class BookingsController < ApplicationController
+  include Pagination
+
   before_action :set_booking, only: %i[show edit update destroy]
   before_action :set_bookings, only: %i[in_progress to_completed]
 
   def index
-    @bookings = Booking.all.order("starts_at DESC, professional_id ASC")
+    @pagination, @bookings = paginate(Booking.all.order("starts_at DESC, professional_id ASC"), page: params[:page])
   end
 
   def show; end
@@ -50,11 +52,12 @@ class BookingsController < ApplicationController
   end
 
   def in_progress_all
-    @customers = Customer
+    @pagination, @customers = paginate(Customer
       .joins(:bookings)
       .includes(:bookings)
       .where(bookings: { status: 'in_progress' })
       .where(bookings: { starts_at: Date.today.beginning_of_day..Date.today.end_of_day } )
+    )
   end
 
   def in_progress
