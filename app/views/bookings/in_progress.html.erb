@@ -4,10 +4,12 @@
   <%= link_to "Voltar para Clientes", customers_path, class: "button is-link" %>
 </div>
 
-<div class="field label is-size-4">
-  <%= label_tag "Nome do Cliente: " %>
-  <%= @bookings.first.customer_name.titleize %>
-</div>
+<% if !@bookings.empty? %>
+  <div class="field label is-size-4">
+    <%= label_tag "Nome do Cliente: " %>
+    <%= @bookings.first.customer_name.titleize %>
+  </div>
+<% end %>
 
 <div class="columns has-text-centered has-background-light">
   <div class="column">
@@ -50,7 +52,7 @@
   <div class="columns is-vcentered has-text-centered has-background-light">
     <div class="column"></div>
     <div class="column"><h1 class="has-text-weight-bold">TOTAL</h1></div>
-    <div class="column"><h1 class="has-text-weight-bold"><%= bookings_total_price(@bookings) %> Minuto(s)</h1></div>
+    <div class="column"><h1 class="has-text-weight-bold"><%= bookings_total_duration(@bookings) %> Minuto(s)</h1></div>
     <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(bookings_total_price(@bookings)) %></h1></div>
     <div class="column"></div>
   </div>

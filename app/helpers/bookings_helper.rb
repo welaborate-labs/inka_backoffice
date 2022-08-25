@@ -11,7 +11,7 @@ module BookingsHelper
     end
   end
 
-  def bookings_total_duration(bokings)
+  def bookings_total_duration(bookings)
     bookings.reduce(0) do |total, booking|
       total += booking.sum_duration
     end

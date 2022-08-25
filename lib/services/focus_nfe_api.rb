@@ -48,7 +48,7 @@ class FocusNfeApi
         "item_lista_servico": "0601",
         "codigo_municipio": "3530607",
         "desconto_condicionado": @bill.discounted_value,
-        "discriminacao": @bill.bookings.first&.service.title,
+        "discriminacao": @bill.bookings.map { |booking| booking.service.title }.join(","),
         "valor_servicos": @bill.calculate_amount.to_s
       }
     })
