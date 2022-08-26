@@ -4,7 +4,7 @@ class Booking < ApplicationRecord
   belongs_to :professional
   belongs_to :bill, optional: :true
 
-  before_validation :set_ends_at
+  before_validation :set_ends_at, if: -> { service.present? }
   before_save :update_canceled_at, if: -> { status_changed? }
   before_update :create_stock_decrement, if: -> { status == "completed" }
 
@@ -43,10 +43,6 @@ class Booking < ApplicationRecord
     "#{customer_name} - #{professional_name}"
   end
 
-  def sum_duration
-    service.duration + service.optional_services&.sum(:duration)
-  end
-
   def sum_price
     service.price + service.optional_services&.sum(:price)
   end
@@ -58,7 +54,7 @@ class Booking < ApplicationRecord
   private
 
   def set_ends_at
-    self.ends_at = self.starts_at + sum_duration&.minutes if self.starts_at && sum_duration
+    self.ends_at = self.starts_at + service&.duration.minutes if self.starts_at && service.duration
   end
 
   def update_canceled_at
