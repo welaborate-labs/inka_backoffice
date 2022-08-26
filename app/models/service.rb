@@ -16,6 +16,8 @@ class Service < ApplicationRecord
 
   accepts_nested_attributes_for :product_usages, allow_destroy: true, reject_if: :all_blank
 
+  scope :find_by_title, -> (query) { where("title ILIKE ?", "%#{query}%").select(:title, :id).order("title ASC").take(5) }
+
   def total_value
     price + optional_services&.sum(:price)
   end

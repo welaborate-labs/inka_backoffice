@@ -1,4 +1,5 @@
 class ServicesController < ApplicationController
+  include Autocomplete
   before_action :set_service, only: %i[show edit update destroy]
   before_action :set_services, only: %i[new create edit update]
   before_action :set_products, only: %i[new create edit update]
@@ -85,5 +86,13 @@ class ServicesController < ApplicationController
 
   def set_products
     @products ||= Product.all
+  end
+
+  def set_autocomplete_collection
+    @autocomplete_collection = if params[:q]
+      Service.find_by_title(params[:q])
+    else
+      Service.all.order("title ASC").take(5)
+    end
   end
 end

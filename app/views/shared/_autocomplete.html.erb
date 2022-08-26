@@ -1,5 +1,5 @@
-<% @search_results.each do |result| %>
-  <li role="option" value="<% result.id %>"><%= result.name %></li>
+<% collection.each do |item| %>
+  <li class="list-group-item is-size-5 pl-3" role="option" data-autocomplete-value="<%= item.send(autocomplete_value) %>">
+    <%= item.send(autocomplete_label) %>
+  </li>
 <% end %>
-<!-- serviços -->
-<!-- customers -->

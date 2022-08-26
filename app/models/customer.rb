@@ -18,6 +18,8 @@ class Customer < ApplicationRecord
   validates :district, length: { within: 1..100 }, if: -> { address_validation }
   validates :state, length: { within: 2..2 }, if: -> { address_validation }
 
+  scope :find_by_name, -> (query) { where("name ILIKE ?", "%#{query}%").select(:name, :id).order("name ASC").take(5) }
+
   def address_validation
     if street_address.present? ||
        number.present? ||

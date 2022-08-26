@@ -17,4 +17,11 @@
 $gap: 32px;
 $fullhd: 1800px + (2 * $gap);
 
+.active {
+  z-index: 2;
+  color: #fff;
+  background-color: #485fc7;
+  border-color: #485fc7;
+}
+
 @import "bulma";
