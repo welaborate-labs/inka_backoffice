@@ -84,6 +84,6 @@ test:
 production:
   <<: *default
   database: <%= ENV["DATABASE_NAME"] %>
-  username: inka
-  password: <%= Rails.application.credentials.gcp&.dig(:db_password) %>
-  host: <%= ENV.fetch("DB_SOCKET_DIR") { '/cloudsql' } %>/<%= ENV["CLOUD_SQL_CONNECTION_NAME"] %>
+  username: <%= ENV["DATABASE_USER"] %>
+  password: <%= Rails.application.credentials.db_password %>
+  host: <%= ENV.fetch("DATABASE_HOST") %>

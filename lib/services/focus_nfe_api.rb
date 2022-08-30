@@ -3,7 +3,7 @@ require "uri"
 
 class FocusNfeApi
   URL_API = ENV['FOCUSNFE_URL']
-  TOKEN = ENV['FOCUSNFE_KEY']
+  TOKEN = Rails.application.credentials.api_keys&.dig(:focus_nfe)
 
   def initialize(booking)
     @booking = booking
