@@ -17,6 +17,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: Dockerfile.development
     image: inka
     tty: true
     stdin_open: true
@@ -32,4 +33,3 @@ services:
     environment:
       DATABASE_HOST: db
       DATABASE_USER: postgres
-
