@@ -115,13 +115,6 @@ Service.create!(
     { title: "service_30min_c", duration: 30, price: 45, is_comissioned: true, professionals: [Professional.last] }
   ]
 )
-
-Service.create!(
-  [
-    { title: "service_45min_o", duration: 45, price: 55, is_comissioned: false, service_id: Service.first.id, professionals: [Professional.first] },
-    { title: "service_55min_o", duration: 55, price: 69, is_comissioned: false, service_id: Service.second.id, professionals: [Professional.first] }
-  ]
-)
 puts "#{Service.count} services created successfully!"
 
 puts "creating Schedules..."

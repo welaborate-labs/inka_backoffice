@@ -2,6 +2,7 @@ class Booking < ApplicationRecord
   belongs_to :customer
   belongs_to :service
   belongs_to :professional
+  belongs_to :bill, optional: :true
 
   before_validation :set_ends_at
   before_save :update_canceled_at, if: -> { status_changed? }
@@ -25,6 +26,9 @@ class Booking < ApplicationRecord
     professional_canceled
     absent
     completed
+    billing
+    billed
+    billing_failed
   ]
 
   def customer_name

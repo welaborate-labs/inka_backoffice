@@ -1,0 +1,19 @@
+<tr id="<%= dom_id bill %>">
+  <td>
+    <%= bill.created_at.strftime("%d/%m/%Y") %>
+  </td>
+
+  <td>
+    <%= bill.bookings.first&.customer_name %>
+  </td>
+
+  <td>
+    <% if bill.get_pdf != "Nota fiscal não encontrada" %>
+      <%= link_to "Visualizar PDF", bill.get_pdf, target: :blank, class: "button is-link is-small" %>
+      <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-link is-small" %>
+    <% else %>
+      <%= link_to "Visualizar PDF", "#", class: "button is-link is-small" %>
+      <%= link_to "Cancelar", "#", class: "button is-link is-small" %>
+    <% end %>
+  </td>
+</tr>
