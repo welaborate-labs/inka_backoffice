@@ -2,7 +2,7 @@ class BillsController < ApplicationController
   include Pagination
 
   before_action :set_bookings, only: %i[create]
-  before_action :set_bill, only: %i[destroy edit cancel]
+  before_action :set_bill, only: %i[show destroy edit]
 
   def index
     @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 5)
@@ -20,7 +20,31 @@ class BillsController < ApplicationController
     end
   end
 
-  def cancel
+  def show
+    respond_to do |format|
+      format.pdf do
+        pdf_url = @bill.get_pdf
+
+        if pdf_url && pdf_url != 'Nota fiscal não encontrada'
+          redirect_to pdf_url, allow_other_host: true
+        else
+          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
+        end
+      end
+
+      format.xml do
+        xml_url = @bill.get_xml
+
+        if xml_url && xml_url != 'Nota fiscal não encontrada'
+          redirect_to xml_url, allow_other_host: true
+        else
+          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
+        end
+      end
+    end
+  end
+
+  def destroy
     case @bill.status
     when "billing"
       @message = "Nota ainda está em processo."
@@ -44,7 +68,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [] }, :discount, :is_gift)
+    params.require(:bill).permit({ booking_ids: [] }, :discount, :discounted_value, :is_gift)
   end
 
   def set_bill

@@ -69,9 +69,12 @@
       <%= form.check_box(:is_gift, {}, true, false) %>
     </div>
 
-    <%= form.label "Aplicar desconto?", class: "label mr-2" %>
+    <%= form.label "Aplicar desconto", class: "label mr-2" %>
     <div class="field"><%= form.number_field :discount, class: "field input", in: 1..100 %></div>
     <%= form.label "%", class: "label" %>
+
+    <%= form.label "Descontar valor", class: "label mr-2" %>
+    <div class="field"><%= form.number_field :discount, class: "field input" %></div>
 
     <%= form.submit "Finalizar Serviços", class: "button is-primary ml-2" %>
 
