@@ -54,7 +54,7 @@ class BookingsController < ApplicationController
     @pagination, @customers = paginate(
       Customer.joins(:bookings)
               .includes(:bookings)
-              .where(bookings: { status: ['in_progress', 'completed'] }),
+              .where(bookings: { status: 'in_progress' }),
       page: params[:page]
     )
   end
@@ -62,7 +62,7 @@ class BookingsController < ApplicationController
   def in_progress
     @bookings = Booking
       .where(customer_id: params[:customer_id])
-      .where(status: ['in_progress', 'completed'])
+      .where(status: 'in_progress')
   end
 
   private

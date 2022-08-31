@@ -11,6 +11,7 @@ class Bill < ApplicationRecord
   before_destroy :remove_relationships
 
   after_save :create_nfse
+  after_save :complete_bookings
 
   def calculate_amount
     self.amount = bookings.map { |booking| booking.service.price }.join.to_f
@@ -34,6 +35,10 @@ class Bill < ApplicationRecord
 
   def remove_relationships
     self.bookings.update!(bill_id: nil)
+  end
+
+  def complete_bookings
+    bookings.update_all(status: :completed)
   end
 
   private
