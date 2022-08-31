@@ -105,4 +105,14 @@ class FocusNfeApi
       return json_response["mensagem"]
     end
   end
+
+  def get_xml_url xml_ref
+    "#{URL_API}#{xml_ref}"
+  end
+
+  def error_message
+    json_response = get
+
+    json_response["erros"][0]["mensagem"].split(/\r\n/).reject(&:empty?) if json_response["erros"][0]
+  end
 end

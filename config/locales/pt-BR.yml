@@ -121,6 +121,10 @@ pt-BR:
           professional_canceled: 'Cancelado pelo Profissional'
           absent: 'Ausente'
           completed: 'Completado'
+          billing: 'Emitindo nota'
+          billed: 'Processando nota'
+          billing_failed: 'Nota com erro'
+          billing_canceled: 'Nota cancelada'
       booking/status:
         requested: 'Solicitado'
         accepted: 'Aceito'
@@ -130,6 +134,10 @@ pt-BR:
         professional_canceled: 'Cancelado pelo Profissional'
         absent: 'Ausente'
         completed: 'Completado'
+        billing: 'Emitindo nota'
+        billed: 'Nota emitida'
+        billing_failed: 'Nota com erro'
+        billing_canceled: 'Nota cancelada'
       service:
         title: 'Título'
         duration: 'Duração'
@@ -155,6 +163,13 @@ pt-BR:
         name: 'Nome'
         email: 'Email'
         phone: 'Telefone'
+      bill:
+        amount: 'Quantidade'
+        is_gift: 'É presente'
+        discount: 'Desconto'
+        discounted_value: 'Valor Descontado'
+        state: 'Estado'
+        justification: 'Justificativa'
 
     errors:
       messages:

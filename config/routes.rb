@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :bills, only: %i[create index edit] do
-    delete '/cancel_nfse', to: 'bills#destroy'
+    delete '/cancel_nfse', to: 'bills#cancel'
   end
   resources :products do
     resources :stocks, type: "Stock"

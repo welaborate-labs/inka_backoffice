@@ -8,7 +8,6 @@ class Bill < ApplicationRecord
 
   before_save :calculate_amount
   before_save :calculate_discounted_value, if: -> { discount.present? }
-  before_destroy :remove_relationships
 
   after_save :create_nfse
 
@@ -29,11 +28,18 @@ class Bill < ApplicationRecord
   end
 
   def get_xml
-    FocusNfeApi.new(self).get_url("caminho_xml_nota_fiscal")
+    focus = FocusNfeApi.new(self)
+
+    focus.get_xml_url(focus.get_url("caminho_xml_nota_fiscal"))
   end
 
-  def remove_relationships
-    self.bookings.update!(bill_id: nil)
+  def get_error_message
+    error = FocusNfeApi.new(self).error_message
+    error.nil? ? ["erro não informado"] : error
+  end
+
+  def status
+    bookings ? bookings.first.status : "estado da nota não encontrado"
   end
 
   private

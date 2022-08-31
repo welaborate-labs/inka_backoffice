@@ -29,6 +29,7 @@ class Booking < ApplicationRecord
     billing
     billed
     billing_failed
+    billing_canceled
   ]
 
   def customer_name
@@ -45,6 +46,10 @@ class Booking < ApplicationRecord
 
   def sum_price
     service.price + service.optional_services&.sum(:price)
+  end
+
+  def sum_duration
+    service.duration + service.optional_services&.sum(:duration)
   end
 
   def is_inactive?
