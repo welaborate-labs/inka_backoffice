@@ -13,7 +13,7 @@ class Customer < ApplicationRecord
   validates :name, length: { within: 3..100 }, allow_blank: true
   validates :phone, length: { within: 8..15 }, allow_blank: true
   validates :document, length: { within: 10..16 }, allow_blank: true
-  validates :street_address, length: { within: 1..100 }, if: -> { address_validation }
+  # validates :street_address, length: { within: 1..100 }, if: -> { address_validation }
   validates :complement, length: { within: 1..100 }, allow_blank: true
   validates :district, length: { within: 1..100 }, if: -> { address_validation }
   validates :state, length: { within: 2..2 }, if: -> { address_validation }
