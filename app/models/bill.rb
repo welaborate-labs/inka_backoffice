@@ -47,6 +47,10 @@ class Bill < ApplicationRecord
     bookings.update_all(status: :completed)
   end
 
+  def complete_bookings
+    bookings.update_all(status: :completed)
+  end
+
   private
 
   def booking_validation

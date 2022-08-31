@@ -55,7 +55,6 @@ class BookingsController < ApplicationController
       Customer.joins(:bookings)
               .includes(:bookings)
               .where(bookings: { status: 'in_progress' }),
-              .where(bookings: { status: ['in_progress', 'completed'] }),
       page: params[:page]
     )
   end
