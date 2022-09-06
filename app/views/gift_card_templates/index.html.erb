@@ -1,0 +1,28 @@
+<div class="columns mt-6 is-centered ">
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered">Modelo Vale Presente</h1>
+    <div class="buttons is-centered">
+      <%= link_to "Novo Modelo Vale Presente", new_gift_card_template_path, class: "button is-link" %>
+    </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Serviços</th>
+            <th>Vale Presentes</th>
+            <th colspan="2"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <div id="gift_card_templates">
+            <% @gift_card_templates.each do |gift_card_template| %>
+              <tr>
+                <%= render gift_card_template %>
+              </tr>
+            <% end %>
+          </div>
+        </tbody>
+      </table>
+  </div>
+</div>

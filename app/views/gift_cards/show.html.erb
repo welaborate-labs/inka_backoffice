@@ -1,0 +1,20 @@
+<div class="columns mt-6 is-centered ">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>Clientes</th>
+        <th>Modelos de Vale Presente</th>
+        <th>Serviços</th>
+        <th colspan="2"></th>
+        <th><%= link_to 'Voltar para Vale Presentes', gift_cards_path, class: "tag is-medium is-link" %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <%= render @gift_card %>
+      </tr>
+    </tbody>
+  </table>
+</div>

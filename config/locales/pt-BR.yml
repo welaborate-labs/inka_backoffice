@@ -39,6 +39,12 @@ pt-BR:
       user:
         one: 'Usuário'
         other: 'Usuários'
+      gift_card_template:
+        one: 'Modelo de Vale Presente'
+        other: 'Modelos de Vale Presente'
+      gift_card:
+        one: 'Vale Presente'
+        other: 'Vale Presente'
 
     attributes:
       customer:
@@ -155,6 +161,12 @@ pt-BR:
         name: 'Nome'
         email: 'Email'
         phone: 'Telefone'
+      gift_card_template:
+        price: 'Preço'
+        name: 'Nome'
+      gift_card:
+        customer_id: 'ID do Cliente'
+        gift_card_template: ''
 
     errors:
       messages:
