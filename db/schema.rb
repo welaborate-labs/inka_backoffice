@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_10_121538) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_05_122705) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,6 +135,38 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_121538) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
+  create_table "gift_card_template_services", force: :cascade do |t|
+    t.bigint "gift_card_template_id"
+    t.bigint "gift_card_id"
+    t.bigint "service_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_card_id"], name: "index_gift_card_template_services_on_gift_card_id"
+    t.index ["gift_card_template_id"], name: "index_gift_card_template_services_on_gift_card_template_id"
+    t.index ["service_id"], name: "index_gift_card_template_services_on_service_id"
+  end
+
+  create_table "gift_card_templates", force: :cascade do |t|
+    t.decimal "price"
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "gift_cards", force: :cascade do |t|
+    t.bigint "customer_id", null: false
+    t.bigint "gift_card_template_id"
+    t.bigint "bill_id"
+    t.decimal "price"
+    t.string "name"
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
+    t.index ["customer_id"], name: "index_gift_cards_on_customer_id"
+    t.index ["gift_card_template_id"], name: "index_gift_cards_on_gift_card_template_id"
+  end
+
   create_table "identities", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -234,6 +266,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_10_121538) do
   add_foreign_key "bookings", "professionals"
   add_foreign_key "bookings", "services"
   add_foreign_key "customers", "users"
+  add_foreign_key "gift_card_template_services", "gift_card_templates"
+  add_foreign_key "gift_card_template_services", "gift_cards"
+  add_foreign_key "gift_card_template_services", "services"
+  add_foreign_key "gift_cards", "bills"
+  add_foreign_key "gift_cards", "customers"
+  add_foreign_key "gift_cards", "gift_card_templates"
   add_foreign_key "occupations", "professionals"
   add_foreign_key "occupations", "services"
   add_foreign_key "product_usages", "products"

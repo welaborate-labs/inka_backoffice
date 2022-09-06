@@ -1,0 +1,27 @@
+<div id="<%= dom_id gift_card %>">
+  <td>
+    <%= gift_card.name %>
+  </td>
+
+  <td>
+    <%= gift_card.price %>
+  </td>
+
+  <td>
+    <%= gift_card.customer_name %>
+  </td>
+
+
+  <td>
+    <%= gift_card.gift_card_template&.name %>
+  </td>
+
+  <td>
+    <%= render "dropdowns/services", resource: gift_card %>
+  </td>
+
+  <td>
+    <%= link_to "Editar", edit_gift_card_path(gift_card), class: 'button is-small is-primary' %>
+    <%= link_to "Deletar", gift_card, data: { turbo_method: :delete, turbo_confirm: 'Você tem certeza?' }, class: 'button is-small is-danger' %>
+  </td>
+</div>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :gift_cards
+  resources :gift_card_templates
   resources :bills, only: %i[create index edit] do
     delete '/cancel_nfse', to: 'bills#destroy'
   end

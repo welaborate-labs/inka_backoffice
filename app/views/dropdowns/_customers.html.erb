@@ -1,0 +1,19 @@
+<div class="dropdown is-hoverable">
+  <div class="dropdown-trigger">
+    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+      <span>Visualizar Clientes</span>
+      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+      </svg>
+    </button>
+  </div>
+  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+    <% resource.customers&.each do |customer| %>
+    <div class="dropdown-content">
+        <div class="dropdown-item">
+          <%= customer.name %>
+        </div>
+      </div>
+      <% end %>
+  </div>
+</div>

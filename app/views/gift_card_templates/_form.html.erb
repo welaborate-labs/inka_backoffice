@@ -1,0 +1,40 @@
+<div class="columns mt-6 is-centered">
+  <div class="column is-6">
+    <%= form_for @gift_card_template, class: "box" do |form| %>
+    <%= render 'shared/error_messages', resource: @gift_card_template %>
+      <div class="field">
+        <label class="label">Nome</label>
+        <%= form.text_field :name, class: "input" %>
+      </div>
+      <div class="columns">
+        <div class="column field">
+          <label class="label">Preço</label>
+          <%= form.number_field :price, step: 0.01, class: "input" %>
+        </div>
+      </div>
+      <h3 class="title mt-3 is-size-4 has-text-centered">Serviços</h3>
+      <div class="columns is-multiline">
+        <%= form.collection_check_boxes :service_ids, Service.all, :id, :title, { include_hidden: false } do |service| %>
+          <div class="column is-4">
+            <%= service.check_box class: 'checkbox' %>
+            <%= service.label class: 'checkbox' %>
+          </div>
+        <% end %>
+      </div>
+
+      <h3 class="title mt-3 is-size-4 has-text-centered">Cartão de Visita</h3>
+      <div class="columns is-multiline">
+        <%= form.collection_check_boxes :gift_card_ids, GiftCard.all, :id, :name, { include_hidden: false } do |gift_card| %>
+          <div class="column is-4">
+            <%= gift_card.check_box class: 'checkbox' %>
+            <%= gift_card.label class: 'checkbox' %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="buttons is-centered my-6">
+        <%= form.submit class: 'button is-primary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
