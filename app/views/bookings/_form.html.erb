@@ -19,18 +19,26 @@
 
       <div class="field">
         <%= form.label 'Cliente', style: "display: block", class: "label" %>
-        <div class="control">
-          <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :customer_id, Customer.all, :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
+        <div class="is-fullwidth is-medium">
+          <div class="control">
+            <div data-controller="autocomplete" data-autocomplete-url-value="/customers/search">
+              <%= text_field_tag nil, {}, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do cliente...' %>
+              <ul class="list-group" data-autocomplete-target="results"></ul>
+              <input type="hidden" name="booking[customer_id]" data-autocomplete-target="hidden"/>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="field">
         <%= form.label 'Serviço', style: "display: block", class: "label" %>
-        <div class="control">
-          <div class="select is-fullwidth is-medium">
-            <%= form.collection_select :service_id, Service.all, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
+        <div class="is-fullwidth is-medium">
+          <div class="control">
+            <div data-controller="autocomplete" data-autocomplete-url-value="/services/search">
+              <%= text_field_tag nil, {}, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do serviço...' %>
+              <ul class="list-group" data-autocomplete-target="results"></ul>
+              <input type="hidden" name="booking[service_id]" data-autocomplete-target="hidden"/>
+            </div>
           </div>
         </div>
       </div>

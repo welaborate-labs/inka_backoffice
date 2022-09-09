@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+  include Autocomplete
   before_action :set_customer, only: %i[show edit update destroy]
 
   # GET /customers or /customers.json
@@ -69,5 +70,13 @@ class CustomersController < ApplicationController
     params.require(:customer).permit(
       :name, :email, :phone, :document, :avatar, :user_id, :birth_date, :gender,
       :street_address, :number, :complement, :district, :city, :state, :zip_code)
+  end
+
+  def set_autocomplete_collection
+    @autocomplete_collection = if params[:q]
+      Customer.find_by_name(params[:q])
+    else
+      Customer.all.order("name ASC").take(5)
+    end
   end
 end

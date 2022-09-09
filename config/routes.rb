@@ -10,9 +10,16 @@ Rails.application.routes.draw do
   resources :calendar, only: %i[index]
   resources :bookings
   resources :schedules
-  resources :services
+  resources :services do
+    collection do
+      get :search
+    end
+  end
   resources :professionals
   resources :customers do
+    collection do
+      get :search
+    end
     resources :anamnesis_sheets, except: %i[index edit]
     get '/bookings/in_progress', to: 'bookings#in_progress'
   end

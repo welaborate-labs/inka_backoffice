@@ -6,6 +6,8 @@ class Product < ApplicationRecord
 
   validates :name, :unit, presence: true
 
+  scope :query_by_name, -> (query) { where("name ILIKE ?", "%#{query}%") }
+
   def stock_balance
     stocks.reduce(0) { |sum, stock| sum + stock.balance_change }
   end

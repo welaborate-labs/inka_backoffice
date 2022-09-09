@@ -32,6 +32,10 @@
   </td>
 
   <td>
+    <%= booking.service.optional_services.count %>
+  </td>
+
+  <td>
     <%= link_to "Editar", edit_booking_path(booking), class: 'button is-small is-primary' %>
     <%= link_to "Deletar", booking, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: "button is-danger is-small" %>
   </td>
