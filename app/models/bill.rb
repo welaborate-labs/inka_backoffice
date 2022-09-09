@@ -13,15 +13,22 @@ class Bill < ApplicationRecord
   after_save :complete_bookings
 
   def calculate_amount
-    self.amount = bookings.map { |booking| booking.service.price }.join.to_f
+    self.amount = bookings.reduce(0) { |sum, booking| sum += booking.service.price }.to_f
   end
 
   def calculate_discounted_value
     self.discounted_value = (self.amount * (self.discount.to_f / 100)).ceil
   end
 
+  def billed_amount
+    @billed_amount ||= amount.to_f - discounted_value.to_f
+  end
+
   def create_nfse
-    CreateNfseJob.perform_later(self)
+    # CreateNfseJob.perform_later(self)
+    return true if is_gift
+
+    FocusNfeApi.new(self).create
   end
 
   def get_pdf
@@ -41,6 +48,10 @@ class Bill < ApplicationRecord
 
   def status
     bookings ? bookings.first.status : "estado da nota não encontrado"
+  end
+
+  def complete_bookings
+    bookings.update_all(status: :completed)
   end
 
   def complete_bookings
