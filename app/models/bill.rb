@@ -10,6 +10,7 @@ class Bill < ApplicationRecord
   before_save :calculate_discounted_value, if: -> { discount.present? }
 
   after_save :create_nfse
+  after_save :complete_bookings
 
   def calculate_amount
     self.amount = bookings.map { |booking| booking.service.price }.join.to_f
@@ -40,6 +41,10 @@ class Bill < ApplicationRecord
 
   def status
     bookings ? bookings.first.status : "estado da nota não encontrado"
+  end
+
+  def complete_bookings
+    bookings.update_all(status: :completed)
   end
 
   private

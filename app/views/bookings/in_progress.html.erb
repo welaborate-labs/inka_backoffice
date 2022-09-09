@@ -24,6 +24,9 @@
   <div class="column">
     <h1 class="has-text-weight-bold">Preço</h1>
   </div>
+  <div class="column">
+    <h1 class="has-text-weight-bold">Notas</h1>
+  </div>
 
   <div class="column"></div>
 </div>
@@ -42,6 +45,9 @@
       </div>
       <div class="column">
         <%= format_currency(booking.service.price) %>
+      </div>
+      <div class="column">
+        <%= booking.notes %>
       </div>
       <div class="column">
         <%= form.check_box(:booking_ids, { multiple: true, checked: true }, booking.id, nil) %>

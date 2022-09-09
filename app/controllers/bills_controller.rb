@@ -12,7 +12,7 @@ class BillsController < ApplicationController
     @bill = Bill.new(bill_params)
 
     respond_to do |format|
-      if @bill.save && @bookings.update_all(status: "completed")
+      if @bill.save
         format.html { redirect_to customers_bookings_in_progress_all_path, notice: "Serviços atualizados com sucesso!" }
       else
         format.html { redirect_to customers_bookings_in_progress_all_path, status: :see_other, alert: "Não foi possível atualizar os Serviços." }
@@ -44,7 +44,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: []}, :discount, :is_gift)
+    params.require(:bill).permit({ booking_ids: [] }, :discount, :is_gift)
   end
 
   def set_bill

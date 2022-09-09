@@ -25,7 +25,7 @@
 <% @customers.each do |customer| %>
   <div class="columns is-vcentered has-text-centered">
     <div class="column">
-      <%= customer.name %>
+      <%= link_to customer.name, customer %>
     </div>
     <div class="column">
       <%= customer.email %>
