@@ -9,7 +9,8 @@
         <tr>
           <th>Data</th>
           <th>Cliente</th>
-          <th colspan="2"></th>
+          <th>Estado</th>
+          <th colspan="3"></th>
         </tr>
       </thead>
       <tbody>
@@ -18,5 +19,6 @@
         <% end %>
       </tbody>
     </table>
+    <%= render 'shared/pagination', pagination: @pagination %>
   </div>
 </div>

@@ -8,12 +8,18 @@
   </td>
 
   <td>
-    <% if bill.get_pdf != "Nota fiscal não encontrada" %>
-      <%= link_to "Visualizar PDF", bill.get_pdf, target: :blank, class: "button is-link is-small" %>
-      <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-link is-small" %>
-    <% else %>
-      <%= link_to "Visualizar PDF", "#", class: "button is-link is-small" %>
-      <%= link_to "Cancelar", "#", class: "button is-link is-small" %>
+    <%= Booking.human_attribute_name("status.#{bill.status}") %>
+  </td>
+
+  <td>
+    <% unless bill.is_gift %>
+      <% if bill.status == "billed" ||  bill.status == "billing_canceled" %>
+        <%= link_to "Visualizar PDF", bill_path(bill, format: :pdf), target: :blank, class: "button is-link is-small" %>
+        <%= link_to "Visualizar XML", bill_path(bill, format: :xml), target: :blank, class: "button is-link is-small" %>
+        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-link is-small" %>
+      <% else %>
+        <%= render "bills/error_messages", bill: bill %>
+      <% end %>
     <% end %>
   </td>
 </tr>

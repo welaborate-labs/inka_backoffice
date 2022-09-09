@@ -1,16 +1,18 @@
 class BillsController < ApplicationController
+  include Pagination
+
   before_action :set_bookings, only: %i[create]
-  before_action :set_bill, only: %i[destroy edit]
+  before_action :set_bill, only: %i[show destroy edit]
 
   def index
-    @bills = Bill.all.order("created_at DESC")
+    @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 5)
   end
 
   def create
     @bill = Bill.new(bill_params)
 
     respond_to do |format|
-      if @bill.save && @bookings.update_all(status: "completed")
+      if @bill.save
         format.html { redirect_to customers_bookings_in_progress_all_path, notice: "Serviços atualizados com sucesso!" }
       else
         format.html { redirect_to customers_bookings_in_progress_all_path, status: :see_other, alert: "Não foi possível atualizar os Serviços." }
@@ -18,11 +20,47 @@ class BillsController < ApplicationController
     end
   end
 
+  def show
+    respond_to do |format|
+      format.pdf do
+        pdf_url = @bill.get_pdf
+
+        if pdf_url && pdf_url != 'Nota fiscal não encontrada'
+          redirect_to pdf_url, allow_other_host: true
+        else
+          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
+        end
+      end
+
+      format.xml do
+        xml_url = @bill.get_xml
+
+        if xml_url && xml_url != 'Nota fiscal não encontrada'
+          redirect_to xml_url, allow_other_host: true
+        else
+          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
+        end
+      end
+    end
+  end
+
   def destroy
-    FocusNfeApi.new(@bill).cancel(params[:justification])
+    case @bill.status
+    when "billing"
+      @message = "Nota ainda está em processo."
+    when "billing_canceled"
+      @message = "Nota já esta cancelada."
+    when "billing_failed"
+      @message = "Nota não foi gerada, verificar os erros."
+    when "billed"
+      FocusNfeApi.new(@bill).cancel(params[:justification])
+
+      @bill.bookings.update_all(status: :billing_canceled)
+      @message = "Nota cancelada com sucesso."
+    end
 
     respond_to do |format|
-      format.html { redirect_to bills_path, status: :see_other, notice: "Nota Fiscal removida com sucesso!" }
+      format.html { redirect_to bills_path, status: :see_other, notice: @message }
       format.json { head :no_content }
     end
   end
@@ -30,7 +68,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: []}, :discount, :is_gift)
+    params.require(:bill).permit({ booking_ids: [] }, :discount, :discounted_value, :is_gift)
   end
 
   def set_bill

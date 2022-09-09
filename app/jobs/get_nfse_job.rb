@@ -5,7 +5,13 @@ class GetNfseJob < ApplicationJob
 
   after_perform do |job|
     case @response["status"]
-    when "em_processamento"
+    when "autorizado"
+      job.arguments.first.bookings.update_all(status: :billed)
+    when "erro_autorizacao"
+      job.arguments.first.bookings.update_all(status: :billing_failed)
+    when "cancelado"
+      job.arguments.first.bookings.update_all(status: :billing_canceled)
+    when "em_processamento" || "processando_autorizacao"
       GetNfseJob.set(wait: 5.minutes).perform_later(job.arguments.first)
     end
   end

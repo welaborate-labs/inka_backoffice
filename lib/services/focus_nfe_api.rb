@@ -28,28 +28,28 @@ class FocusNfeApi
         "codigo_municipio": "3530607"
       },
       "tomador": {
-        "razao_social": @bill.bookings.first&.customer_name,
+        "razao_social": I18n.transliterate(@bill.bookings.first&.customer_name),
         "cpf": @bill.bookings.first&.customer.document.to_s,
         "email": @bill.bookings.first&.customer.email,
         "endereco": {
-          "logradouro": @bill.bookings.first&.customer.street_address,
-          "numero": @bill.bookings.first&.customer.number.to_s,
-          "complemento": @bill.bookings.first&.customer.complement,
-          "bairro": @bill.bookings.first&.customer.district,
+          "logradouro": I18n.transliterate(@bill.bookings.first&.customer.street_address) || '-',
+          "numero": @bill.bookings.first&.customer.number.to_s  || '-',
+          "complemento": I18n.transliterate(@bill.bookings.first&.customer.complement) || '-',
+          "bairro": I18n.transliterate(@bill.bookings.first&.customer.district) || '-',
           "codigo_municipio": "3530607",
-          "uf": @bill.bookings.first&.customer.state,
-          "cep": @bill.bookings.first&.customer.zip_code.to_s
+          "uf": @bill.bookings.first&.customer.state || '-',
+          "cep": @bill.bookings.first&.customer.zip_code.to_s || '-'
         }
       },
       "servico": {
         "aliquota": 2,
         "iss_retido": "false",
-        "codigo_tributario_municipio": "620910000",
+        "codigo_cnae": "9602501",
+        "codigo_tributario_municipio": "0601",
         "item_lista_servico": "0601",
         "codigo_municipio": "3530607",
-        "desconto_condicionado": @bill.discounted_value,
-        "discriminacao": @bill.bookings.map { |booking| booking.service.title }.join(","),
-        "valor_servicos": @bill.calculate_amount.to_s
+        "discriminacao": @bill.bookings.map { |booking| I18n.transliterate(booking.service.title) }.join(","),
+        "valor_servicos": sprintf('%.2f', @bill.billed_amount)
       }
     })
 
@@ -104,5 +104,15 @@ class FocusNfeApi
     else
       return json_response["mensagem"]
     end
+  end
+
+  def get_xml_url xml_ref
+    "#{URL_API}#{xml_ref}"
+  end
+
+  def error_message
+    json_response = get
+
+    json_response["erros"][0]["mensagem"].split(/\r\n/).reject(&:empty?) if json_response["erros"][0]
   end
 end

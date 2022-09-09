@@ -51,18 +51,18 @@ class BookingsController < ApplicationController
   end
 
   def in_progress_all
-    @pagination, @customers = paginate(Customer
-      .joins(:bookings)
-      .includes(:bookings)
-      .where(bookings: { status: ['in_progress', 'completed'] })
+    @pagination, @customers = paginate(
+      Customer.joins(:bookings)
+              .includes(:bookings)
+              .where(bookings: { status: 'in_progress' }),
+      page: params[:page]
     )
   end
 
   def in_progress
     @bookings = Booking
       .where(customer_id: params[:customer_id])
-      .where(status: ['in_progress', 'completed'])
-      .where(starts_at: Date.today.beginning_of_day..Date.today.end_of_day)
+      .where(status: 'in_progress')
   end
 
   private
