@@ -13,13 +13,14 @@
 
   <td>
     <% unless bill.is_gift %>
-      <% if bill.status == "billed" ||  bill.status == "billing_canceled" %>
-        <%= link_to "Visualizar PDF", bill_path(bill, format: :pdf), target: :blank, class: "button is-link is-small" %>
-        <%= link_to "Visualizar XML", bill_path(bill, format: :xml), target: :blank, class: "button is-link is-small" %>
-        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-link is-small" %>
+      <% if bill.status == "billed" || bill.status == "billing_canceled" %>
+        <%= link_to "Visualizar PDF", bill.pdf_url, target: :blank, class: "button is-link is-small" %>
+        <%= link_to "Visualizar XML", bill.xml_url, target: :blank, class: "button is-link is-small" %>
+        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" %>
       <% else %>
         <%= render "bills/error_messages", bill: bill %>
       <% end %>
+      <%= link_to "Atualizar", bill_update_info_path(bill), class: "button is-primary is-small" %>
     <% end %>
   </td>
 </tr>

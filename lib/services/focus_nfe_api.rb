@@ -10,8 +10,8 @@ class FocusNfeApi
   end
 
   def create
-    url = URI(URL_API + "v2/nfse?ref=" + @bill.to_sgid(expires_in: nil).to_s)
-    puts "url: #{url}"
+    url = URI(URL_API + "v2/nfse?ref=" + @bill.reference)
+    puts "create_url: #{url}"
 
     https = Net::HTTP.new(url.hostname, url.port)
     https.use_ssl = true
@@ -32,10 +32,10 @@ class FocusNfeApi
         "cpf": @bill.bookings.first&.customer.document.to_s,
         "email": @bill.bookings.first&.customer.email,
         "endereco": {
-          "logradouro": I18n.transliterate(@bill.bookings.first&.customer.street_address) || '-',
-          "numero": @bill.bookings.first&.customer.number.to_s  || '-',
-          "complemento": I18n.transliterate(@bill.bookings.first&.customer.complement) || '-',
-          "bairro": I18n.transliterate(@bill.bookings.first&.customer.district) || '-',
+          "logradouro": I18n.transliterate(@bill.bookings.first&.customer.street_address || '-'),
+          "numero": @bill.bookings.first&.customer.number.to_s || '-',
+          "complemento": I18n.transliterate(@bill.bookings.first&.customer.complement || '-'),
+          "bairro": I18n.transliterate(@bill.bookings.first&.customer.district || '-'),
           "codigo_municipio": "3530607",
           "uf": @bill.bookings.first&.customer.state || '-',
           "cep": @bill.bookings.first&.customer.zip_code.to_s || '-'
@@ -54,13 +54,12 @@ class FocusNfeApi
     })
 
     response = https.request(request)
-    puts "created: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
   end
 
   def get
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid(expires_in: nil).to_s)
-    puts "url: #{url}"
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
+    puts "get_url: #{url}"
 
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
@@ -70,17 +69,14 @@ class FocusNfeApi
     request["Authorization"] = "Basic " + Base64.encode64(TOKEN).strip
 
     response = https.request(request)
-    puts "get: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
   end
 
   def cancel(justification)
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid(expires_in: nil).to_s)
-    puts "url: #{url}"
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
+    puts "cancel_url: #{url}"
 
-    canceled_justification = {
-      justificativa: justification.to_s
-    }
+    canceled_justification = { justificativa: justification.to_s }
 
     https = Net::HTTP.new(url.hostname, url.port)
     https.use_ssl = true
@@ -92,27 +88,6 @@ class FocusNfeApi
     request.body = canceled_justification.to_json
 
     response = https.request(request)
-    puts "cancel/get: #{JSON.parse(response.body)}"
     JSON.parse(response.body)
-  end
-
-  def get_url(field)
-    json_response = get
-
-    if json_response["status"] == "autorizado" || json_response["status"] == "cancelado"
-      return json_response[field]
-    else
-      return json_response["mensagem"]
-    end
-  end
-
-  def get_xml_url xml_ref
-    "#{URL_API}#{xml_ref}"
-  end
-
-  def error_message
-    json_response = get
-
-    json_response["erros"][0]["mensagem"].split(/\r\n/).reject(&:empty?) if json_response["erros"][0]
   end
 end
