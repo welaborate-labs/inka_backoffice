@@ -4,7 +4,7 @@ class BillsController < ApplicationController
   URL_FOCUS_API = ENV['FOCUSNFE_URL']
 
   before_action :set_bookings, only: %i[create]
-  before_action :set_bill, only: %i[show destroy edit update_info]
+  before_action :set_bill, only: %i[show destroy edit]
 
   def index
     @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 5)
