@@ -1,6 +1,8 @@
 class BillsController < ApplicationController
   include Pagination
 
+  URL_FOCUS_API = ENV['FOCUSNFE_URL']
+
   before_action :set_bookings, only: %i[create]
   before_action :set_bill, only: %i[show destroy edit update_info]
 
@@ -21,11 +23,6 @@ class BillsController < ApplicationController
   end
 
   def show
-  end
-
-  def update_info
-    GetNfseJob.perform_later(@bill)
-    redirect_to bills_path, notice: 'Solicitação enviada com sucesso, favor aguarde um instante e atualize a página novamente.'
   end
 
   def destroy

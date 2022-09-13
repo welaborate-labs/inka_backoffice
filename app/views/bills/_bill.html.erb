@@ -16,11 +16,10 @@
       <% if bill.status == "billed" || bill.status == "billing_canceled" %>
         <%= link_to "Visualizar PDF", bill.pdf_url, target: :blank, class: "button is-link is-small" %>
         <%= link_to "Visualizar XML", bill.xml_url, target: :blank, class: "button is-link is-small" %>
-        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" %>
       <% else %>
         <%= render "bills/error_messages", bill: bill %>
       <% end %>
-      <%= link_to "Atualizar", bill_update_info_path(bill), class: "button is-primary is-small" %>
+      <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" if bill.status == "billed" %>
     <% end %>
   </td>
 </tr>

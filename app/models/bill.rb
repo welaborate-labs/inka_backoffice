@@ -26,7 +26,7 @@ class Bill < ApplicationRecord
   end
 
   def create_nfse
-    BillHelper.create_nfse_request(self)
+    CreateNfseJob.perform_now(self)
   end
 
   def status
