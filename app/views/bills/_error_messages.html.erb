@@ -9,7 +9,7 @@
   </div>
   <div class="dropdown-menu" id="dropdown-menu4" role="menu">
     <div class="dropdown-content">
-      <% bill.get_error_message.each do |message| %>
+      <% bill.error_message&.to_a.each do |message| %>
         <div class="dropdown-item">
           <%= message %>
         </div>

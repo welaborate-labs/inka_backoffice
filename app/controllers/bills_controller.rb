@@ -1,6 +1,8 @@
 class BillsController < ApplicationController
   include Pagination
 
+  URL_FOCUS_API = ENV['FOCUSNFE_URL']
+
   before_action :set_bookings, only: %i[create]
   before_action :set_bill, only: %i[show destroy edit]
 
@@ -21,27 +23,6 @@ class BillsController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.pdf do
-        pdf_url = @bill.get_pdf
-
-        if pdf_url && pdf_url != 'Nota fiscal não encontrada'
-          redirect_to pdf_url, allow_other_host: true
-        else
-          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
-        end
-      end
-
-      format.xml do
-        xml_url = @bill.get_xml
-
-        if xml_url && xml_url != 'Nota fiscal não encontrada'
-          redirect_to xml_url, allow_other_host: true
-        else
-          redirect_to bills_path, notice: 'Nota fiscal não encontrada'
-        end
-      end
-    end
   end
 
   def destroy

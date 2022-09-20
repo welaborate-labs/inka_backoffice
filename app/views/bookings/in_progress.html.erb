@@ -61,6 +61,7 @@
     <div class="column"><h1 class="has-text-weight-bold"><%= bookings_total_duration(@bookings) %> Minuto(s)</h1></div>
     <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(bookings_total_price(@bookings)) %></h1></div>
     <div class="column"></div>
+    <div class="column"></div>
   </div>
 
   <div class="buttons is-centered">
@@ -72,9 +73,6 @@
     <%= form.label "Aplicar desconto", class: "label mr-2" %>
     <div class="field"><%= form.number_field :discount, class: "field input", in: 1..100 %></div>
     <%= form.label "%", class: "label" %>
-
-    <%= form.label "Descontar valor", class: "label mr-2" %>
-    <div class="field"><%= form.number_field :discount, class: "field input" %></div>
 
     <%= form.submit "Finalizar Serviços", class: "button is-primary ml-2" %>
 
