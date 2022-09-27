@@ -22,7 +22,7 @@
         <div class="is-fullwidth is-medium">
           <div class="control">
             <div data-controller="autocomplete" data-autocomplete-url-value="/customers/search">
-              <%= text_field_tag nil, booking.customer.name, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do cliente...' %>
+              <%= text_field_tag nil, booking.customer&.name, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do cliente...' %>
               <ul class="list-group" data-autocomplete-target="results"></ul>
               <%= form.hidden_field :customer_id, data: { autocomplete_target: 'hidden' } %>
             </div>
@@ -35,7 +35,7 @@
         <div class="is-fullwidth is-medium">
           <div class="control">
             <div data-controller="autocomplete" data-autocomplete-url-value="/services/search">
-              <%= text_field_tag nil, booking.service.title, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do serviço...' %>
+              <%= text_field_tag nil, booking.service&.title, "data-autocomplete-target": "input", class: "input is-medium", placeholder: 'digite o nome do serviço...' %>
               <ul class="list-group" data-autocomplete-target="results"></ul>
               <%= form.hidden_field :service_id, data: { autocomplete_target: 'hidden' } %>
             </div>
