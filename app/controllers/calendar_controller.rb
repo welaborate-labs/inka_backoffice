@@ -2,7 +2,8 @@ class CalendarController < ApplicationController
   before_action :set_calendar_date
   before_action :set_time_range, only: %i[adm]
   before_action :set_professional_time_range, only: %i[professional_daily professional_weekly]
-  before_action :set_date_range, only: %i[professional_weekly]
+  before_action :set_weekly_date_range, only: %i[professional_weekly]
+  before_action :set_daily_date_range, only: %i[professional_daily]
 
   def index; end
 
@@ -11,9 +12,13 @@ class CalendarController < ApplicationController
     @professionals = Professional.all.order('name ASC')
   end
 
-  def professional_daily; end
+  def professional_daily
+    @bookings = Booking.where(starts_at: @date_range)
+  end
 
-  def professional_weekly; end
+  def professional_weekly
+    @bookings = Booking.where(starts_at: @date_range)
+  end
 
   private
 
@@ -29,8 +34,16 @@ class CalendarController < ApplicationController
     @time_range = (lower_time..higher_time).to_a
   end
 
-  def set_date_range
-    @date_range = (@calendar_date..@calendar_date + 1.week).to_a
+  def set_weekly_date_range
+    @date_range = (
+      @calendar_date.beginning_of_week..@calendar_date.end_of_week
+    )
+  end
+
+  def set_daily_date_range
+    @date_range = (
+      @calendar_date.beginning_of_day..@calendar_date.end_of_day
+    )
   end
 
   def set_calendar_date

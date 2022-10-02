@@ -6,12 +6,12 @@
 
 <div class="columns mt-6 has-text-centered is-justify-content-center">
   <div class="column is-3 is-offset-1"><%= link_to "<<", calendar_professional_daily_path(calendar_date: @calendar_date - 1) %></div>
-  <% if @calendar_date == Date.today %>
-    <div class="column is-1 has-background-info-light">
-  <% else %>
-    <div class="column is-1">
-  <% end %>
-    <p class="subtitle"><%= "#{@calendar_date.day}/#{@calendar_date.year}" %></p>
+  <div class="column is-1 <%= 'has-background-link-light' if @calendar_date == Date.today %>">
+    <%= link_to calendar_professional_daily_path(calendar_date: @calendar_date) do %>
+      <p class="heading"><%= I18n.t("date.abbr_day_names")[@calendar_date.wday] %></p>
+      <p class="subtitle"><%= @calendar_date.day %></p>
+      <p class="subtitle"><%= I18n.t("date.abbr_month_names")[@calendar_date.month].upcase %></p>
+    <% end %>
   </div>
   <div class="column is-3"><%= link_to ">>", calendar_professional_daily_path(calendar_date: @calendar_date + 1) %></div>
 </div>
@@ -22,28 +22,26 @@
       <p class=""><%= "#{hour}:00h" %></p>
     </div>
 
-    <% current_user.professional.bookings.each do |booking| %>
-      <% if @calendar_date == booking.starts_at.to_date %>
-        <% if booking.starts_at.hour == hour %>
-          <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
-            <% if booking.is_inactive? %>
-              <h1 class="box px-4 mb-2 has-background-danger-light">
-            <% else %>
-              <h1 class="box px-4 mb-2 has-background-light">
+    <div class="column is-11 pl-2 pr-2">
+      <div class="is-flex is-flex-direction-row mb-2">
+        <% @bookings.each do |booking| %>
+          <% if @calendar_date == booking.starts_at.to_date %>
+            <% if booking.starts_at.hour == hour %>
+              <%= link_to booking_path(booking) do %>
+                <div class="px-4 py-2 mx-1 <%= booking_calendar_status_bg(booking) %>">
+                  <p class="has-text-weight-bold"><%= booking.customer_name %></p>
+                  <p class="is-size-7"><%= booking.service.title %></p>
+                  <p class="is-size-7"><%= "#{booking.sum_duration} min(s)" %></p>
+                  <p class="is-size-7"><%= I18n.t("activerecord.attributes.booking.statuses.#{booking.status}") %></p>
+                </div>
+              <% end %>
             <% end %>
-              <p><%= booking.customer_name %></p>
-              <p><%= booking.service.title %></p>
-              <p><%= "#{booking.sum_duration} min(s)" %></p>
-              <p class="is-size-7"><%= I18n.t("activerecord.attributes.booking.statuses.#{booking.status}") %></p>
-              <%= link_to "Visualizar", booking_path(booking) %>
-            </h1>
-          </div>
+          <% end %>
         <% end %>
-      <% end %>
-    <% end %>
-
-    <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
-      <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at: @calendar_date + hour.hour) %></h1>
+        <%= link_to new_booking_path(starts_at: @calendar_date + hour.hour) do %>
+          <div class="px-4 mx-1 has-background-light">+</div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>
