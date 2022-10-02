@@ -6,20 +6,14 @@
 
 <div class="columns mt-6 has-text-centered">
   <div class="column is-1 is-offset-1"><%= link_to "<<", calendar_professional_weekly_path(calendar_date: @calendar_date - 1.week) %></div>
-  <% @date_range.slice(0, 7).each do |day| %>
-    <% if day == Date.today %>
-      <div class="column is-1 has-background-link-light">
+  <% @date_range.to_a.slice(0, 7).each do |day| %>
+    <div class="column is-1 <%= 'has-background-link-light' if day == Date.today %>">
+      <%= link_to calendar_professional_daily_path(calendar_date: day) do %>
         <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
         <p class="subtitle"><%= day.day %></p>
         <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
-      </div>
-    <% else %>
-      <div class="column is-1">
-        <p class="heading"><%= I18n.t("date.abbr_day_names")[day.wday] %></p>
-        <p class="subtitle"><%= day.day %></p>
-        <p class="subtitle"><%= I18n.t("date.abbr_month_names")[day.month].upcase %></p>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   <% end %>
   <div class="column is-1"><%= link_to ">>", calendar_professional_weekly_path(calendar_date: @calendar_date + 1.week) %></div>
 </div>
@@ -30,22 +24,24 @@
       <%= "#{hour}:00h" %>
     </div>
 
-    <% @date_range.slice(0, 7).each do |day| %>
+    <% @date_range.to_a.slice(0, 7).each do |day| %>
+
       <div class="column is-1 is-flex is-flex-direction-column pl-2 pr-2">
-        <% current_user.professional.bookings.each do |booking| %>
+        <% @bookings.each do |booking| %>
           <% if day == booking.starts_at.to_date %>
             <% if booking.starts_at.hour == hour  %>
-              <% if booking.is_inactive? %>
-                <h1 class="tag px-4 mb-2 has-background-danger-light">
-              <% else %>
-                <h1 class="tag px-4 mb-2 has-background-light">
+              <%= link_to booking_path(booking) do %>
+                <div class="p-2 mb-2 is-size-7 <%= booking_calendar_status_bg(booking) %>">
+                  <p class="has-text-weight-bold"><%= booking.customer_name %></p>
+                  <p class=""><%= booking.professional_name %></p>
+                </div>
               <% end %>
-                <%= link_to "#{booking.calendar_names}", booking_path(booking) %>
-              </h1>
             <% end %>
           <% end %>
         <% end %>
-        <h1 class="tag px-4 mb-2"><%= link_to "+", new_booking_path(starts_at: day + hour.hour) %></h1>
+        <%= link_to new_booking_path(starts_at: day + hour.hour) do %>
+          <div class="px-4 mb-2 has-background-light">+</div>
+        <% end %>
       </div>
     <% end %>
   </div>
