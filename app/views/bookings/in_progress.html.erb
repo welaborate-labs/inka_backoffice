@@ -13,6 +13,9 @@
 
 <div class="columns has-text-centered has-background-light">
   <div class="column">
+    <h1 class="has-text-weight-bold">Data</h1>
+  </div>
+  <div class="column">
     <h1 class="has-text-weight-bold">Profissional</h1>
   </div>
   <div class="column">
@@ -33,24 +36,27 @@
 <%= form_with(model: Bill) do |form| %>
   <% @bookings.each do |booking| %>
     <div class="columns is-vcentered has-text-centered">
-    <div class="column">
-      <%= booking.professional_name %>
-    </div>
-    <div class="column">
-      <%= booking.service.title %>
-    </div>
-    <div class="column">
-      <%= booking.service.duration %>
-    </div>
-    <div class="column">
-      <%= format_currency(booking.service.price) %>
-    </div>
-    <div class="column">
-      <%= booking.notes %>
-    </div>
-    <div class="column">
-      <%= form.check_box(:booking_ids, { multiple: true, checked: true }, booking.id, nil) %>
-    </div>
+      <div class="column">
+        <%= booking.starts_at.to_time.strftime("%d/%m/%Y") %>
+      </div>
+      <div class="column">
+        <%= booking.professional_name %>
+      </div>
+      <div class="column">
+        <%= booking.service.title %>
+      </div>
+      <div class="column">
+        <%= booking.service.duration %>
+      </div>
+      <div class="column">
+        <%= format_currency(booking.service.price) %>
+      </div>
+      <div class="column">
+        <%= booking.notes %>
+      </div>
+      <div class="column">
+        <%= form.check_box(:booking_ids, { multiple: true, checked: true }, booking.id, nil) %>
+      </div>
     </div>
   <% end %>
 

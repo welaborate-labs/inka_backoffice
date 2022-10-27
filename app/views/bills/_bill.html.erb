@@ -1,4 +1,5 @@
 <tr id="<%= dom_id bill %>">
+  <td><%= bill.id %></td>
   <td>
     <%= bill.created_at.strftime("%d/%m/%Y") %>
   </td>
@@ -8,21 +9,20 @@
   </td>
 
   <td>
-    <%= Bill.human_attribute_name("status.#{bill.status}") %>
+    <%= bill.bookings.map { |b| b.service.title }.join(', ') %>
   </td>
 
   <td>
-    <% unless bill.is_gift %>
-      <% if bill.status == "billed" || bill.status == "billing_canceled" %>
-        <%= link_to "Visualizar PDF", bill.pdf_url, target: :blank, class: "button is-link is-small" %>
-        <%= link_to "Visualizar XML", bill.xml_url, target: :blank, class: "button is-link is-small" %>
-      <% else %>
-        <%= render "bills/error_messages", bill: bill %>
-      <% end %>
+    <%= Booking.human_attribute_name("status.#{bill.status}") %>
+  </td>
 
-      <% unless bill.status == "billing" || bill.status == "billing_canceled" %>
-        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" %>
-      <% end %>
+  <td>
+    <% if bill.status == "billed" || bill.status == "billing_canceled" %>
+      <%= link_to "Visualizar PDF", bill.pdf_url, target: :blank, class: "button is-link is-small" if bill.pdf_url.present? %>
+      <%= link_to "Visualizar XML", bill.xml_url, target: :blank, class: "button is-link is-small" if bill.xml_url.present? %>
     <% end %>
+
+    <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" if bill.status %>
+    <%= render "bills/error_messages", bill: bill if bill.error_message.present? %>
   </td>
 </tr>

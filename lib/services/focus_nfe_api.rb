@@ -44,9 +44,9 @@ class FocusNfeApi
       "servico": {
         "aliquota": 2,
         "iss_retido": "false",
-        "codigo_cnae": "9602501",
-        "codigo_tributario_municipio": "0601",
-        "item_lista_servico": "0601",
+        "codigo_cnae": "8690901",
+        "codigo_tributario_municipio": "0602",
+        "item_lista_servico": "0602",
         "codigo_municipio": "3530607",
         "discriminacao": @bill.bookings.map { |booking| I18n.transliterate(booking.service.title) }.join(","),
         "valor_servicos": sprintf('%.2f', @bill.billed_amount)
