@@ -19,7 +19,10 @@
       <% else %>
         <%= render "bills/error_messages", bill: bill %>
       <% end %>
-      <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" if bill.status == "billed" %>
+
+      <% unless bill.status == "billing" || bill.status == "billing_canceled" %>
+        <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" %>
+      <% end %>
     <% end %>
   </td>
 </tr>

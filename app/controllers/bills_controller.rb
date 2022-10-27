@@ -6,7 +6,7 @@ class BillsController < ApplicationController
   before_action :set_bill, only: %i[show destroy edit]
 
   def index
-    @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 5)
+    @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 20)
   end
 
   def create
@@ -25,18 +25,17 @@ class BillsController < ApplicationController
   end
 
   def destroy
+    if @bill.status == "billed"
+      FocusNfeApi.new(@bill).cancel(params[:justification])
+    end
+
     case @bill.status
     when "billing"
       @message = "Nota ainda está em processo."
     when "billing_canceled"
       @message = "Nota já esta cancelada."
-    when "billing_failed"
-      @message = "Nota não foi gerada, verificar os erros."
-    when "billed"
-      FocusNfeApi.new(@bill).cancel(params[:justification])
-
-      @bill.bookings.update_all(status: :in_progress)
-      @bill.update(status: :billing_canceled)
+    else
+      @bill.bookings.update_all(status: :billing_canceled)
       @message = "Nota cancelada com sucesso."
     end
 
