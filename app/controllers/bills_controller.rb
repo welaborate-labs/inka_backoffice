@@ -15,9 +15,9 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to customers_bookings_in_progress_all_path, notice: "Serviços atualizados com sucesso!" }
+        format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 2 minutos e atualiza a página novamente." }
       else
-        format.html { redirect_to customers_bookings_in_progress_all_path, status: :see_other, alert: "Não foi possível atualizar os Serviços." }
+        format.html { redirect_to bills_path, status: :unprocessable_entity }
       end
     end
   end
@@ -36,7 +36,7 @@ class BillsController < ApplicationController
     when "billed"
       FocusNfeApi.new(@bill).cancel(params[:justification])
 
-      @bill.bookings.update_all(status: :billing_canceled)
+      @bill.update(status: :billing_canceled)
       @message = "Nota cancelada com sucesso."
     end
 
@@ -49,7 +49,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [] }, :discount, :discounted_value, :is_gift)
+    params.require(:bill).permit({ booking_ids: [] }, :discount)
   end
 
   def set_bill

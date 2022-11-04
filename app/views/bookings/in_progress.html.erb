@@ -1,7 +1,7 @@
 <h1 class="title is-size-3 mt-5 has-text-centered">Serviços em Andamento</h1>
 
 <div class="buttons is-centered">
-  <%= link_to "Voltar para Clientes", customers_path, class: "button is-link" %>
+  <%= link_to "Voltar para Clientes" , customers_path, class: "button is-link" %>
 </div>
 
 <% if !@bookings.empty? %>
@@ -27,39 +27,48 @@
   <div class="column">
     <h1 class="has-text-weight-bold">Notas</h1>
   </div>
-
   <div class="column"></div>
 </div>
 
 <%= form_with(model: Bill) do |form| %>
   <% @bookings.each do |booking| %>
     <div class="columns is-vcentered has-text-centered">
-      <div class="column">
-        <%= booking.professional_name %>
-      </div>
-      <div class="column">
-        <%= booking.service.title %>
-      </div>
-      <div class="column">
-        <%= booking.service.duration %>
-      </div>
-      <div class="column">
-        <%= format_currency(booking.service.price) %>
-      </div>
-      <div class="column">
-        <%= booking.notes %>
-      </div>
-      <div class="column">
-        <%= form.check_box(:booking_ids, { multiple: true, checked: true }, booking.id, nil) %>
-      </div>
+    <div class="column">
+      <%= booking.professional_name %>
+    </div>
+    <div class="column">
+      <%= booking.service.title %>
+    </div>
+    <div class="column">
+      <%= booking.service.duration %>
+    </div>
+    <div class="column">
+      <%= format_currency(booking.service.price) %>
+    </div>
+    <div class="column">
+      <%= booking.notes %>
+    </div>
+    <div class="column">
+      <%= form.check_box(:booking_ids, { multiple: true, checked: true }, booking.id, nil) %>
+    </div>
     </div>
   <% end %>
 
   <div class="columns is-vcentered has-text-centered has-background-light">
     <div class="column"></div>
-    <div class="column"><h1 class="has-text-weight-bold">TOTAL</h1></div>
-    <div class="column"><h1 class="has-text-weight-bold"><%= bookings_total_duration(@bookings) %> Minuto(s)</h1></div>
-    <div class="column"><h1 class="has-text-weight-bold"><%= format_currency(bookings_total_price(@bookings)) %></h1></div>
+    <div class="column">
+      <h1 class="has-text-weight-bold">TOTAL</h1>
+    </div>
+    <div class="column">
+      <h1 class="has-text-weight-bold">
+        <%= bookings_total_duration(@bookings) %> Minuto(s)
+      </h1>
+    </div>
+    <div class="column">
+      <h1 class="has-text-weight-bold">
+        <%= format_currency(bookings_total_price(@bookings)) %>
+      </h1>
+    </div>
     <div class="column"></div>
     <div class="column"></div>
   </div>
@@ -70,11 +79,11 @@
       <%= form.check_box(:is_gift, {}, true, false) %>
     </div>
 
-    <%= form.label "Aplicar desconto", class: "label mr-2" %>
-    <div class="field"><%= form.number_field :discount, class: "field input", in: 1..100 %></div>
-    <%= form.label "%", class: "label" %>
-
-    <%= form.submit "Finalizar Serviços", class: "button is-primary ml-2" %>
-
+    <%= form.label "Aplicar desconto" , class: "label mr-2" %>
+    <div class="field">
+      <%= form.number_field :discount, class: "field input" , in: 1..100 %>
+    </div>
+    <%= form.label "%" , class: "label" %>
+    <%= form.submit "Finalizar Serviços" , class: "button is-primary ml-2" %>
   </div>
 <% end %>

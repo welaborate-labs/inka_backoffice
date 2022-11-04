@@ -39,6 +39,9 @@ pt-BR:
       user:
         one: 'Usuário'
         other: 'Usuários'
+      bill:
+        one: 'Fatura'
+        other: 'Faturas'
 
     attributes:
       customer:
@@ -170,6 +173,11 @@ pt-BR:
         discounted_value: 'Valor Descontado'
         state: 'Estado'
         justification: 'Justificativa'
+      bill/status:
+        billing: 'Processando Fatura'
+        billed: 'Fatura Processada'
+        billing_failed: 'Falha no Processo da Fatura'
+        billing_canceled: 'Fatura Cancelada'
 
     errors:
       messages:
