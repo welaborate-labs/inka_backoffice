@@ -3,7 +3,6 @@ class BillsController < ApplicationController
 
   URL_FOCUS_API = ENV['FOCUSNFE_URL']
 
-  before_action :set_bookings, only: %i[create]
   before_action :set_bill, only: %i[show destroy edit]
 
   def index
@@ -17,7 +16,7 @@ class BillsController < ApplicationController
       if @bill.save
         format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 2 minutos e atualiza a página novamente." }
       else
-        format.html { redirect_to bills_path, status: :unprocessable_entity }
+        format.html { redirect_to bills_path, alert: "Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente." }
       end
     end
   end
@@ -49,14 +48,10 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [] }, :discount)
+    params.require(:bill).permit({ booking_ids: [] }, :discount, :is_gift)
   end
 
   def set_bill
-    @bill = Bill.find(params[:bill_id] || params[:id])
-  end
-
-  def set_bookings
-    @bookings = Booking.where(id: params[:bill][:booking_ids])
+    @bill = Bill.find(params[:id])
   end
 end

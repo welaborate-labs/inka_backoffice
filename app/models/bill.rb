@@ -45,8 +45,8 @@ class Bill < ApplicationRecord
   end
 
   def duplicated
-    return unless Bill.billing_or_billed.includes(:bookings).collect(&:booking_ids).any? do |booking_id|
-      if booking_ids == booking_id
+    return unless Bill.billing_or_billed.includes(:bookings).pluck('bookings.id').reject(&:nil?).any? do |booking_id|
+      if booking_ids.include?(booking_id)
         errors.add(:bookings, 'Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente.')
       end
     end
