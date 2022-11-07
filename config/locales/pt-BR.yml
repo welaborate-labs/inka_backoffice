@@ -174,10 +174,10 @@ pt-BR:
         state: 'Estado'
         justification: 'Justificativa'
       bill/status:
-        billing: 'Processando Fatura'
-        billed: 'Fatura Processada'
-        billing_failed: 'Falha no Processo da Fatura'
-        billing_canceled: 'Fatura Cancelada'
+        billing: 'Processando Nota'
+        billed: 'Nota Processada'
+        billing_failed: 'Falha no Processo da Nota'
+        billing_canceled: 'Nota Cancelada'
 
     errors:
       messages:
