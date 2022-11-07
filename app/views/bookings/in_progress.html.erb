@@ -1,7 +1,7 @@
 <h1 class="title is-size-3 mt-5 has-text-centered">Serviços em Andamento</h1>
 
 <div class="buttons is-centered">
-  <%= link_to "Voltar para Clientes" , customers_path, class: "button is-link" %>
+  <%= link_to "Voltar para Clientes", customers_path, class: "button is-link" %>
 </div>
 
 <% if !@bookings.empty? %>
@@ -79,7 +79,7 @@
       <%= form.check_box(:is_gift, {}, true, false) %>
     </div>
 
-    <%= form.label "Aplicar desconto" , class: "label mr-2" %>
+    <%= form.label "Aplicar desconto", class: "label mr-2" %>
     <div class="field">
       <%= form.number_field :discount, class: "field input" , in: 1..100 %>
     </div>

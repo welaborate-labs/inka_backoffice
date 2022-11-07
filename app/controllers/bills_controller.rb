@@ -1,7 +1,7 @@
 class BillsController < ApplicationController
   include Pagination
 
-  URL_FOCUS_API = ENV['FOCUSNFE_URL']
+  URL_FOCUS_API = ENV["FOCUSNFE_URL"]
 
   before_action :set_bill, only: %i[show destroy edit]
 
@@ -35,6 +35,7 @@ class BillsController < ApplicationController
     when "billed"
       FocusNfeApi.new(@bill).cancel(params[:justification])
 
+      @bill.bookings.update_all(status: :in_progress)
       @bill.update(status: :billing_canceled)
       @message = "Nota cancelada com sucesso."
     end
