@@ -3,15 +3,24 @@ require "services/focus_nfe_api"
 class Bill < ApplicationRecord
   has_many :bookings
 
-  validate :booking_validation
+  validates :bookings, presence: true, on: :create
   validates :justification, length: { within: 2..150 }, on: :destroy
+  validate :duplicated, on: :create
 
-  after_create :set_reference
-  after_create :create_nfse
+  before_create :set_billing_status
+  after_create :set_bookings_billing_status, :create_nfse
 
   before_save :calculate_amount
   before_save :calculate_discounted_value, if: -> { discount.present? }
 
+  scope :billing_or_billed, -> { where(status: [:billing, :billed]) }
+
+  enum status: %i[
+    billing
+    billed
+    billing_failed
+    billing_canceled
+  ]
 
   def calculate_amount
     self.amount = bookings.reduce(0) { |sum, booking| sum += booking.service.price }.to_f
@@ -29,19 +38,21 @@ class Bill < ApplicationRecord
     CreateNfseJob.perform_now(self)
   end
 
-  def status
-    bookings.any? ? bookings.first.status : "estado da nota não encontrado"
+  def set_billing_status
+    self.status = :billing
+  end
+
+  def set_bookings_billing_status
+    bookings.update_all(status: :billing)
   end
 
   private
 
-  def booking_validation
-    if bookings.empty?
-      errors.add(:bookings, 'não pode ficar em branco.')
+  def duplicated
+    return unless Bill.billing_or_billed.includes(:bookings).pluck('bookings.id').reject(&:nil?).any? do |booking_id|
+      booking_ids.include?(booking_id)
     end
-  end
 
-  def set_reference
-    self.update(reference: self.to_sgid(expires_in: nil).to_s)
+    errors.add(:bookings, 'Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente.')
   end
 end

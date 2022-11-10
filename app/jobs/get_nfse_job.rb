@@ -10,17 +10,21 @@ class GetNfseJob < ApplicationJob
 
     case response["status"]
     when "autorizado"
-      bill.bookings.update_all(status: :billed)
+      bill.update(status: :billed)
+      bill.bookings.update_all(status: :completed)
       bill.update(pdf_url: response["url"], xml_url: "#{URL_FOCUS_API}#{response["caminho_xml_nota_fiscal"]}")
     when "cancelado"
-      bill.bookings.update_all(status: :billing_canceled)
+      bill.update(status: :billing_canceled)
+      bill.bookings.update_all(status: :in_progress)
       bill.update(pdf_url: response["url"], xml_url: "#{URL_FOCUS_API}#{response["caminho_xml_nota_fiscal"]}")
     when "erro_autorizacao"
-      bill.bookings.update_all(status: :billing_failed)
+      bill.update(status: :billing_failed)
+      bill.bookings.update_all(status: :in_progress)
       bill.update(error_message: response["erros"][0]["mensagem"].split(/\r\n/).reject(&:empty?))
     when "em_processamento" || "processando_autorizacao"
+      bill.update(status: :billing)
       bill.bookings.update_all(status: :billing)
-      GetNfseJob.set(wait: 5.minutes).perform_later(bill)
+      GetNfseJob.set(wait: 1.minute).perform_later(bill)
     end
   end
 end

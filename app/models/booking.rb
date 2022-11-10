@@ -27,9 +27,6 @@ class Booking < ApplicationRecord
     absent
     completed
     billing
-    billed
-    billing_failed
-    billing_canceled
   ]
 
   def customer_name

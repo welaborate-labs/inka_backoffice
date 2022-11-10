@@ -5,5 +5,7 @@ FactoryBot.define do
     discount { "9.99" }
     discounted_value { "9.99" }
     state { "MyString" }
+    bookings { nil }
+    status { 0 }
   end
 end
