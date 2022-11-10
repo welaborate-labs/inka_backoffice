@@ -5,19 +5,19 @@ RSpec.describe Bill, type: :model do
   let(:professional) { create(:professional)}
   let(:booking) { create(:booking, professional_id: professional.id) }
 
-  let!(:bill) { create(:bill, bookings: [booking]) }
+  let(:bill) { create(:bill, bookings: [booking]) }
 
   let(:invalid_bill) { Bill.new }
   let(:invalid_bill_2) { build(:bill, bookings: [booking]) }
 
-  # before do
-  #   allow_any_instance_of(FocusNfeApi).to receive(:create)
-  #   allow_any_instance_of(FocusNfeApi).to receive(:get) do
-  #     {
-  #       status: "autorizado"
-  #     }
-  #   end
-  # end
+  before do
+    allow_any_instance_of(FocusNfeApi).to receive(:create)
+    allow_any_instance_of(FocusNfeApi).to receive(:get) do
+      {
+        status: "autorizado"
+      }
+    end
+  end
 
   describe "validations" do
     describe "booking_ids presence" do
