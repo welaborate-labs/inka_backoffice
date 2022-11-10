@@ -10,16 +10,15 @@ class ReportService
     @revenue ||= Bill
       .where(created_at: [date_start..date_end])
       .where(status: :billed)
-      .to_a
-      .sum(&:billed_amount)
+      .sum(:billed_amount)
   end
 
   def completed_bookings
     @completed_bookings ||= bookings.completed.count
   end
 
-  def cancelled_bookings
-    @cancelled_bookings ||= bookings
+  def canceled_bookings
+    @canceled_bookings ||= bookings
       .where(status: [:professional_canceled, :customer_canceled])
       .count
   end
@@ -31,45 +30,45 @@ class ReportService
   end
 
   def completed_bookings_per_weekday
-    @completed_bookings_per_weekday =|| bookings
+    @completed_bookings_per_weekday ||= bookings
       .completed
-      .group_by |booking| do
-        booking.starts_at.wday
-      end
+      .order(starts_at: :asc)
+      .group_by { |booking| booking.starts_at.wday }
       .map do |weekday, bookings|
-        { [weekday] => bookings.size }
-      end
+      { [weekday] => bookings.size }
+    end
   end
 
   def completed_services
     @completed_services ||= services
-      .completed
-      .group('services.id')
+      .group("services.id")
       .count
       .map do |service_id, service_count|
-        { [Service.find(service_id).title] => service_count }
-      end
+      { [Service.find(service_id).title] => service_count }
+    end
   end
 
   def completed_services_per_weekday
     @completed_services_per_weekday ||= bookings
-    .completed
-    .reduce({}) do |hash, booking|
-      hash[Service.find(service_id).title] ||= 0
-      hash[Service.find(service_id).title][booking.starts_at.wday] += 1
+      .completed
+      .reduce({}) do |hash, booking|
+        hash[Service.find(booking.service_id).title] ||= {}
+        hash[Service.find(booking.service_id).title][booking.starts_at.wday] ||= 0
+        hash[Service.find(booking.service_id).title][booking.starts_at.wday] += 1
+        hash
     end
   end
 
   def new_customers
-    @new_customers ||= customers.where(created_at: [date_start..date_end]).count
+    @new_customers ||= customers.where(customers: { created_at: [date_start..date_end] }).distinct.count
   end
 
   def recurrent_customers
-    @old_customers ||= customers.where('customers.created_at < ?', date_start).count
+    @recurrent_customers ||= customers.where("customers.created_at < ?", date_start).distinct.count
   end
 
   def total_customers
-    @total_customers ||= customers.where("created_at < ?", date_end).count
+    @total_customers ||= customers.where("customers.created_at < ?", date_end).distinct.count
   end
 
   private
@@ -77,8 +76,7 @@ class ReportService
   def customers
     Customer
       .joins(:bookings)
-      .where('bookings.created_at < ?', [date_start..date_end])
-      .where(bookings: { status: :completed })
+      .where(bookings: { starts_at: [date_start..date_end], status: :completed })
   end
 
   def bookings
@@ -88,6 +86,6 @@ class ReportService
   def services
     Service
       .joins(:bookings)
-      .where(bookings: { starts_at: [date_start..date_end] })
+      .where(bookings: { starts_at: [date_start..date_end], status: :completed })
   end
 end

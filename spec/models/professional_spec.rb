@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Professional, type: :model do
   let(:identity) { create(:identity) }
@@ -7,22 +7,22 @@ RSpec.describe Professional, type: :model do
   let(:schedule_2) { create(:schedule, professional: professional) }
   let(:invalid) { Professional.new }
 
-  describe 'instances an empty professional' do
+  describe "instances an empty professional" do
     subject { Professional.new }
     it { is_expected.to be_a_new Professional }
   end
 
-  describe 'with valid attributes' do
+  describe "with valid attributes" do
     subject { professional }
     it { is_expected.to be_valid }
   end
 
-  describe 'with invalid attributes' do
+  describe "with invalid attributes" do
     subject { invalid }
     it { is_expected.to be_invalid }
   end
 
-  describe 'valitations' do
+  describe "valitations" do
     it "should verify the 'presence'" do
       invalid.valid?
       expect(invalid.errors.empty?).to be false
@@ -33,14 +33,14 @@ RSpec.describe Professional, type: :model do
     end
 
     it "should verify the 'email format'" do
-      professional.email = 'john.doe'
+      professional.email = "john.doe"
       professional.valid?
       expect(professional.errors.attribute_names).to eq [:email]
       expect(professional.errors.messages[:email]).to eq ["não é válido"]
     end
 
-    it 'should verify the uniqueness' do
-      invalid = build(:professional, :with_avatar, user_id: user.id, email: professional.email)
+    it "should verify the uniqueness" do
+      invalid = build(:professional, :with_avatar, user_id: user.id, email: professional.email, document: professional.document)
       invalid.valid?
       expect(invalid.errors.empty?).to be_falsy
       expect(invalid.errors.attribute_names).to eq %i[email document]
@@ -50,16 +50,16 @@ RSpec.describe Professional, type: :model do
     end
 
     describe "should verify the 'length'" do
-      it 'should verify the mimimum' do
+      it "should verify the mimimum" do
         professional =
           build(
             :professional,
             :with_avatar,
             user: user,
-            name: 'ab',
-            phone: '1234567',
-            address: '123456789',
-            document: '123456789'
+            name: "ab",
+            phone: "1234567",
+            address: "123456789",
+            document: "123456789"
           )
         professional.valid?
         expect(professional.errors.messages.count).to be 4
@@ -76,15 +76,13 @@ RSpec.describe Professional, type: :model do
             :professional,
             :with_avatar,
             user: user,
-            name:
-              'abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde',
-            phone: '1234567890123456',
-            address:
-              'abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
+            name: "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
+               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
+            phone: "1234567890123456",
+            address: "abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
                abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde
-               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde',
-            document: '123456789012345678'
+               abcde abcde abcde abcde abcde abcde abcde abcde abcde abcde",
+            document: "123456789012345678"
           )
         professional.valid?
         expect(professional.errors.messages.count).to be 4

@@ -1,4 +1,4 @@
-require 'services/focus_nfe_api'
+require "services/focus_nfe_api"
 
 class CreateNfseJob < ApplicationJob
   queue_as :default

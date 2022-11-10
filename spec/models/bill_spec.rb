@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Bill, type: :model do
-  let!(:schedule) { create(:schedule, professional_id: professional.id)}
-  let(:professional) { create(:professional)}
+  let!(:schedule) { create(:schedule, professional_id: professional.id) }
+  let(:professional) { create(:professional) }
   let(:booking) { create(:booking, professional_id: professional.id) }
 
   let(:bill) { create(:bill, bookings: [booking]) }
@@ -29,11 +29,6 @@ RSpec.describe Bill, type: :model do
     end
 
     describe "#duplicated" do
-      # before do
-      #   create(:bill, bookings: [booking])
-      #   invalid_bill_2.save
-      # end
-
       it "has Bookings that are already Billed" do
         expect(bill.bookings).to include booking
         expect(invalid_bill_2).not_to be_valid

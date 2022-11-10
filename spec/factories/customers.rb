@@ -1,9 +1,13 @@
 FactoryBot.define do
   factory :customer do
     name { "John Doe" }
-    email { "john.doe@example.com" }
+    sequence :email do |n|
+      "john.doe#{n}@example.com"
+    end
     phone { "1199998888" }
-    document { "12345678909" }
+    sequence :document do |n|
+      "123456789#{n}"
+    end
     user { nil }
     avatar { nil }
     street_address { "John Doe's Address" }

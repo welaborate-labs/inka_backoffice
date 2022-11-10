@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :bill do
-    amount { "9.99" }
+    amount { nil }
     is_gift { false }
-    discount { "9.99" }
-    discounted_value { "9.99" }
+    discount { nil }
+    discounted_value { nil }
     state { "MyString" }
     bookings { nil }
     status { 0 }

@@ -1,6 +1,6 @@
 class DashboardController < ApplicationController
-  before_filter :set_date_start
-  before_filter :set_date_end
+  before_action :set_date_start
+  before_action :set_date_end
 
   def index
     ReportService.new(date_start: @date_start, date_end: @date_end)

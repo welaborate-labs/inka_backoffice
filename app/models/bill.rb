@@ -12,15 +12,16 @@ class Bill < ApplicationRecord
 
   before_save :calculate_amount
   before_save :calculate_discounted_value, if: -> { discount.present? }
+  before_save :calculate_billed_amount
 
   scope :billing_or_billed, -> { where(status: [:billing, :billed]) }
 
   enum status: %i[
-    billing
-    billed
-    billing_failed
-    billing_canceled
-  ]
+         billing
+         billed
+         billing_failed
+         billing_canceled
+       ]
 
   def calculate_amount
     self.amount = bookings.reduce(0) { |sum, booking| sum += booking.service.price }.to_f
@@ -30,8 +31,8 @@ class Bill < ApplicationRecord
     self.discounted_value = (self.amount * (self.discount.to_f / 100)).ceil
   end
 
-  def billed_amount
-    @billed_amount ||= amount.to_f - discounted_value.to_f
+  def calculate_billed_amount
+    self.billed_amount ||= amount.to_f - discounted_value.to_f
   end
 
   def create_nfse
@@ -53,10 +54,10 @@ class Bill < ApplicationRecord
   private
 
   def duplicated
-    return unless Bill.billing_or_billed.includes(:bookings).pluck('bookings.id').reject(&:nil?).any? do |booking_id|
+    return unless Bill.billing_or_billed.includes(:bookings).pluck("bookings.id").reject(&:nil?).any? do |booking_id|
       booking_ids.include?(booking_id)
     end
 
-    errors.add(:bookings, 'Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente.')
+    errors.add(:bookings, "Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente.")
   end
 end
