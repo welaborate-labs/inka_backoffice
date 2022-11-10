@@ -8,8 +8,6 @@ class CreateNfseJob < ApplicationJob
   end
 
   def perform(bill)
-    bill.bookings.update_all(status: :billing)
-    bill.update(status: :billing)
     FocusNfeApi.new(bill).create
   end
 end

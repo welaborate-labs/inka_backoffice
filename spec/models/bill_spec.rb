@@ -29,7 +29,13 @@ RSpec.describe Bill, type: :model do
     end
 
     describe "#duplicated" do
+      # before do
+      #   create(:bill, bookings: [booking])
+      #   invalid_bill_2.save
+      # end
+
       it "has Bookings that are already Billed" do
+        expect(bill.bookings).to include booking
         expect(invalid_bill_2).not_to be_valid
         expect(invalid_bill_2.errors.attribute_names).to include(:bookings)
         expect(invalid_bill_2.errors.messages[:bookings]).to eq(["Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente."])
