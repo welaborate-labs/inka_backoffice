@@ -10,7 +10,7 @@ class FocusNfeApi
   end
 
   def create
-    url = URI(URL_API + "v2/nfse?ref=" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse?ref=" + @bill.reference)
     puts "create_url: #{url}"
 
     https = Net::HTTP.new(url.hostname, url.port)
@@ -58,7 +58,7 @@ class FocusNfeApi
   end
 
   def get
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
     puts "get_url: #{url}"
 
     https = Net::HTTP.new(url.host, url.port)
@@ -73,7 +73,7 @@ class FocusNfeApi
   end
 
   def cancel(justification)
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
     puts "cancel_url: #{url}"
 
     canceled_justification = { justificativa: justification.to_s }

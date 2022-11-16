@@ -18,7 +18,7 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 2 minutos e atualiza a página novamente." }
+        format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 1 minuto e atualiza a página novamente." }
       else
         format.html { redirect_to bills_path, alert: "Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente." }
       end
@@ -30,13 +30,14 @@ class BillsController < ApplicationController
 
   def destroy
     if @bill.status == "billed"
+      @bill.bookings.update_all(status: :in_progress, bill_id: nil)
+      @bill.update(status: :billing_canceled)
       FocusNfeApi.new(@bill).cancel(params[:justification])
     end
 
     if @bill.status == "billing_canceled"
       @message = "Nota já esta cancelada."
     else
-      @bill.bookings.update_all(status: :in_progress, bill_id: nil)
       @message = "Nota cancelada com sucesso."
     end
 
@@ -53,6 +54,6 @@ class BillsController < ApplicationController
   end
 
   def set_bill
-    @bill = Bill.find(params[:id])
+    @bill = Bill.find(params[:id] || params[:bill_id])
   end
 end
