@@ -3,7 +3,7 @@ class BillsController < ApplicationController
 
   URL_FOCUS_API = ENV["FOCUSNFE_URL"]
 
-  before_action :set_bill, only: %i[show destroy edit]
+  before_action :set_bill, only: %i[show edit cancel]
 
   def index
     @pagination, @bills = paginate(
@@ -28,16 +28,16 @@ class BillsController < ApplicationController
   def show
   end
 
-  def destroy
+  def cancel
     if @bill.status == "billed"
-      @bill.bookings.update_all(status: :in_progress, bill_id: nil)
-      @bill.update(status: :billing_canceled)
       FocusNfeApi.new(@bill).cancel(params[:justification])
     end
 
     if @bill.status == "billing_canceled"
       @message = "Nota já esta cancelada."
     else
+      @bill.bookings.update_all(status: :in_progress)
+      @bill.update(status: :billing_canceled)
       @message = "Nota cancelada com sucesso."
     end
 
@@ -54,6 +54,6 @@ class BillsController < ApplicationController
   end
 
   def set_bill
-    @bill = Bill.find(params[:id] || params[:bill_id])
+    @bill = Bill.find(params[:id])
   end
 end

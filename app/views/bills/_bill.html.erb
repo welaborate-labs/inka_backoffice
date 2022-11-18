@@ -11,7 +11,7 @@
       <%= link_to "Visualizar XML", bill.xml_url, target: :blank, class: "button is-link is-small" if bill.xml_url.present? %>
     <% end %>
 
-    <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" if bill.status == "billed" %>
+    <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" if bill.status %>
     <%= render "bills/error_messages", bill: bill if bill.error_message.present? %>
   </td>
 </tr>

@@ -7,7 +7,7 @@ class Bill < ApplicationRecord
   validates :justification, length: { within: 2..150 }, on: :destroy
   validate :duplicated, on: :create
 
-  before_create :set_billing_status, :set_bookings_reference
+  before_create :set_billing_status
   after_create :set_bookings_billing_status, :set_reference, :create_nfse
 
   before_save :calculate_amount
@@ -44,14 +44,6 @@ class Bill < ApplicationRecord
 
   def set_bookings_billing_status
     bookings.update_all(status: :billing)
-  end
-
-  def set_bookings_reference
-    self.bookings_reference ||= booking_ids || bookings.pluck(:id)
-  end
-
-  def bookings
-    bookings ||= Booking.where(id: bookings_reference || booking_ids)
   end
 
   def set_reference

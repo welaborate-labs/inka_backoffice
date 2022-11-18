@@ -9,7 +9,7 @@ class GetNfseJob < ApplicationJob
     response = FocusNfeApi.new(bill).get
 
     case response["codigo"]
-    when  "nao_encontrado"
+    when "nao_encontrado"
       bill.update(error_message: [response["mensagem"].to_s])
       bill.update(status: :billing_failed)
       bill.bookings.update_all(status: :in_progress)
