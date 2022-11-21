@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
-  resources :bills, only: %i[index show create edit] do
-    delete '/cancel_nfse', to: 'bills#destroy'
-  end
+  resources :bills, only: %i[index show create edit]
   resources :products do
     resources :stocks, type: "Stock"
     resources :stock_increments, controller: :stocks, type: "StockIncrement"
@@ -39,4 +37,5 @@ Rails.application.routes.draw do
   get '/calendar/professional_weekly', to:'calendar#professional_weekly'
   get '/calendar/adm', to:'calendar#adm'
   get '/customers/bookings/in_progress_all', to: 'bookings#in_progress_all'
+  post '/:id/cancel_nfse', to: 'bills#cancel', as: '/cancel_nfse'
 end

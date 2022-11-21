@@ -3,10 +3,14 @@ class BillsController < ApplicationController
 
   URL_FOCUS_API = ENV["FOCUSNFE_URL"]
 
-  before_action :set_bill, only: %i[show destroy edit]
+  before_action :set_bill, only: %i[show edit cancel]
 
   def index
-    @pagination, @bills = paginate(Bill.all.order("created_at DESC"), page: params[:page], per_page: 5)
+    @pagination, @bills = paginate(
+      Bill.all.includes(bookings: :service).order("created_at DESC"),
+      page: params[:page],
+      per_page: 20
+    )
   end
 
   def create
@@ -14,7 +18,7 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 2 minutos e atualiza a página novamente." }
+        format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 1 minuto e atualiza a página novamente." }
       else
         format.html { redirect_to bills_path, alert: "Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente." }
       end
@@ -24,17 +28,14 @@ class BillsController < ApplicationController
   def show
   end
 
-  def destroy
-    case @bill.status
-    when "billing"
-      @message = "Nota ainda está em processo."
-    when "billing_canceled"
-      @message = "Nota já esta cancelada."
-    when "billing_failed"
-      @message = "Nota não foi gerada, verificar os erros."
-    when "billed"
+  def cancel
+    if @bill.status == "billed"
       FocusNfeApi.new(@bill).cancel(params[:justification])
+    end
 
+    if @bill.status == "billing_canceled"
+      @message = "Nota já esta cancelada."
+    else
       @bill.bookings.update_all(status: :in_progress)
       @bill.update(status: :billing_canceled)
       @message = "Nota cancelada com sucesso."

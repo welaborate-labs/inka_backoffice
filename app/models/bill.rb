@@ -8,7 +8,7 @@ class Bill < ApplicationRecord
   validate :duplicated, on: :create
 
   before_create :set_billing_status
-  after_create :set_bookings_billing_status, :create_nfse
+  after_create :set_bookings_billing_status, :set_reference, :create_nfse
 
   before_save :calculate_amount
   before_save :calculate_discounted_value, if: -> { discount.present? }
@@ -44,6 +44,10 @@ class Bill < ApplicationRecord
 
   def set_bookings_billing_status
     bookings.update_all(status: :billing)
+  end
+
+  def set_reference
+    self.update(reference: self.to_sgid.to_s)
   end
 
   private

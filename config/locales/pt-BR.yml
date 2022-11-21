@@ -40,8 +40,8 @@ pt-BR:
         one: 'Usuário'
         other: 'Usuários'
       bill:
-        one: 'Fatura'
-        other: 'Faturas'
+        one: 'Nota'
+        other: 'Notas'
 
     attributes:
       customer:

@@ -10,7 +10,7 @@ class FocusNfeApi
   end
 
   def create
-    url = URI(URL_API + "v2/nfse?ref=" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse?ref=" + @bill.reference)
     puts "create_url: #{url}"
 
     https = Net::HTTP.new(url.hostname, url.port)
@@ -44,9 +44,9 @@ class FocusNfeApi
       "servico": {
         "aliquota": 2,
         "iss_retido": "false",
-        "codigo_cnae": "9602501",
-        "codigo_tributario_municipio": "0601",
-        "item_lista_servico": "0601",
+        "codigo_cnae": "8690901",
+        "codigo_tributario_municipio": "0602",
+        "item_lista_servico": "0602",
         "codigo_municipio": "3530607",
         "discriminacao": @bill.bookings.map { |booking| I18n.transliterate(booking.service.title) }.join(","),
         "valor_servicos": sprintf('%.2f', @bill.billed_amount)
@@ -58,7 +58,7 @@ class FocusNfeApi
   end
 
   def get
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
     puts "get_url: #{url}"
 
     https = Net::HTTP.new(url.host, url.port)
@@ -73,7 +73,7 @@ class FocusNfeApi
   end
 
   def cancel(justification)
-    url = URI(URL_API + "v2/nfse/" + @bill.to_sgid.to_s)
+    url = URI(URL_API + "v2/nfse/" + @bill.reference)
     puts "cancel_url: #{url}"
 
     canceled_justification = { justificativa: justification.to_s }
