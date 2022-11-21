@@ -3,7 +3,7 @@
     <div class="buttons is-centered">
       <%= link_to "Voltar para NFSe's", bills_path, class: "button is-link is-small" %>
     </div>
-    <%= form_with(model: bill, url: cancel_nfse_path(id: bill.id), method: :delete) do |form| %>
+    <%= form_with(model: bill, url: cancel_nfse_path(id: bill.id), method: :post) do |form| %>
       <div class="field">
         <%= form.label :justification, class: "label" %>
         <%= form.text_field :justification, class: "input" %>
