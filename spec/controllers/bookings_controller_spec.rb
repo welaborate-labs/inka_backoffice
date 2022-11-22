@@ -6,11 +6,11 @@ RSpec.describe BookingsController, type: :controller do
   let(:professional) { create(:professional, :with_avatar, user: user) }
   let!(:schedule_1) { create(:schedule, professional: professional, weekday: 2) }
   let(:service) { create(:service) }
-  let(:booking) { create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 09:00") }
+  let(:booking) { create(:booking, customer: customer, service: service, professional: professional, starts_at: "2022-05-10 10:00") }
 
   let(:new_attributes) { { notes: "new notes" } }
   let(:valid_attributes) do
-    { status: "requested", customer_id: customer.id, service_id: service.id, professional_id: professional.id, starts_at: "2022-05-10 09:00" }
+    { status: "requested", customer_id: customer.id, service_id: service.id, professional_id: professional.id, starts_at: "2022-05-10 10:00" }
   end
   let(:invalid_attributes) { { service_id: nil, customer_id: nil, professional_id: nil, starts_at: nil } }
 

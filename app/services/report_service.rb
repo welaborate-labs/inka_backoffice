@@ -71,6 +71,65 @@ class ReportService
     @total_customers ||= customers.where("customers.created_at < ?", date_end).distinct.count
   end
 
+  def count_diff_btw_worked_and_available
+    @count_diff_btw_worked_and_available ||= bookings
+    .reduce({}) do |hash, booking|
+      hash[booking.professional.name] ||= {}
+      hash[booking.professional.name]['total_schedule'] ||= Schedule.where(professional_id: booking.professional_id).reduce(0) { |c, s| c += (s.ends_at - s.starts_at)+(s.interval_ends_at - s.interval_starts_at) } || 0
+      hash[booking.professional.name]['total_completed'] ||= Booking.where(professional_id: booking.professional_id).reduce(0) { |c, s| c += ((s.ends_at - s.starts_at) / 60).to_i } || 0
+      hash[booking.professional.name]['total_rest'] ||= (Booking.where(professional_id: booking.professional_id).reduce(0) { |c, s| c += ((s.ends_at - s.starts_at) / 60).to_i }) - (Schedule.where(professional_id: booking.professional_id).reduce(0) { |c, s| c += (s.ends_at - s.starts_at)-(s.interval_ends_at - s.interval_starts_at) }) || 0
+      hash
+    end
+  end
+
+  def working_hours_per_professional
+    @working_hours_per_professional ||= Schedule.joins(:professional).reduce({}) do |hash, schedule|
+      (date_start..date_end).map do |day|
+        if Schedule.weekdays[schedule.weekday] == day.wday
+          hash[schedule.professional.name] ||= 0
+          hash[schedule.professional.name] += schedule.ends_at - schedule.starts_at
+          hash[schedule.professional.name] -= schedule.interval_ends_at - schedule.interval_starts_at
+        end
+      end
+
+      hash
+    end
+  end
+
+  def booked_hours_per_professional
+    @booked_hours_per_professional ||= bookings
+      .completed
+      .joins(:professional)
+      .reduce({}) do |hash, booking|
+          hash[booking.professional.name] ||= 0
+          hash[booking.professional.name] += (booking.ends_at - booking.starts_at) / 60 / 60
+        hash
+      end
+  end
+
+  def occupation_per_professional
+    @occupation_per_professional ||= Professional.all.reduce({}) do |hash, professional|
+      hash[professional.name] = booked_hours_per_professional[professional.name] / working_hours_per_professional[professional.name]
+      hash
+    end
+  end
+
+  def working_hours
+    @working_hours ||= working_hours_per_professional.reduce(0) do |sum, (professional, working_hours)|
+      sum += working_hours
+    end
+  end
+
+  def booked_hours
+    @booked_hours ||= booked_hours_per_professional.reduce(0) do |sum, (professional, booked_hours)|
+      sum += booked_hours
+    end
+  end
+
+  def occupation
+    @occupation ||= booked_hours / working_hours
+  end
+
   private
 
   def customers

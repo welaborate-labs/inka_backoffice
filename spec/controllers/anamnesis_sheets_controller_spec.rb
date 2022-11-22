@@ -28,7 +28,7 @@ RSpec.describe AnamnesisSheetsController, type: :controller do
     end
 
     describe "GET #new" do
-      let(:token) { JsonWebToken.encode(customer.id) }
+      let!(:token) { JsonWebToken.encode(customer.id) }
 
       context "with jwt token" do
 
