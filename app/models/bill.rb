@@ -1,4 +1,4 @@
-require "services/focus_nfe_api"
+require 'services/focus_nfe_api'
 
 class Bill < ApplicationRecord
   has_many :bookings
@@ -8,10 +8,9 @@ class Bill < ApplicationRecord
   validate :duplicated, on: :create
 
   before_create :set_billing_status
+  before_create :calculate_amount
+  before_create :calculate_discounted_value
   after_create :set_bookings_billing_status, :set_reference, :create_nfse
-
-  before_save :calculate_amount
-  before_save :calculate_discounted_value, if: -> { discount.present? }
 
   scope :billing_or_billed, -> { where(status: [:billing, :billed]) }
 
@@ -27,7 +26,11 @@ class Bill < ApplicationRecord
   end
 
   def calculate_discounted_value
-    self.discounted_value = (self.amount * (self.discount.to_f / 100)).ceil
+    if self.discount.present? && self.discounted_value.present?
+      self.discounted_value += (self.amount * (self.discount.to_f / 100)).to_f
+    elsif self.discount.present?
+      self.discounted_value = (self.amount * (self.discount.to_f / 100)).to_f
+    end
   end
 
   def billed_amount

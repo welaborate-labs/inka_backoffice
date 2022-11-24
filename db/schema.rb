@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_03_133038) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_23_174526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,8 +90,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_03_133038) do
   create_table "bills", force: :cascade do |t|
     t.decimal "amount"
     t.boolean "is_gift"
-    t.decimal "discount"
-    t.decimal "discounted_value"
+    t.integer "discount", default: 0
+    t.decimal "discounted_value", precision: 10, scale: 2, default: "0.0"
     t.string "state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
