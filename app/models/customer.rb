@@ -5,6 +5,7 @@ class Customer < ApplicationRecord
 
   belongs_to :user, optional: true
   has_many :bookings, dependent: :destroy
+  has_many :bills, through: :bookings
   has_many :anamnesis_sheets, dependent: :destroy
 
   validates :name, presence: true

@@ -2,6 +2,7 @@ require "services/focus_nfe_api"
 
 class Bill < ApplicationRecord
   has_many :bookings
+  has_many :professionals, through: :bookings
 
   validates :bookings, presence: true, on: :create
   validates :justification, length: { within: 2..150 }, on: :destroy
