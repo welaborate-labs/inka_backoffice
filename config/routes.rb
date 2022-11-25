@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   end
   resources :users, except: %i[new create]
   resource :identities, except: %i[new create]
+  resources :reports, only: [:index]
+
   root "calendar#index"
 
   match "/auth/:provider/callback", to: "sessions#create", via: %i[get post]
