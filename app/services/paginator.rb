@@ -44,7 +44,7 @@ class Paginator
   private
 
   def count
-    @count ||= collection.size
+    @count ||= collection.count
   end
 
   def offset
