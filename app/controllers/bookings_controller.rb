@@ -52,9 +52,10 @@ class BookingsController < ApplicationController
 
   def in_progress_all
     @pagination, @customers = paginate(
-      Customer.joins(:bookings)
-              .includes(:bookings)
-              .where(bookings: { status: 'in_progress' }),
+      Customer
+        .joins(:bookings)
+        .where(bookings: { status: 'in_progress' })
+        .distinct,
       page: params[:page]
     )
   end
