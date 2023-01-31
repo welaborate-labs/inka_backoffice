@@ -50,7 +50,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [] }, :discount, :is_gift)
+    params.require(:bill).permit({ booking_ids: [] }, :discount, :discounted_value, :is_gift)
   end
 
   def set_bill

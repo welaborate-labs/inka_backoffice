@@ -9,7 +9,8 @@ class Bill < ApplicationRecord
   validate :duplicated, on: :create
 
   before_create :set_billing_status
-  after_create :set_bookings_billing_status, :set_reference, :create_nfse
+  after_create :set_bookings_billing_status, :set_reference
+  after_create :create_nfse, unless: -> { is_gift }
 
   before_save :calculate_amount
   before_save :calculate_discounted_value, if: -> { discount.present? }
@@ -18,11 +19,12 @@ class Bill < ApplicationRecord
   scope :billing_or_billed, -> { where(status: [:billing, :billed]) }
 
   enum status: %i[
-         billing
-         billed
-         billing_failed
-         billing_canceled
-       ]
+    billing
+    billed
+    billing_failed
+    billing_canceled
+    wont_bill
+  ]
 
   def calculate_amount
     self.amount = bookings.reduce(0) { |sum, booking| sum += booking.service.price }.to_f
@@ -41,7 +43,11 @@ class Bill < ApplicationRecord
   end
 
   def set_billing_status
-    self.status = :billing
+    self.status = if is_gift
+                    :wont_bill
+                  else
+                    :billing
+                  end
   end
 
   def set_bookings_billing_status
