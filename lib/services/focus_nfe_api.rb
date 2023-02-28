@@ -22,6 +22,9 @@ class FocusNfeApi
 
     request.body = JSON.dump({
       "data_emissao": @bill.created_at.to_s,
+      "optante_simples_nacional": true,
+      "regime_especial_tributacao": "6",
+      "natureza_operacao": "1",
       "prestador": {
         "cnpj": "43200148000182",
         "inscricao_municipal": "107273",
