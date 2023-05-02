@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_130156) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_160716) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -141,6 +142,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_130156) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
+  create_table "gift_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "booking_id"
+    t.bigint "bill_id"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
+    t.index ["booking_id"], name: "index_gift_cards_on_booking_id"
+  end
+
   create_table "identities", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -240,6 +254,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_130156) do
   add_foreign_key "bookings", "professionals"
   add_foreign_key "bookings", "services"
   add_foreign_key "customers", "users"
+  add_foreign_key "gift_cards", "bills"
+  add_foreign_key "gift_cards", "bookings"
   add_foreign_key "occupations", "professionals"
   add_foreign_key "occupations", "services"
   add_foreign_key "product_usages", "products"

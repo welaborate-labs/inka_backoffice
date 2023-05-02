@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :gift_cards
   resources :bills, only: %i[index show create edit]
   resources :products do
     resources :stocks, type: "Stock"
