@@ -67,6 +67,7 @@ class ServicesController < ApplicationController
       .require(:service)
       .permit(
         :title,
+        :description,
         :duration,
         :price,
         :is_comissioned,

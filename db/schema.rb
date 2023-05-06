@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_205254) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -142,12 +142,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_205254) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
+  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  end
+
   create_table "gift_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "booking_id"
     t.bigint "bill_id"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "inline_items"
     t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
     t.index ["booking_id"], name: "index_gift_cards_on_booking_id"
   end
@@ -231,6 +235,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_205254) do
     t.bigint "service_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
     t.index ["service_id"], name: "index_services_on_service_id"
   end
 
