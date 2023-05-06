@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_160716) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_06_205254) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -142,9 +142,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_160716) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
-  end
-
   create_table "gift_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.bigint "booking_id"
     t.bigint "bill_id"
@@ -153,6 +150,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_160716) do
     t.datetime "updated_at", null: false
     t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
     t.index ["booking_id"], name: "index_gift_cards_on_booking_id"
+  end
+
+  create_table "gifted_services", force: :cascade do |t|
+    t.uuid "gift_card_id", null: false
+    t.bigint "service_id", null: false
+    t.decimal "discount"
+    t.decimal "price_override"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gift_card_id"], name: "index_gifted_services_on_gift_card_id"
+    t.index ["service_id"], name: "index_gifted_services_on_service_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -256,6 +264,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_160716) do
   add_foreign_key "customers", "users"
   add_foreign_key "gift_cards", "bills"
   add_foreign_key "gift_cards", "bookings"
+  add_foreign_key "gifted_services", "gift_cards"
+  add_foreign_key "gifted_services", "services"
   add_foreign_key "occupations", "professionals"
   add_foreign_key "occupations", "services"
   add_foreign_key "product_usages", "products"
