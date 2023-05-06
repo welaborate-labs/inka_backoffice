@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :api, module: :api do
+    resources :gift_cards, only: :show
+  end
+
   resources :gift_cards
   resources :bills, only: %i[index show create edit]
   resources :products do
