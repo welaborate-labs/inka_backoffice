@@ -142,7 +142,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
     t.index ["user_id"], name: "index_customers_on_user_id"
   end
 
-  create_table "data_migrations", primary_key: "version", id: :string, force: :cascade do |t|
+  create_table "gift_card_templates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.decimal "price"
+    t.text "inline_items"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "gift_cards", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -151,19 +157,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "gift_card_template_id"
     t.text "inline_items"
     t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
     t.index ["booking_id"], name: "index_gift_cards_on_booking_id"
+    t.index ["gift_card_template_id"], name: "index_gift_cards_on_gift_card_template_id"
   end
 
   create_table "gifted_services", force: :cascade do |t|
-    t.uuid "gift_card_id", null: false
+    t.uuid "gift", null: false
+    t.string "gift_type", null: false
     t.bigint "service_id", null: false
     t.decimal "discount"
     t.decimal "price_override"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["gift_card_id"], name: "index_gifted_services_on_gift_card_id"
     t.index ["service_id"], name: "index_gifted_services_on_service_id"
   end
 
@@ -269,7 +277,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
   add_foreign_key "customers", "users"
   add_foreign_key "gift_cards", "bills"
   add_foreign_key "gift_cards", "bookings"
-  add_foreign_key "gifted_services", "gift_cards"
+  add_foreign_key "gift_cards", "gift_card_templates"
   add_foreign_key "gifted_services", "services"
   add_foreign_key "occupations", "professionals"
   add_foreign_key "occupations", "services"
