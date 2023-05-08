@@ -165,7 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
   end
 
   create_table "gifted_services", force: :cascade do |t|
-    t.uuid "gift", null: false
+    t.uuid "gift_id", null: false
     t.string "gift_type", null: false
     t.bigint "service_id", null: false
     t.decimal "discount"
