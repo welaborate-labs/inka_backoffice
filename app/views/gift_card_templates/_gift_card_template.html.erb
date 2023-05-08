@@ -1,0 +1,27 @@
+<div id="<%= dom_id gift_card_template %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Title:</strong>
+    <%= gift_card_template.title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Description:</strong>
+    <%= gift_card_template.description %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Price:</strong>
+    <%= gift_card_template.price %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Inline items:</strong>
+    <%= gift_card_template.inline_items %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this gift card template", gift_card_template, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this gift card template', edit_gift_card_template_path(gift_card_template), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

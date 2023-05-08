@@ -65,6 +65,13 @@ class GiftCardsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def gift_card_params
-      params.require(:gift_card).permit(:price)
+      params
+        .require(:gift_card)
+        .permit(
+          :gift_card_template_id,
+          :price,
+          :inline_items,
+          gifted_services_attributes: %i[id service_id discount price_override _destroy]
+        )
     end
 end

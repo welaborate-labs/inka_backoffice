@@ -1,14 +1,30 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Gift cards</h1>
-    <%= link_to 'New gift card', new_gift_card_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+<div class="columns mt-6 is-centered ">
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered">Vales Presente</h1>
+    <div class="buttons is-centered">
+      <%= link_to "Novo Vale Presente", new_gift_card_path, class: "button is-link" %>
+    </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Modelo</th>
+            <th>Preço</th>
+            <th>Usado</th>
+            <th>Faturado</th>
+            <th colspan="1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <div id="gift_cards">
+            <% @gift_cards.each do |gift_card| %>
+              <tr>
+                <%= render gift_card %>
+              </tr>
+            <% end %>
+          </div>
+        </tbody>
+      </table>
   </div>
 
-  <div id="gift_cards" class="min-w-full">
-    <%= render @gift_cards %>
-  </div>
 </div>

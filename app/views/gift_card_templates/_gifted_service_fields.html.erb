@@ -1,0 +1,25 @@
+<div class="columns gifted-service-fields">
+  <div class="column is-6">
+    <div class="select is-fullwidth">
+      <%= f.collection_select :service_id,
+          Service.all,
+          :id,
+          :title,
+          { include_blank: 'selecione...', include_hidden: false }
+      %>
+    </div>
+  </div>
+
+  <div class="column is-2">
+    <%= f.text_field :discount, class: "input" %>
+  </div>
+
+  <div class="column is-2">
+    <%= f.text_field :price_override, class: "input" %>
+  </div>
+
+  <div class="column is-2">
+    <%= f.hidden_field :_destroy %>
+    <%= link_to "Deletar", '#', class: "remove_fields button is-danger is-fullwidth" %>
+  </div>
+</div>

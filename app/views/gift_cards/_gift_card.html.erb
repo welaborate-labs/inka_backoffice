@@ -1,7 +1,26 @@
 <div id="<%= dom_id gift_card %>">
-  <% if action_name != "show" %>
-    <%= link_to "Show this gift card", gift_card, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this gift card', edit_gift_card_path(gift_card), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
+  <td>
+    <%= gift_card.id %>
+  </td>
+
+  <td>
+    <%= gift_card.gift_card_template&.title || '-' %>
+  </td>
+
+  <td>
+    <%= gift_card.price %>
+  </td>
+
+  <td>
+    <%= gift_card.booking.present? ? 'Sim' : 'Não' %>
+  </td>
+
+  <td>
+    <%= gift_card.bill.present? ? 'Sim' : 'Não' %>
+  </td>
+
+  <td>
+    <%= link_to "Editar", edit_gift_card_path(gift_card), class: 'button is-small is-primary' %>
+    <%= link_to "Deletar", gift_card, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button is-small is-danger' %>
+  </td>
 </div>

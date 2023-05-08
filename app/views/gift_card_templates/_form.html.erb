@@ -1,10 +1,10 @@
-<%= form_with(model: gift_card, class: "contents") do |form| %>
-  <% if gift_card.errors.any? %>
+<%= form_with(model: gift_card_template, class: "contents") do |form| %>
+  <% if gift_card_template.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(gift_card.errors.count, "error") %> prohibited this gift_card from being saved:</h2>
+      <h2><%= pluralize(gift_card_template.errors.count, "error") %> prohibited this gift card template from being saved:</h2>
 
       <ul>
-        <% gift_card.errors.each do |error| %>
+        <% gift_card_template.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -12,12 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= form.label 'Modelo de Vale Presente', class: "label" %>
-    <div class="control">
-      <div class="select is-fullwidth is-medium">
-        <%= form.collection_select :gift_card_template_id, GiftCardTemplate.all, :id, :title, { include_blank: 'selecione...', include_hidden: false } %>
-      </div>
-    </div>
+    <%= form.label :title, 'Título', class: "label" %>
+    <%= form.text_field :title, class: "input" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, 'Descrição', class: "label" %>
+    <%= form.text_area :description, class: "textarea is-medium" %>
   </div>
 
   <div class="field">
@@ -32,7 +33,7 @@
       <div class="column is-2">Preço</div>
       <div class="column is-2"></div>
     </div>
-    <div class="has-text-centered" id="gift-card-services">
+    <div class="has-text-centered" id="gift-card-template-services">
       <%= form.fields_for :gifted_services do |gifted_services_form| %>
         <%= render 'gifted_service_fields', f: gifted_services_form %>
       <% end %>
@@ -63,7 +64,7 @@
       var regexp, time;
       time = new Date().getTime();
       regexp = new RegExp($(this).data('id'), 'g');
-      $("#gift-card-services").prepend($(this).data('fields').replace(regexp, time));
+      $("#gift-card-template-services").prepend($(this).data('fields').replace(regexp, time));
       return event.preventDefault();
     });
   </script>

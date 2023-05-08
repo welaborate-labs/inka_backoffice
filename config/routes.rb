@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :gift_card_templates
   namespace :api, module: :api do
     resources :gift_cards, only: :show
   end
