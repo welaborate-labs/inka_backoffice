@@ -2,7 +2,7 @@
   <div class="column is-6">
     <div class="select is-fullwidth">
       <%= f.collection_select :service_id,
-          Service.all,
+          Service.all.order(:title),
           :id,
           :title,
           { include_blank: 'selecione...', include_hidden: false }
