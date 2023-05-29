@@ -29,6 +29,14 @@ class Booking < ApplicationRecord
     billing
   ]
 
+  def title
+    @title ||= service&.title
+  end
+
+  def billing_price
+    service.price
+  end
+
   def customer_name
     Customer.find(customer_id).name
   end

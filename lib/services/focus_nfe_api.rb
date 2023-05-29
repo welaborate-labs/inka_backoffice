@@ -31,17 +31,17 @@ class FocusNfeApi
         "codigo_municipio": "3530607"
       },
       "tomador": {
-        "razao_social": I18n.transliterate(@bill.bookings.first&.customer_name),
-        "cpf": @bill.bookings.first&.customer.document.to_s,
-        "email": @bill.bookings.first&.customer.email,
+        "razao_social": I18n.transliterate(@bill.customer.name),
+        "cpf": @bill.customer&.document.to_s,
+        "email": @bill.customer&.email,
         "endereco": {
-          "logradouro": I18n.transliterate(@bill.bookings.first&.customer.street_address || '-'),
-          "numero": @bill.bookings.first&.customer.number.to_s || '-',
-          "complemento": I18n.transliterate(@bill.bookings.first&.customer.complement || '-'),
-          "bairro": I18n.transliterate(@bill.bookings.first&.customer.district || '-'),
+          "logradouro": I18n.transliterate(@bill.customer.street_address || '-'),
+          "numero": @bill.customer.number.to_s || '-',
+          "complemento": I18n.transliterate(@bill.customer&.complement || '-'),
+          "bairro": I18n.transliterate(@bill.customer&.district || '-'),
           "codigo_municipio": "3530607",
-          "uf": @bill.bookings.first&.customer.state || '-',
-          "cep": @bill.bookings.first&.customer.zip_code.to_s || '-'
+          "uf": @bill.customer&.state || '-',
+          "cep": @bill.customer&.zip_code.to_s || '-'
         }
       },
       "servico": {
@@ -51,13 +51,25 @@ class FocusNfeApi
         "codigo_tributario_municipio": "0602",
         "item_lista_servico": "0602",
         "codigo_municipio": "3530607",
-        "discriminacao": @bill.bookings.map { |booking| I18n.transliterate(booking.service.title) }.join(","),
+        "discriminacao": discriminacao,
         "valor_servicos": sprintf('%.2f', @bill.billed_amount)
       }
     })
 
-    response = https.request(request)
-    JSON.parse(response.body)
+    # response = https.request(request)
+    # JSON.parse(response.body)
+  end
+
+  def base_discriminacao
+    @bill.billables[0].is_a?(Booking) ? 'Serviços ' : 'Vale Presente '
+  end
+
+  def services_discriminacao
+    @bill.billables.map { |billable| I18n.transliterate(billable.title) }.join(",")
+  end
+
+  def discriminacao
+    base_discriminacao + services_discriminacao
   end
 
   def get

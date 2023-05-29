@@ -22,5 +22,13 @@
   <td>
     <%= link_to "Editar", edit_gift_card_path(gift_card), class: 'button is-small is-primary' %>
     <%= link_to "Deletar", gift_card, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }, class: 'button is-small is-danger' %>
+    <% if gift_card.bill.present? %>
+      <%= link_to "Cancelar", edit_bill_path(bill), class: "button is-danger is-small" %>
+    <% else %>
+      <%= form_for Bill.new, html: { class: 'is-inline' } do |f| %>
+        <%= hidden_field_tag 'bill[gift_card_ids][]', gift_card.id %>
+        <%= f.submit 'Faturar', class: 'button is-small is-primary is-inline' %>
+      <% end %>
+    <% end %>
   </td>
 </div>

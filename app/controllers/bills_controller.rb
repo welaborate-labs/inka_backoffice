@@ -20,6 +20,7 @@ class BillsController < ApplicationController
       if @bill.save
         format.html { redirect_to bills_path, notice: "Nota em processamento, aguarde 1 minuto e atualiza a página novamente." }
       else
+        puts @bill.errors.inspect
         format.html { redirect_to bills_path, alert: "Serviços já fechados. Cancele a nota fiscal gerada antes de tentar novamente." }
       end
     end
@@ -50,7 +51,7 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [] }, :discount, :discounted_value, :is_gift)
+    params.require(:bill).permit({ booking_ids: [], gift_card_ids: [] }, :discount, :discounted_value, :is_gift)
   end
 
   def set_bill

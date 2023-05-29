@@ -2,11 +2,11 @@ require "services/focus_nfe_api"
 
 class Bill < ApplicationRecord
   has_many :bookings
+  has_many :gift_cards
   has_many :professionals, through: :bookings
 
-  validates :bookings, presence: true, on: :create
   validates :justification, length: { within: 2..150 }, on: :destroy
-  validate :duplicated, on: :create
+  # validate :duplicated, on: :create
 
   before_create :set_billing_status
   after_create :set_bookings_billing_status, :set_reference
@@ -26,8 +26,20 @@ class Bill < ApplicationRecord
     wont_bill
   ]
 
+  def billables
+    @billable ||= booking_ids.present? ? bookings : gift_cards
+  end
+
+  def customer
+    @customer ||= billables.first&.customer
+  end
+
+  def customer
+    @customer ||= billables.first&.customer
+  end
+
   def calculate_amount
-    self.amount = bookings.reduce(0) { |sum, booking| sum += booking.service.price }.to_f
+    self.amount = billables.reduce(0) { |sum, billable| sum += billable.billing_price }.to_f
   end
 
   def calculate_discounted_value
