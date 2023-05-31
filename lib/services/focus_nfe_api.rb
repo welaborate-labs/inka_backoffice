@@ -21,7 +21,7 @@ class FocusNfeApi
     request["Content-Type"] = "application/json"
 
     request.body = JSON.dump({
-      "data_emissao": @bill.created_at.to_s,
+      "data_emissao": @bill.created_at.in_time_zone('America/Sao_Paulo').to_s,
       "optante_simples_nacional": true,
       "regime_especial_tributacao": "6",
       "natureza_operacao": "1",
@@ -31,12 +31,12 @@ class FocusNfeApi
         "codigo_municipio": "3530607"
       },
       "tomador": {
-        "razao_social": I18n.transliterate(@bill.customer.name),
-        "cpf": @bill.customer&.document.to_s,
+        "razao_social": I18n.transliterate(@bill.customer&.name.to_s),
+        "cpf": @bill.customer&.document&.to_s,
         "email": @bill.customer&.email,
         "endereco": {
-          "logradouro": I18n.transliterate(@bill.customer.street_address || '-'),
-          "numero": @bill.customer.number.to_s || '-',
+          "logradouro": I18n.transliterate(@bill.customer&.street_address || '-'),
+          "numero": @bill.customer&.number&.to_s || '-',
           "complemento": I18n.transliterate(@bill.customer&.complement || '-'),
           "bairro": I18n.transliterate(@bill.customer&.district || '-'),
           "codigo_municipio": "3530607",
@@ -51,13 +51,13 @@ class FocusNfeApi
         "codigo_tributario_municipio": "0602",
         "item_lista_servico": "0602",
         "codigo_municipio": "3530607",
-        "discriminacao": discriminacao,
+        "discriminacao": I18n.transliterate(discriminacao),
         "valor_servicos": sprintf('%.2f', @bill.billed_amount)
       }
     })
 
-    # response = https.request(request)
-    # JSON.parse(response.body)
+    response = https.request(request)
+    JSON.parse(response.body)
   end
 
   def base_discriminacao
@@ -65,10 +65,14 @@ class FocusNfeApi
   end
 
   def services_discriminacao
-    @bill.billables.map { |billable| I18n.transliterate(billable.title) }.join(",")
+    @bill.billables.map { |billable| billable.title }.join(",")
   end
 
   def discriminacao
+    if @bill.description.present?
+      return @bill.description
+    end
+
     base_discriminacao + services_discriminacao
   end
 

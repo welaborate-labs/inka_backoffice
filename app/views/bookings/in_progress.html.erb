@@ -95,6 +95,11 @@
       <%= form.number_field :discounted_value, class: "field input" , in: 1..100 %>
     </div>
 
+    <%= form.label "Descrição (a ser usada na nota fiscal)", class: "label mr-2" %>
+    <div class="field mr-5">
+      <%= form.text_area :description, class: "textarea is-medium" %>
+    </div>
+
     <%= form.submit "Finalizar Serviços" , class: "button is-primary ml-2" %>
   </div>
 <% end %>

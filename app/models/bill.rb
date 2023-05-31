@@ -34,10 +34,6 @@ class Bill < ApplicationRecord
     @customer ||= billables.first&.customer
   end
 
-  def customer
-    @customer ||= billables.first&.customer
-  end
-
   def calculate_amount
     self.amount = billables.reduce(0) { |sum, billable| sum += billable.billing_price }.to_f
   end
@@ -51,7 +47,7 @@ class Bill < ApplicationRecord
   end
 
   def create_nfse
-    CreateNfseJob.perform_now(self)
+    CreateNfseJob.perform_now(self.id)
   end
 
   def set_billing_status

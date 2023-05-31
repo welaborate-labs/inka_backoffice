@@ -7,7 +7,8 @@ class CreateNfseJob < ApplicationJob
     GetNfseJob.set(wait: 1.minute).perform_later(job.arguments.first)
   end
 
-  def perform(bill)
+  def perform(bill_id)
+    bill = Bill.find(bill_id)
     FocusNfeApi.new(bill).create
   end
 end

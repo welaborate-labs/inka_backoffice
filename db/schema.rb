@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_10_205128) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -102,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
     t.string "reference"
     t.integer "status"
     t.decimal "billed_amount"
+    t.string "description"
   end
 
   create_table "bookings", force: :cascade do |t|
@@ -159,8 +160,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
     t.datetime "updated_at", null: false
     t.uuid "gift_card_template_id"
     t.text "inline_items"
+    t.bigint "customer_id"
+    t.string "description"
     t.index ["bill_id"], name: "index_gift_cards_on_bill_id"
     t.index ["booking_id"], name: "index_gift_cards_on_booking_id"
+    t.index ["customer_id"], name: "index_gift_cards_on_customer_id"
     t.index ["gift_card_template_id"], name: "index_gift_cards_on_gift_card_template_id"
   end
 
@@ -277,6 +281,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_06_233211) do
   add_foreign_key "customers", "users"
   add_foreign_key "gift_cards", "bills"
   add_foreign_key "gift_cards", "bookings"
+  add_foreign_key "gift_cards", "customers"
   add_foreign_key "gift_cards", "gift_card_templates"
   add_foreign_key "gifted_services", "services"
   add_foreign_key "occupations", "professionals"

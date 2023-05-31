@@ -69,6 +69,8 @@ class GiftCardsController < ApplicationController
         .require(:gift_card)
         .permit(
           :gift_card_template_id,
+          :customer_id,
+          :description,
           :price,
           :inline_items,
           gifted_services_attributes: %i[id service_id discount price_override _destroy]

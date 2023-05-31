@@ -5,7 +5,8 @@ class GetNfseJob < ApplicationJob
 
   URL_FOCUS_API = ENV['FOCUSNFE_URL']
 
-  def perform(bill)
+  def perform(bill_id)
+    bill = Bill.find(bill_id)
     response = FocusNfeApi.new(bill).get
 
     case response["codigo"]
@@ -31,7 +32,7 @@ class GetNfseJob < ApplicationJob
     when "em_processamento" || "processando_autorizacao"
       bill.update(status: :billing)
       bill.bookings.update_all(status: :billing)
-      GetNfseJob.set(wait: 1.minute).perform_later(bill)
+      GetNfseJob.set(wait: 1.minute).perform_later(bill.id)
     end
   end
 end

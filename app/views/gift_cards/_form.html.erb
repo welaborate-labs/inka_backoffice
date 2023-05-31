@@ -21,6 +21,15 @@
   </div>
 
   <div class="field">
+    <%= form.label 'Cliente', class: "label" %>
+    <div class="control">
+      <div class="select is-fullwidth is-medium">
+        <%= form.collection_select :customer_id, Customer.all.order('name ASC'), :id, :name, { include_blank: 'selecione...', include_hidden: false } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
     <%= form.label :price, 'Preço', class: "label" %>
     <%= form.text_field :price, class: "input" %>
   </div>
@@ -45,6 +54,11 @@
   <div class="field">
     <%= form.label :inline_items, 'Items adicionais', class: "label" %>
     <%= form.text_area :inline_items, class: "textarea is-medium" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, 'Descrição (a ser usada na nota fiscal)', class: "label" %>
+    <%= form.text_area :description, class: "textarea is-medium" %>
   </div>
 
   <div class="buttons is-centered my-6">

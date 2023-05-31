@@ -1,8 +1,6 @@
 class BillsController < ApplicationController
   include Pagination
 
-  URL_FOCUS_API = ENV["FOCUSNFE_URL"]
-
   before_action :set_bill, only: %i[show edit cancel]
 
   def index
@@ -51,7 +49,13 @@ class BillsController < ApplicationController
   private
 
   def bill_params
-    params.require(:bill).permit({ booking_ids: [], gift_card_ids: [] }, :discount, :discounted_value, :is_gift)
+    params.require(:bill).permit(
+      { booking_ids: [], gift_card_ids: [] },
+      :description,
+      :discount,
+      :discounted_value,
+      :is_gift
+    )
   end
 
   def set_bill
