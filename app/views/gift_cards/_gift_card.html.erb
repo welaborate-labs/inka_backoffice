@@ -28,7 +28,8 @@
         <%= link_to "Visualizar PDF", gift_card.bill.pdf_url, target: :blank, class: "button is-link is-small" if gift_card.bill.pdf_url.present? %>
         <%= link_to "Visualizar XML", gift_card.bill.xml_url, target: :blank, class: "button is-link is-small" if gift_card.bill.xml_url.present? %>
       <% end %>
-    <% elsif gift_card.gift_card_template || gift_card.services.present? %>
+    <% end %>
+    <% if gift_card.gift_card_template || gift_card.services.present? %>
       <%= form_for Bill.new, html: { class: 'is-inline' } do |f| %>
         <%= hidden_field_tag 'bill[gift_card_ids][]', gift_card.id %>
         <%= f.submit 'Faturar', class: 'button is-small is-primary is-inline' %>
