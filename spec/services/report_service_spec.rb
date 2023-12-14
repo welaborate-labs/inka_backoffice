@@ -45,8 +45,8 @@ RSpec.describe ReportService do
   let(:report_service) { ReportService.new(date_start: DateTime.new(2022, 11, 1, 6), date_end: DateTime.new(2022, 11, 30, 23)) }
 
   before do
-    allow_any_instance_of(FocusNfeApi).to receive(:create)
-    allow_any_instance_of(FocusNfeApi).to receive(:get) do
+    allow_any_instance_of(Services::FocusNfeApi).to receive(:create)
+    allow_any_instance_of(Services::FocusNfeApi).to receive(:get) do
       {
         status: "autorizado"
       }

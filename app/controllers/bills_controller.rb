@@ -29,7 +29,7 @@ class BillsController < ApplicationController
 
   def cancel
     if @bill.status == "billed"
-      FocusNfeApi.new(@bill).cancel(params[:justification])
+      Services::FocusNfeApi.new(@bill).cancel(params[:justification])
     end
 
     if @bill.status == "billing_canceled"

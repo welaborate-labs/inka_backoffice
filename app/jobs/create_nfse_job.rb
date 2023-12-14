@@ -9,6 +9,6 @@ class CreateNfseJob < ApplicationJob
 
   def perform(bill_id)
     bill = Bill.find(bill_id)
-    FocusNfeApi.new(bill).create
+    Services::FocusNfeApi.new(bill).create
   end
 end

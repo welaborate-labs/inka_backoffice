@@ -11,8 +11,8 @@ RSpec.describe Bill, type: :model do
   let(:invalid_bill_2) { build(:bill, bookings: [booking]) }
 
   before do
-    allow_any_instance_of(FocusNfeApi).to receive(:create)
-    allow_any_instance_of(FocusNfeApi).to receive(:get) do
+    allow_any_instance_of(Services::FocusNfeApi).to receive(:create)
+    allow_any_instance_of(Services::FocusNfeApi).to receive(:get) do
       {
         status: "autorizado"
       }

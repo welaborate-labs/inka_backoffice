@@ -1,0 +1,35 @@
+<div class="columns mt-6 is-centered ">
+  <div class="column is-narrow">
+    <h1 class="title is-size-2 has-text-centered"><%= @service.title %></h1>
+
+    <div class="columns mt-6 has-text-centered is-justify-content-center">
+      <div class="column is-3 is-size-3 has-text-weight-bold"><%= link_to "<<", service_history_path(starts_at: @starts_at - 1.month) %></div>
+      <div class="column is-3 is-size-3 has-text-weight-bold"><%= l @starts_at, format: "%B/%Y" %></div>
+      <div class="column is-3 is-size-3 has-text-weight-bold"><%= link_to ">>", service_history_path(starts_at: @starts_at + 1.month) %></div>
+    </div>
+
+    <div class="columns is-justify-content-center">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div id="services">
+            <% @bookings.each do |booking| %>
+              <tr>
+                <td><%= l booking.starts_at, format: "%d/%m/%Y" %></td>
+                <td><%= booking.customer.name %></td>
+                <td><%= Booking.human_attribute_name("status.#{booking.status}") %></td>
+              </tr>
+            <% end %>
+          </div>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

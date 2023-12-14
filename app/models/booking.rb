@@ -12,7 +12,7 @@ class Booking < ApplicationRecord
   validates :starts_at, presence: true
   validates :ends_at, presence: true
 
-  validate :professional_is_available, if: -> { starts_at_changed? }
+  # validate :professional_is_available, if: -> { starts_at_changed? }
   validate :schedule_is_available
 
   scope :active, -> { where.not(status: [:customer_canceled, :professional_canceled, :absent]) }

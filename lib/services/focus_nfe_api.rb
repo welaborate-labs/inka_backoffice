@@ -1,7 +1,7 @@
 require "net/http"
 require "uri"
 
-class FocusNfeApi
+class Services::FocusNfeApi
   URL_API = ENV['FOCUSNFE_URL']
   TOKEN = ENV['FOCUSNFE_KEY']
 

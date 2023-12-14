@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
+    resource :history, only: :show, module: :services, controller: :history
   end
   resources :professionals
   resources :customers do

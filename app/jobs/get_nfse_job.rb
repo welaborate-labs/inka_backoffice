@@ -7,7 +7,7 @@ class GetNfseJob < ApplicationJob
 
   def perform(bill_id)
     bill = Bill.find(bill_id)
-    response = FocusNfeApi.new(bill).get
+    response = Services::FocusNfeApi.new(bill).get
 
     case response["codigo"]
     when "nao_encontrado"

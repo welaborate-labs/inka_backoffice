@@ -30,6 +30,7 @@ gem 'sidekiq'
 
 gem "jquery-rails", "~> 4.4"
 gem "bulma-rails", "~> 0.9.3"
+gem "tailwindcss-rails", "~> 2.0"
 gem 'i18n', "~> 1.10"
 
 # Data migrations
@@ -54,5 +55,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem "tailwindcss-rails", "~> 2.0"
