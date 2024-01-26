@@ -20,7 +20,27 @@ class Services::FocusNfeApi
     request["Authorization"] = "Basic " + Base64.encode64(TOKEN).strip
     request["Content-Type"] = "application/json"
 
-    request.body = JSON.dump({
+    customer_payload = {
+      "razao_social": I18n.transliterate(@bill.customer&.name.to_s),
+      "email": @bill.customer&.email,
+      "endereco": {
+        "logradouro": I18n.transliterate(@bill.customer&.street_address || '-'),
+        "numero": @bill.customer&.number&.to_s || '-',
+        "complemento": I18n.transliterate(@bill.customer&.complement || '-'),
+        "bairro": I18n.transliterate(@bill.customer&.district || '-'),
+        "codigo_municipio": "3530607",
+        "uf": @bill.customer&.state || '-',
+        "cep": @bill.customer&.zip_code.to_s || '-'
+      }
+    }
+
+    if @bill.customer&.document&.to_s.size > 11
+      customer_payload.merge!({ "cnpj": @bill.customer&.document&.to_s })
+    else
+      customer_payload.merge!({ "cpf": @bill.customer&.document&.to_s })
+    end
+
+    payload = {
       "data_emissao": @bill.created_at.in_time_zone('America/Sao_Paulo').to_s,
       "optante_simples_nacional": true,
       "regime_especial_tributacao": "6",
@@ -30,20 +50,7 @@ class Services::FocusNfeApi
         "inscricao_municipal": "107273",
         "codigo_municipio": "3530607"
       },
-      "tomador": {
-        "razao_social": I18n.transliterate(@bill.customer&.name.to_s),
-        "cpf": @bill.customer&.document&.to_s,
-        "email": @bill.customer&.email,
-        "endereco": {
-          "logradouro": I18n.transliterate(@bill.customer&.street_address || '-'),
-          "numero": @bill.customer&.number&.to_s || '-',
-          "complemento": I18n.transliterate(@bill.customer&.complement || '-'),
-          "bairro": I18n.transliterate(@bill.customer&.district || '-'),
-          "codigo_municipio": "3530607",
-          "uf": @bill.customer&.state || '-',
-          "cep": @bill.customer&.zip_code.to_s || '-'
-        }
-      },
+      "tomador": customer_payload,
       "servico": {
         "aliquota": 2,
         "iss_retido": "false",
@@ -54,7 +61,9 @@ class Services::FocusNfeApi
         "discriminacao": I18n.transliterate(discriminacao),
         "valor_servicos": sprintf('%.2f', @bill.billed_amount)
       }
-    })
+    }
+
+    request.body = JSON.dump(payload)
 
     response = https.request(request)
     JSON.parse(response.body)
