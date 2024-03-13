@@ -32,4 +32,8 @@ class Customer < ApplicationRecord
       false
     end
   end
+
+  def document_numbers
+    @document_numbers ||= document.strip.gsub(/\.|\-|\//, '')
+  end
 end

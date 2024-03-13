@@ -22,22 +22,22 @@ class Services::FocusNfeApi
 
     customer_payload = {
       "razao_social": I18n.transliterate(@bill.customer&.name.to_s),
-      "email": @bill.customer&.email,
+      "email": @bill.customer&.email.present? ? @bill.customer&.email : '-',
       "endereco": {
-        "logradouro": I18n.transliterate(@bill.customer&.street_address || '-'),
-        "numero": @bill.customer&.number&.to_s || '-',
-        "complemento": I18n.transliterate(@bill.customer&.complement || '-'),
-        "bairro": I18n.transliterate(@bill.customer&.district || '-'),
+        "logradouro": I18n.transliterate(@bill.customer&.street_address.present? ? @bill.customer&.street_address : '-'),
+        "numero": @bill.customer&.number&.to_s.present? ? @bill.customer&.number&.to_s : '-',
+        "complemento": I18n.transliterate(@bill.customer&.complement.present? ? @bill.customer&.complement : '-'),
+        "bairro": I18n.transliterate(@bill.customer&.district.present? ? @bill.customer&.district : '-'),
         "codigo_municipio": "3530607",
-        "uf": @bill.customer&.state || '-',
-        "cep": @bill.customer&.zip_code.to_s || '-'
+        "uf": @bill.customer&.state.present? ? @bill.customer&.state : '-',
+        "cep": @bill.customer&.zip_code.to_s.present? ? @bill.customer&.zip_code.to_s : '-'
       }
     }
 
-    if @bill.customer&.document&.to_s.size > 11
-      customer_payload.merge!({ "cnpj": @bill.customer&.document&.to_s })
+    if @bill.customer&.document_numbers.size > 11
+      customer_payload.merge!({ "cnpj": @bill.customer&.document_numbers })
     else
-      customer_payload.merge!({ "cpf": @bill.customer&.document&.to_s })
+      customer_payload.merge!({ "cpf": @bill.customer&.document_numbers })
     end
 
     payload = {
